@@ -34,14 +34,13 @@ class HomePage extends StatelessWidget {
           builder: (context, asyncSnapshot) {
             switch (asyncSnapshot.connectionState) {
               case ConnectionState.done:
-              //final user = FirebaseAuth.instance.currentUser;
-              //final emailVerified = user?.emailVerified ?? false;
-              //if (emailVerified) {
-              //  return const Text('Done');// Check if logged in maybe? If logged in go to login view
-              //} else { // Here should be else if since they may not have even registered yet
-              //  return const VerifyEmail();            
-              //}
-              return const LoginView();     
+              final user = FirebaseAuth.instance.currentUser;
+              final emailVerified = user?.emailVerified ?? false;
+              if (emailVerified) {
+                return const LoginView(); 
+              } else { 
+                return const VerifyEmail();            
+              }   
               default:
                 return const Text('Loading...');
             }
