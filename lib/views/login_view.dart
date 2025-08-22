@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_1/views/register_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -29,52 +28,56 @@ class _LoginViewState extends State<LoginView> {
   }
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: _email,
-          keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(
-            hintText: 'Enter your email here'
-          ),
-        ),
-        TextField(
-          controller: _password,
-          obscureText: true,
-          enableSuggestions: false,
-          autocorrect: false,
-          decoration: const InputDecoration(
-            hintText: 'Enter your password here',
-          ),  
-        ),
-        Row(
-          children: [
-            TextButton(
-            onPressed: () async {
-              final email = _email.text;
-              final password = _password.text;
-              try {
-                final userCredential =  FirebaseAuth.instance
-                .signInWithEmailAndPassword(
-                  email: email,
-                  password: password);
-              } on FirebaseAuthException catch (e) {
-                if (e.code == 'invalid-credential') {
-                  print('User not found');
-                } else {
-                    print(e);
-                }              
-              } 
-            },
-            child: const Text('Login'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login'),
+      ),
+      body: Column(
+        children: [
+          TextField(
+            controller: _email,
+            keyboardType: TextInputType.emailAddress,
+            decoration: const InputDecoration(
+              hintText: 'Enter your email here'
             ),
-            TextButton(onPressed: () async {
-              //Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegisterView())); 
-            },
-             child: const Text('New user? Register here'))
-          ],
-        ),
-      ],
+          ),
+          TextField(
+            controller: _password,
+            obscureText: true,
+            enableSuggestions: false,
+            autocorrect: false,
+            decoration: const InputDecoration(
+              hintText: 'Enter your password here',
+            ),  
+          ),
+          TextButton(
+          onPressed: () async {
+            final email = _email.text;
+            final password = _password.text;
+            try {
+              final userCredential =  FirebaseAuth.instance
+              .signInWithEmailAndPassword(
+                email: email,
+                password: password);
+            } on FirebaseAuthException catch (e) {
+              if (e.code == 'invalid-credential') {
+                print('User not found');
+              } else {
+                  print(e);
+              }              
+            } 
+          },
+          child: const Text('Login'),
+          ),
+          TextButton(onPressed: () async {
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              '/register/',
+              (route) => false,
+            );
+          },
+           child: const Text('New user? Register here')),
+        ],
+      ),
     );
 }
 }
