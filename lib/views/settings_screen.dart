@@ -6,24 +6,56 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          Container( // Settings container
-          //alignment: Alignment.center,
-          margin: const EdgeInsets.all(12.0),
-          child: Icon(Icons.settings),
-          ),
-          const Text("Settings"),
-          Container(
-            padding: EdgeInsets.all(30), // Padding so settings is in the middle (not true center)
-          )
-          ],
+      body:Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.height,
+        margin: EdgeInsets.fromLTRB(
+          8.0,
+          24.0,
+          8.0,
+          15.0
         ),
-        leading: Container(
-          child: Icon(Icons.arrow_back_rounded),),
-      )
-  );
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular((8.0)),
+          color: Colors.white,
+        ),
+        child:
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: Icon(Icons.arrow_back_ios_sharp)
+                      ),
+                      Padding(
+                        padding: EdgeInsetsGeometry.directional(
+                          start: 75.0,
+                          top: 40.0
+                        )
+                      ),
+                      Container( // Settings container
+                        margin: const EdgeInsets.all(12.0),
+                        child: Icon(Icons.settings),
+                      ),
+                      const Text(
+                        "Settings"
+                        textScaler: ,
+
+                      ),
+                      Padding(
+                        padding: EdgeInsetsGeometry.directional(
+                          start: 135.0,
+                          top: 45.0,
+                        ))
+                  ],
+                ),
+              ],
+            ),
+      ),
+      backgroundColor: Colors.grey,
+    );
   }
 }
