@@ -5,7 +5,6 @@ import 'package:flutter_application_1/firebase_options.dart';
 import 'package:flutter_application_1/views/login_view.dart';
 import 'package:flutter_application_1/views/register_view.dart';
 import 'package:flutter_application_1/views/settings_screen.dart';
-import 'package:flutter_application_1/views/verify_email.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,10 +14,11 @@ void main() {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 124, 212, 7)),
       ),
-      home: const SettingsScreen(),
+      home: const HomePage(),
       routes: {
         '/register/': (context) => const RegisterView(),
         '/login/': (context) => const LoginView(),
+        '/settings/': (context) => const SettingsScreen(),
       },
     ),
     );
@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
               default:
                 return const CircularProgressIndicator();
             }
-            throw Exception("Error");
+            throw Exception();
           },
         );
   }
@@ -100,4 +100,30 @@ class _MainUIState extends State<MainUI> {
       ),
     );    
   }
+}
+
+Future<bool> showLogOutDialog(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Sign out'),
+        content: const Text('Are you sure you want to sign out?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Cancel'),
+            ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: const Text('Sign out'))
+        ],
+
+      );
+    }
+  ).then((value) => value ?? false);
 }
