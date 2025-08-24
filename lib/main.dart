@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/constants/routes.dart';
 import 'package:flutter_application_1/firebase_options.dart';
 import 'package:flutter_application_1/views/login_view.dart';
 import 'package:flutter_application_1/views/register_view.dart';
 import 'package:flutter_application_1/views/settings_screen.dart';
-import 'package:flutter_application_1/widgets/settings_background.dart';
+import 'package:flutter_application_1/views/verify_email.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +18,10 @@ void main() {
       ),
       home: const HomePage(),
       routes: {
-        '/register/': (context) => const RegisterView(),
-        '/login/': (context) => const LoginView(),
-        '/settings/': (context) => const SettingsScreen(),
+        registerRoute: (context) => const RegisterView(),
+        loginRoute: (context) => const LoginView(),
+        settingsRoute: (context) => const SettingsScreen(),
+        verifyEmailRoute:(context) => const VerifyEmail()
       },
     ),
     );
@@ -103,28 +105,3 @@ class _MainUIState extends State<MainUI> {
   }
 }
 
-Future<bool> showLogOutDialog(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text('Sign out'),
-        content: const Text('Are you sure you want to sign out?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Cancel'),
-            ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-            child: const Text('Sign out'))
-        ],
-
-      );
-    }
-  ).then((value) => value ?? false);
-}

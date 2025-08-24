@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_1/constants/routes.dart';
 import 'dart:developer' as devtools show log;
 
 import 'package:flutter_application_1/widgets/settings_background.dart';
@@ -30,29 +31,16 @@ class _LoginViewState extends State<LoginView> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.height,
-        margin: EdgeInsets.fromLTRB(
-          8.0,
-          24.0,
-          8.0,
-          15.0
-        ),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular((16.0)),
-          color: Colors.white,
-        ),
-        child: Column(
+    return SettingsUIBackground(
+      child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ImageIcon(
-              AssetImage("assets/great_logo.png"),
-              size: 200.0,
-              ),
-            SizedBox(height: 100.0),
+            Image.asset(
+              'assets/app_logo.png',
+              height: 200,
+              width: 200,
+            ),
+            SizedBox(height: 50.0),
             TextField(
               controller: _email,
               keyboardType: TextInputType.emailAddress,
@@ -65,13 +53,12 @@ class _LoginViewState extends State<LoginView> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8.0)),
+              padding: EdgeInsets.all(12.0)),
             TextField(
               controller: _password,
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
-
               decoration: const InputDecoration(
                 hintText: 'Enter your password here',
                 border: OutlineInputBorder(),
@@ -80,18 +67,19 @@ class _LoginViewState extends State<LoginView> {
                 ),                
               ),
             ),
+            Padding(padding: EdgeInsets.all(12.0)),
             TextButton(
             onPressed: () async {
               final email = _email.text;
               final password = _password.text;
               try {
-                final userCredential =  await FirebaseAuth.instance
+                await FirebaseAuth.instance
                 .signInWithEmailAndPassword(
                   email: email,
                   password: password
                   );
                   Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/settings/',
+                    settingsRoute,
                      (route) => false,
                   );
               } on FirebaseAuthException catch (e) {
@@ -113,7 +101,7 @@ class _LoginViewState extends State<LoginView> {
             ),
             TextButton(onPressed: () async {
               Navigator.of(context).pushNamedAndRemoveUntil(
-                '/settings/',
+                registerRoute,
                 (route) => false,
               );
             },
@@ -128,10 +116,6 @@ class _LoginViewState extends State<LoginView> {
             )
           ],
         ),
-      
-      ),
-      backgroundColor: Colors.grey,      
-    );
-   
-}
+    );      
+  }
 }

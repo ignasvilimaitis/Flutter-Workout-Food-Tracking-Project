@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/constants/routes.dart';
+import 'package:flutter_application_1/utilities/show_log_out_dialog.dart';
 import 'package:flutter_application_1/widgets/settings_background.dart';
 import 'package:flutter_application_1/widgets/settings_button.dart';
 import 'dart:developer' as devtools show log;
@@ -113,7 +114,7 @@ class SettingsScreen extends StatelessWidget {
                     await FirebaseAuth.instance.signOut();
                     // ignore: use_build_context_synchronously
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/login/',
+                      loginRoute,
                       (_) => false,
                     );
                   }
