@@ -5,6 +5,7 @@ import 'package:flutter_application_1/firebase_options.dart';
 import 'package:flutter_application_1/views/login_view.dart';
 import 'package:flutter_application_1/views/register_view.dart';
 import 'package:flutter_application_1/views/settings_screen.dart';
+import 'package:flutter_application_1/widgets/settings_background.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/widgets/settings_background.dart';
 import 'package:flutter_application_1/widgets/settings_button.dart';
 import 'dart:developer' as devtools show log;
 
@@ -9,23 +10,8 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.height,
-        margin: EdgeInsets.fromLTRB(
-          8.0,
-          24.0,
-          8.0,
-          15.0
-        ),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular((16.0)),
-          color: Colors.white,
-        ),
-        child:
-          Column(
+    return SettingsUIBackground(
+      child:Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -133,13 +119,11 @@ class SettingsScreen extends StatelessWidget {
                   }
                   } catch (e) {
                     devtools.log(e.toString());
-                }
-                }
-              )                
-            ],
-          ),
+              }
+            }
+          )                
+        ],
       ),
-      backgroundColor: Colors.grey,
     );
   }
 }
