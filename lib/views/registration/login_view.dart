@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/constants/routes.dart';
 import 'dart:developer' as devtools show log;
 
-import 'package:flutter_application_1/widgets/settings_background.dart';
+import 'package:flutter_application_1/widgets/ui_background.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -31,7 +31,7 @@ class _LoginViewState extends State<LoginView> {
   }
   @override
   Widget build(BuildContext context) {
-    return SettingsUIBackground(
+    return UIBackground(
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -101,7 +101,7 @@ class _LoginViewState extends State<LoginView> {
             ),
             TextButton(onPressed: () async {
               Navigator.of(context).pushNamedAndRemoveUntil(
-                registerRoute,
+                loggingFoodRoute,
                 (route) => false,
               );
             },

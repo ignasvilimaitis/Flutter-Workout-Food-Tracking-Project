@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SettingsUIBackground extends StatelessWidget {
-  const SettingsUIBackground({super.key, required this.child});
+class UIBackground extends StatelessWidget {
+  const UIBackground({super.key, required this.child});
   final Widget child;
 
   @override

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/routes.dart';
 import 'package:flutter_application_1/utilities/show_log_out_dialog.dart';
-import 'package:flutter_application_1/widgets/settings_background.dart';
+import 'package:flutter_application_1/widgets/ui_background.dart';
 import 'package:flutter_application_1/widgets/settings_button.dart';
 import 'dart:developer' as devtools show log;
 
@@ -11,7 +11,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsUIBackground(
+    return UIBackground(
       child:Column(
             children: [
               Row(
@@ -57,12 +57,12 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
               Padding(padding: EdgeInsetsGeometry.directional(top: 5)),                
-              UIButton(
+              SettingsUIButton(
                 icon: Icons.line_weight,
                 text: "Profile",
                 onPressed: () {}
               ),
-              UIButton(
+              SettingsUIButton(
                 icon: Icons.pie_chart,
                 text: "Data",
                 onPressed: () {}
@@ -74,12 +74,12 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 ),
               Padding(padding: EdgeInsetsGeometry.directional(top: 5)),  
-              UIButton(
+              SettingsUIButton(
                 icon: Icons.format_paint,
                 text: "Themes",
                 onPressed: () {}
               ),
-              UIButton(
+              SettingsUIButton(
                 icon: Icons.language,
                 text: "Locales",
                 onPressed: () {}
@@ -91,20 +91,20 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
               Padding(padding: EdgeInsetsGeometry.directional(top: 5)),             
-              UIButton(
+              SettingsUIButton(
                 icon: Icons.info_rounded,
                 text: "About",
                 onPressed: () {}),
-              UIButton(
+              SettingsUIButton(
                 icon: Icons.bug_report,
                 text: "Bugs",
                 onPressed: () {}),
-              UIButton(
+              SettingsUIButton(
                 icon: Icons.support,
                 text: "Support",
                 onPressed: () {}),
                Padding(padding: EdgeInsetsGeometry.directional(top: 13)), 
-               UIButton(
+               SettingsUIButton(
                 icon: Icons.logout,
                 text: "Log out",
                 onPressed: () async {

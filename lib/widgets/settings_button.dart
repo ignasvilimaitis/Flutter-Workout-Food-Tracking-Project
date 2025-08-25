@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class UIButton extends StatelessWidget {
+class SettingsUIButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final IconData icon;
 
-  const UIButton({
+  const SettingsUIButton({
     super.key,
     required this.text,
     required this.onPressed,

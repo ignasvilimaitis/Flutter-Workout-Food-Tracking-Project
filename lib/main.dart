@@ -3,10 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/routes.dart';
 import 'package:flutter_application_1/firebase_options.dart';
-import 'package:flutter_application_1/views/login_view.dart';
-import 'package:flutter_application_1/views/register_view.dart';
-import 'package:flutter_application_1/views/settings_screen.dart';
-import 'package:flutter_application_1/views/verify_email.dart';
+import 'package:flutter_application_1/views/logging_food/food_logging_view.dart';
+import 'package:flutter_application_1/views/registration/login_view.dart';
+import 'package:flutter_application_1/views/registration/register_view.dart';
+import 'package:flutter_application_1/views/registration/settings_screen.dart';
+import 'package:flutter_application_1/views/registration/verify_email.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,8 @@ void main() {
         registerRoute: (context) => const RegisterView(),
         loginRoute: (context) => const LoginView(),
         settingsRoute: (context) => const SettingsScreen(),
-        verifyEmailRoute:(context) => const VerifyEmail()
+        verifyEmailRoute:(context) => const VerifyEmail(),
+        loggingFoodRoute: (context) => FoodLoggingView(),
       },
     ),
     );

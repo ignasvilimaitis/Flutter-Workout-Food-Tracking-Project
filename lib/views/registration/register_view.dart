@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/routes.dart';
 import 'dart:developer' as devtools show log;
 
-import 'package:flutter_application_1/widgets/settings_background.dart';
+import 'package:flutter_application_1/widgets/ui_background.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -31,7 +31,7 @@ class _RegisterViewState extends State<RegisterView> {
   }
   @override
   Widget build(BuildContext context) {
-    return SettingsUIBackground(
+    return UIBackground(
       child:Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
