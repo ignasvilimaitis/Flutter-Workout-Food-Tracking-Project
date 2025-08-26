@@ -1,8 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/main.dart';
-import 'package:flutter_application_1/widgets/settings_button.dart';
-import 'dart:developer' as devtools show log;
+import 'package:flutter_application_1/features/settings/presentation/widgets/settings_button.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -120,22 +117,7 @@ class SettingsScreen extends StatelessWidget {
                UIButton(
                 icon: Icons.logout,
                 text: "Log out",
-                onPressed: () async {
-                  try {
-                  final shouldLogout = await showLogOutDialog(context);
-                  if (shouldLogout) {
-                    await FirebaseAuth.instance.signOut();
-                    // ignore: use_build_context_synchronously
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/login/',
-                      (_) => false,
-                    );
-                  }
-                  } catch (e) {
-                    devtools.log(e.toString());
-                }
-                }
-              )                
+                onPressed: () {})
             ],
           ),
       ),
