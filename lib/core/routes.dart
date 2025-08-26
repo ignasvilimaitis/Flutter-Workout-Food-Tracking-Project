@@ -1,3 +1,4 @@
-const homeRoute = '/home_page/';
+const homeRoute = '/home-page/';
 const settingsRoute = '/settings/';
-const loggingFoodRoute = '/food-logging/';
+const foodLoggingRoute = '/food-logging/';
+const foodSelectionRoute = '/food-selection/';

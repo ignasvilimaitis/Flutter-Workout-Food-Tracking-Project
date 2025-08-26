@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/routes.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:flutter_application_1/core/assets.dart';
 
 class HomePage extends StatelessWidget {
@@ -94,6 +94,7 @@ Card createHeader(String greeting, String currentDate, context) {
                   ),
                   onPressed: () {
                     // Navigate to log food screen
+                    Navigator.of(context).pushNamed(foodLoggingRoute);
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

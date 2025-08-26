@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/routes.dart';
+import 'package:flutter_application_1/features/food-logging/food_selection.dart';
 import 'package:intl/intl.dart';
 
 List<Widget> breakfastList = [];
@@ -7,6 +9,7 @@ DateTime date = DateTime.now();
 String today = '${date.day}th ${DateFormat('MMMM').format(date)} ${date.year}';
 
 class FoodLoggingView extends StatefulWidget {
+
   const FoodLoggingView({super.key});
   
 
@@ -15,13 +18,11 @@ class FoodLoggingView extends StatefulWidget {
 }
 
 class _FoodLoggingViewState extends State<FoodLoggingView> {
+  late FoodItem food;
   late double carbAmount = 0;
   late double fatAmount = 0;
   late double proteinAmount = 0;
-
-  double carbTest = 43.5;
-  double fatTest = 32.2;
-  double proteinTest = 10.2;
+  late double calorieAmount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +64,15 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                   children: [
                     Row(
                       children: [
-                        Padding(padding: EdgeInsets.all(20)),
+                        Padding(padding: EdgeInsets.all(15)),
                         const Text("Breakfast"),
-                        SizedBox(width: 20),
+                        //SizedBox(width: 20),
+                        Text("Calories $calorieAmount"),
+                        //SizedBox(width: 20),
                         Text("Carbs $carbAmount"),
-                        SizedBox(width: 10),                        
+                        //SizedBox(width: 10),                        
                         Text("Fat $fatAmount"),
-                        SizedBox(width: 10),                        
+                        //SizedBox(width: 10),                        
                         Text("Protein $proteinAmount"),                        
                         
                       ],
@@ -79,15 +82,22 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                       mainAxisSize: MainAxisSize.min,
                       children: breakfastList,),
                       FilledButton.icon(
-                          onPressed: () {
-                          setState(() {
-                          buildRow('Test',
-                          carbTest.toString(),
-                          fatTest.toString(),
-                          proteinTest.toString(),
-                          breakfastList,
-                          );
-                          });
+                          onPressed: () async {
+                            final food = await Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => FoodSelector()));
+                            if ((food) == null) {
+                              // Return Call?
+                            }
+                            
+                            setState(() {
+                              buildRow(food.name,food.calories, food.carbs, food.fats,food.proteins, breakfastList);
+                              calorieAmount += food.calories;
+                              carbAmount += food.carbs;
+                              fatAmount += food.fats;
+                              proteinAmount += food.proteins;
+                            });
+                              
                           },
                           label: Text('Add Food'),
                           icon: const Icon(Icons.add),
@@ -132,15 +142,6 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                       FilledButton.icon(
                           onPressed: () {
                           setState(() {
-                          buildRow('Test',
-                          carbTest.toString(),
-                          fatTest.toString(),
-                          proteinTest.toString(),
-                          lunchList,
-                          ); 
-                          carbAmount += carbTest;
-                          fatAmount += fatTest;
-                          proteinAmount += proteinTest;
                           });
                           },
                           label: Text('Add Food'),
@@ -152,6 +153,15 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                 )
               ),
             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text(
+                "Return",
+                style: TextStyle(
+                  color: Colors.blue 
+                ),),)
           ],
         ),
         ]
@@ -162,7 +172,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
   }
 }
 
-buildRow(food, carbs, fats, proteins,list) {
+buildRow(name, calories, carbs, fats, proteins,list) {
   list.add(
     Container(
         height: 50,
@@ -180,10 +190,15 @@ buildRow(food, carbs, fats, proteins,list) {
         ),
         child: Row(
           children: [
-            Text(food),
-            Text(carbs),
-            Text(fats),
-            Text(proteins),          
+            Text(name.toString()),
+            SizedBox(width: 10),
+            Text(calories.toString()),
+            SizedBox(width: 10),              
+            Text('${carbs.toString()}C'),
+            SizedBox(width: 10),              
+            Text('${fats.toString()}F'),
+            SizedBox(width: 10),              
+            Text('${proteins.toString()}P'),          
           ],
 
 

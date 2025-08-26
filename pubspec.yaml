@@ -12,6 +12,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   intl: ^0.20.2
   flutter_svg: ^2.2.0
+  pagination_view: ^2.0.0-nullsafety.0
+  faker: ^2.2.0
 
 dev_dependencies:
   flutter_test:
