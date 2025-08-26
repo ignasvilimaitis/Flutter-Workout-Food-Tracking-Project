@@ -275,7 +275,7 @@ Row createFooter(context) {
               backgroundColor: Theme.of(context).cardColor,
             ),
             onPressed: () {
-              // Navigate to workout screen
+              // TODO: Navigate to workout screen
             },
             child: Column(
               children: [
@@ -298,7 +298,7 @@ Row createFooter(context) {
               backgroundColor: Theme.of(context).cardColor,
             ),
             onPressed: () {
-              // Navigate to workout screen
+              // TODO: Navigate to workout screen
             },
             child: Column(
               children: [
@@ -321,7 +321,7 @@ Row createFooter(context) {
               backgroundColor: Theme.of(context).cardColor,
             ),
             onPressed: () {
-              // Navigate to workout screen
+              // TODO: Navigate to workout screen
             },
             child: Column(
               children: [
@@ -344,7 +344,7 @@ Row createFooter(context) {
               backgroundColor: Theme.of(context).cardColor,
             ),
             onPressed: () {
-              // Navigate to workout screen
+              // TODO: Navigate to workout screen
             },
             child: Column(
               children: [
