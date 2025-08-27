@@ -94,6 +94,7 @@ Card createHeader(String greeting, String currentDate, context) {
                   ),
                   onPressed: () {
                     // Navigate to log food screen
+                    // On click load the saved state from food logging
                     Navigator.of(context).pushNamed(foodLoggingRoute);
                   },
                   child: Column(

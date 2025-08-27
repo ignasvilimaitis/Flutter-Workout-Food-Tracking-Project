@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/routes.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection.dart';
+import 'package:flutter_application_1/features/food-logging/widgets/diary_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-List<Widget> breakfastList = [];
-List<Widget> lunchList = [];
 DateTime date = DateTime.now();
 String today = '${date.day}th ${DateFormat('MMMM').format(date)} ${date.year}';
 
@@ -18,12 +17,7 @@ class FoodLoggingView extends StatefulWidget {
 }
 
 class _FoodLoggingViewState extends State<FoodLoggingView> {
-  late FoodItem food;
-  late double carbAmount = 0;
-  late double fatAmount = 0;
-  late double proteinAmount = 0;
-  late double calorieAmount = 0;
-
+  Widget breakfastWidget = DiaryWidget(diaryName: 'Breakfast');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,137 +38,108 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
           ],
       centerTitle: true,
       ),
-      body: ListView(
-        children: <Widget> [
-         Column(
-          children: [
-            IntrinsicHeight(
-              child: Container(
-                margin: EdgeInsets.fromLTRB(
-                  8.0,
-                  24.0,
-                  8.0,
-                  15.0
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular((16.0)),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(padding: EdgeInsets.all(15)),
-                        const Text("Breakfast"),
-                        //SizedBox(width: 20),
-                        Text("Calories $calorieAmount"),
-                        //SizedBox(width: 20),
-                        Text("Carbs $carbAmount"),
-                        //SizedBox(width: 10),                        
-                        Text("Fat $fatAmount"),
-                        //SizedBox(width: 10),                        
-                        Text("Protein $proteinAmount"),                        
-                        
-                      ],
-                    ),
-                    
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: breakfastList,),
-                      FilledButton.icon(
-                          onPressed: () async {
-                            final food = await Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => FoodSelector()));
-                            if ((food) == null) {
-                              // Return Call?
-                            }
-                            
-                            setState(() {
-                              buildRow(food.name,food.calories, food.carbs, food.fats,food.proteins, breakfastList);
-                              calorieAmount += food.calories;
-                              carbAmount += food.carbs;
-                              fatAmount += food.fats;
-                              proteinAmount += food.proteins;
-                            });
-                              
-                          },
-                          label: Text('Add Food'),
-                          icon: const Icon(Icons.add),
+      body: Consumer<FoodModel>(
+          builder: (context, foodTest, child  ) {
+          return ListView(
+            children: <Widget> [
+             Column(
+              children: [
+                IntrinsicHeight(
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(
+                    8.0,
+                    24.0,
+                    8.0,
+                    15.0
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular((3.0)),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 15,
+                            height: 50,
+                          ),
+                          Text("Breakfast"),
+                          SizedBox(width: 15),
+                          //Text("Cals ${calorieAmount.toStringAsFixed(1)}"),
+                          SizedBox(width: 5,),
+                          //Text("Carbs ${carbAmount.toStringAsFixed(1)} "),
+                          SizedBox(width: 5),                        
+                          //Text("Fat ${fatAmount.toStringAsFixed(1)}"),
+                          SizedBox(width: 5),                        
+                          //Text("Protein ${proteinAmount.toStringAsFixed(1)}"),                        
                           
-                        ),
-
-                  ],
-                )
-              ),
-            ),
-            IntrinsicHeight(
-              child: Container(
-                margin: EdgeInsets.fromLTRB(
-                  8.0,
-                  24.0,
-                  8.0,
-                  15.0
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular((16.0)),
-                  color: Colors.white,
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(padding: EdgeInsets.all(20)),
-                        const Text("Lunch"),
-                        SizedBox(width: 20),
-                        Text("Carbs ${carbAmount.toStringAsFixed(1)} "),
-                        SizedBox(width: 10),                        
-                        Text("Fat ${fatAmount.toStringAsFixed(1)}"),
-                        SizedBox(width: 10),                        
-                        Text("Protein ${proteinAmount.toStringAsFixed(1)}"),                        
-                        
-                      ],
-                    ),
+                        ],
+                      ),
                     
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: lunchList,),
-                      FilledButton.icon(
-                          onPressed: () {
-                          setState(() {
-                          });
-                          },
-                          label: Text('Add Food'),
-                          icon: const Icon(Icons.add),
-                          
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                          children: foodTest._foods.map((food) => _buildFoodRow(food)).toList(),
                         ),
-
-                  ],
-                )
+                        FilledButton.icon(
+                            onPressed: () async {
+                              final food = await Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => FoodSelector()));
+                              if ((food != null)) {
+                                setState(() {
+                                  foodTest.add(food);
+                                  //FoodModel().add(food);
+                                  //calorieAmount += food.calories;
+                                  //carbAmount += food.carbs;
+                                  //fatAmount += food.fats;
+                                  //proteinAmount += food.proteins;
+                              });
+                              }
+                            },
+                            label: Text('Add Food'),
+                            icon: const Icon(Icons.add),                       
+                          ),            
+                    ],
+                  )
+                ),
               ),
+                ElevatedButton(
+                  onPressed: () {
+                    
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    "Return",
+                    style: TextStyle(
+                      color: Colors.blue 
+                    ),),)
+              ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                "Return",
-                style: TextStyle(
-                  color: Colors.blue 
-                ),),)
-          ],
-        ),
-        ]
-      ),
-      backgroundColor: Colors.grey,
-
-  );
+            ]
+          );
+          }
+          ),
+         backgroundColor: Colors.grey,
+      );
   }
 }
 
-buildRow(name, calories, carbs, fats, proteins,list) {
-  list.add(
-    Container(
+class FoodModel extends ChangeNotifier {
+  final List<FoodItem> _foods = [];
+
+  List<FoodItem> get foods => _foods;
+
+  void add(FoodItem food) {
+    _foods.add(food);
+    notifyListeners();
+  
+  //void remove TODO: Removal of foods
+  }
+}
+
+Widget _buildFoodRow(FoodItem food) {
+    return Container(
         height: 50,
         width: 400,
         margin: EdgeInsets.fromLTRB(
@@ -190,19 +155,18 @@ buildRow(name, calories, carbs, fats, proteins,list) {
         ),
         child: Row(
           children: [
-            Text(name.toString()),
+            Text(food.name.toString()),
             SizedBox(width: 10),
-            Text(calories.toString()),
+            Text(food.calories.toString()),
             SizedBox(width: 10),              
-            Text('${carbs.toString()}C'),
+            Text('${food.carbs.toString()}C'),
             SizedBox(width: 10),              
-            Text('${fats.toString()}F'),
+            Text('${food.fats.toString()}F'),
             SizedBox(width: 10),              
-            Text('${proteins.toString()}P'),          
+            Text('${food.proteins.toString()}P'),          
           ],
 
 
         ),
-      )
-  );
+      );
 }
