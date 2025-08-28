@@ -10,11 +10,14 @@ import 'package:provider/provider.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => FoodModel(),
-      child: MyApp(),
-    )
-  );
+    MultiProvider(
+      providers: [
+    ChangeNotifierProvider(create: (context) => FoodModel()),
+    ChangeNotifierProvider(create: (context) => WidgetCalorieState()),
+      ],
+        child: MyApp(),
+      ),
+    );
 }
 
 class MyApp extends StatelessWidget {

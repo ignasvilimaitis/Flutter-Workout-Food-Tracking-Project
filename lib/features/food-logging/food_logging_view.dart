@@ -38,8 +38,8 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
           ],
       centerTitle: true,
       ),
-      body: Consumer<FoodModel>(
-          builder: (context, foodTest, child  ) {
+      body: Consumer2<WidgetCalorieState, FoodModel>(
+          builder: (context, widgetState, foodState, child  ) {
           return ListView(
             children: <Widget> [
              Column(
@@ -66,20 +66,20 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                           ),
                           Text("Breakfast"),
                           SizedBox(width: 15),
-                          //Text("Cals ${calorieAmount.toStringAsFixed(1)}"),
+                          Text("Cals ${widgetState.calorieAmount.toStringAsFixed(1)}"),
                           SizedBox(width: 5,),
-                          //Text("Carbs ${carbAmount.toStringAsFixed(1)} "),
+                          Text("Carbs ${widgetState.carbAmount.toStringAsFixed(1)} "),
                           SizedBox(width: 5),                        
-                          //Text("Fat ${fatAmount.toStringAsFixed(1)}"),
+                          Text("Fat ${widgetState.fatAmount.toStringAsFixed(1)}"),
                           SizedBox(width: 5),                        
-                          //Text("Protein ${proteinAmount.toStringAsFixed(1)}"),                        
+                          Text("Protein ${widgetState.proteinAmount.toStringAsFixed(1)}"),                        
                           
                         ],
                       ),
                     
                       Column(
                         mainAxisSize: MainAxisSize.min,
-                          children: foodTest._foods.map((food) => _buildFoodRow(food)).toList(),
+                          children: foodState._foods.map((food) => _buildFoodRow(food)).toList(),
                         ),
                         FilledButton.icon(
                             onPressed: () async {
@@ -88,12 +88,8 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                 MaterialPageRoute(builder: (context) => FoodSelector()));
                               if ((food != null)) {
                                 setState(() {
-                                  foodTest.add(food);
-                                  //FoodModel().add(food);
-                                  //calorieAmount += food.calories;
-                                  //carbAmount += food.carbs;
-                                  //fatAmount += food.fats;
-                                  //proteinAmount += food.proteins;
+                                  foodState.add(food);
+                                  widgetState.addMacros(food);
                               });
                               }
                             },
@@ -135,6 +131,23 @@ class FoodModel extends ChangeNotifier {
     notifyListeners();
   
   //void remove TODO: Removal of foods
+  }
+}
+
+class WidgetCalorieState extends ChangeNotifier {
+  double calorieAmount = 0;
+  double carbAmount = 0;
+  double fatAmount = 0;
+  double proteinAmount = 0;
+
+  void addMacros(FoodItem food) {
+    calorieAmount += food.calories;
+    carbAmount += food.carbs;
+    fatAmount += food.fats;
+    proteinAmount += food.proteins;
+    notifyListeners();
+  
+  //void remove TODO: Removal of macros
   }
 }
 

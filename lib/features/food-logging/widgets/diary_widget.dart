@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection.dart';
 
+class WidgetCalorieState extends ChangeNotifier {
+  double calorieAmount = 0;
+  double carbAmount = 0;
+  double fatAmount = 0;
+  double proteinAmount = 0;
+
+  void addMacros(FoodItem food) {
+    calorieAmount += food.calories;
+    carbAmount += food.carbs;
+    fatAmount += food.fats;
+    proteinAmount += food.proteins;
+    notifyListeners();
+  
+  //void remove TODO: Removal of macros
+  }
+}
+
 class DiaryWidget extends StatefulWidget {
   const DiaryWidget({
     super.key,
@@ -14,14 +31,8 @@ class DiaryWidget extends StatefulWidget {
 }
 
 class _DiaryWidgetState extends State<DiaryWidget> {
-
-  late double carbAmount = 0.0;
-  late double fatAmount = 0.0;
-  late double proteinAmount = 0.0;
-  late double calorieAmount = 0.0;
   List<FoodItem> foodItems = [];
 
-  
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
@@ -46,13 +57,13 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                         ),
                         Text(widget.diaryName),
                         SizedBox(width: 15),
-                        Text("Cals ${calorieAmount.toStringAsFixed(1)}"),
+                        //Text("Cals ${calorieAmount.toStringAsFixed(1)}"),
                         SizedBox(width: 5,),
-                        Text("Carbs ${carbAmount.toStringAsFixed(1)} "),
+                        //Text("Carbs ${carbAmount.toStringAsFixed(1)} "),
                         SizedBox(width: 5),                        
-                        Text("Fat ${fatAmount.toStringAsFixed(1)}"),
+                        //Text("Fat ${fatAmount.toStringAsFixed(1)}"),
                         SizedBox(width: 5),                        
-                        Text("Protein ${proteinAmount.toStringAsFixed(1)}"),                        
+                        //Text("Protein ${proteinAmount.toStringAsFixed(1)}"),                        
                         
                       ],
                     ),
@@ -70,10 +81,6 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                               setState(() {
                                 foodItems.add(food);
                                 //FoodModel().add(food);
-                                calorieAmount += food.calories;
-                                carbAmount += food.carbs;
-                                fatAmount += food.fats;
-                                proteinAmount += food.proteins;
                             });
                             }
                           },
@@ -85,6 +92,7 @@ class _DiaryWidgetState extends State<DiaryWidget> {
               ),
             );
   }
+  
 }
 
 Widget _buildFoodRow(FoodItem food) {
