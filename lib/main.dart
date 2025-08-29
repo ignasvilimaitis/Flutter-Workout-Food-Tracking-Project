@@ -14,6 +14,7 @@ void main() {
       providers: [
     ChangeNotifierProvider(create: (context) => FoodModel()),
     ChangeNotifierProvider(create: (context) => WidgetCalorieState()),
+    ChangeNotifierProvider(create: (context) => MacroModel(),)
       ],
         child: MyApp(),
       ),

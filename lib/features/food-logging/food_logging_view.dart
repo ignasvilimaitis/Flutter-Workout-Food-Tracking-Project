@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection.dart';
 import 'package:intl/intl.dart';
@@ -36,12 +37,99 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
           ],
       centerTitle: true,
       ),
-      body: Consumer2<WidgetCalorieState, FoodModel>(
-          builder: (context, widgetState, foodState, child  ) {
+      body: Consumer3<WidgetCalorieState, FoodModel, MacroModel>(
+          builder: (context, widgetState, foodState, macroState, child  ) {
           return ListView(
+            shrinkWrap: true,
             children: <Widget> [
              Column(
               children: [
+              Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  margin: EdgeInsets.fromLTRB(
+                    8.0,
+                    24.0,
+                    8.0,
+                    15.0
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular((3.0)),
+                    color: Colors.white,
+                  ),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          height: 200,
+                          width: 150,
+                          child: PieChart(
+                              PieChartData(     
+                                startDegreeOffset: 360,                                                        
+                                centerSpaceRadius: 25,
+                                sections: [
+                                  PieChartSectionData(
+                                    value: macroState.carbGoal - widgetState.carbAmount,
+                                    showTitle: false,
+                                    color: const Color.fromARGB(0, 68, 64, 64),
+                                    radius: 15,
+                                  ),
+                                  PieChartSectionData(
+                                    titlePositionPercentageOffset: -1.7,
+                                    value: (widgetState.carbAmount),
+                                    color: Colors.blue,
+                                    title: 'Carbs',
+                                    radius: 15,                                
+                                  ),
+                                ]
+                              )
+                            
+                            ),
+                        ),
+                        SizedBox(
+                          height: 200,
+                          width: 50,
+                          child: PieChart(
+                            PieChartData(
+                              centerSpaceRadius: 25,
+                              sections: [
+                                    PieChartSectionData(
+                                      titlePositionPercentageOffset: -1.7,
+                                      value: (widgetState.fatAmount),
+                                      color: Colors.red,
+                                      title: 'Fat',
+                                      radius: 15,
+                                    ),
+                                  ]
+                          ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 200,
+                          width: 150,
+                          child: PieChart(
+                            PieChartData(
+                              centerSpaceRadius: 25,
+                              sections: [
+                            PieChartSectionData(
+                                      titlePositionPercentageOffset: -1.7,
+                                      value: (widgetState.fatAmount),
+                                      color: Colors.green,
+                                      title: 'Protein',
+                                      radius: 15,
+                                    ),
+                            
+                                                ]
+                            ),
+                                        
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+              ),                  
                 IntrinsicHeight(
                 child: Container(
                   margin: EdgeInsets.fromLTRB(
@@ -136,6 +224,17 @@ class FoodModel extends ChangeNotifier {
   }
 }
 
+class MacroModel extends ChangeNotifier {
+   double carbGoal = 100;
+   double fatGoal = 80;
+   double proteinGoal = 100;
+   double get calorieGoal => (carbGoal * 4) + (fatGoal * 8) + (proteinGoal * 4);
+
+
+
+  
+}
+
 class WidgetCalorieState extends ChangeNotifier {
   double calorieAmount = 0;
   double carbAmount = 0;
@@ -152,7 +251,7 @@ class WidgetCalorieState extends ChangeNotifier {
   }
 
   void removeMacros(FoodItem food) {
-        calorieAmount -= food.calories;
+    calorieAmount -= food.calories;
     carbAmount -= food.carbs;
     fatAmount -= food.fats;
     proteinAmount -= food.proteins;
