@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/diary_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +16,6 @@ class FoodLoggingView extends StatefulWidget {
 }
 
 class _FoodLoggingViewState extends State<FoodLoggingView> {
-  Widget breakfastWidget = DiaryWidget(diaryName: 'Breakfast');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +77,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                     
                       Column(
                         mainAxisSize: MainAxisSize.min,
-                          children: foodState._foods.map((food) => _buildFoodRow(food)).toList(),
+                          children: foodState._foods.map((food) => _buildFoodRow(food, context, foodState, widgetState)).toList(),
                         ),
                         FilledButton.icon(
                             onPressed: () async {
@@ -130,7 +128,11 @@ class FoodModel extends ChangeNotifier {
     _foods.add(food);
     notifyListeners();
   
-  //void remove TODO: Removal of foods
+
+  }
+  void remove(FoodItem food) {
+    _foods.remove(food);
+    notifyListeners();
   }
 }
 
@@ -146,12 +148,19 @@ class WidgetCalorieState extends ChangeNotifier {
     fatAmount += food.fats;
     proteinAmount += food.proteins;
     notifyListeners();
-  
-  //void remove TODO: Removal of macros
+
+  }
+
+  void removeMacros(FoodItem food) {
+        calorieAmount -= food.calories;
+    carbAmount -= food.carbs;
+    fatAmount -= food.fats;
+    proteinAmount -= food.proteins;
+    notifyListeners();
   }
 }
 
-Widget _buildFoodRow(FoodItem food) {
+Widget _buildFoodRow(FoodItem food, BuildContext context, FoodModel foods, WidgetCalorieState widgetInfo) {
     return Container(
         height: 50,
         width: 400,
@@ -168,6 +177,7 @@ Widget _buildFoodRow(FoodItem food) {
         ),
         child: Row(
           children: [
+            SizedBox(width: 15,),
             Text(food.name.toString()),
             SizedBox(width: 10),
             Text(food.calories.toString()),
@@ -176,10 +186,56 @@ Widget _buildFoodRow(FoodItem food) {
             SizedBox(width: 10),              
             Text('${food.fats.toString()}F'),
             SizedBox(width: 10),              
-            Text('${food.proteins.toString()}P'),          
+            Text('${food.proteins.toString()}P'), 
+            SizedBox(width: 50,),
+            TextButton(
+              onPressed: () async {
+                final toRemove = await ShowConfirmDialog(context) ?? false;
+                if (toRemove) {
+                  foods.remove(food);
+                  widgetInfo.removeMacros(food);
+
+                } else {
+                  return;
+                }
+              },
+             child: const Text(
+              'Remove',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+             ),
+             ),
           ],
 
 
         ),
       );
+}
+
+Future<bool?> ShowConfirmDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text("Are you sure you want to remove this item?"),
+        actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(textStyle: Theme.of(context).textTheme.labelLarge),
+              child: const Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(textStyle: Theme.of(context).textTheme.labelLarge),
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
+      );
+    }
+  );
 }
