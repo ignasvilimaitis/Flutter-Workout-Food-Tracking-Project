@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection.dart';
+import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -165,7 +167,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                     
                       Column(
                         mainAxisSize: MainAxisSize.min,
-                          children: foodState._foods.map((food) => _buildFoodRow(food, context, foodState, widgetState)).toList(),
+                          children: foodState.foods.map((food) => _buildFoodRow(food, context, foodState, widgetState)).toList(),
                         ),
                         FilledButton.icon(
                             onPressed: () async {
@@ -207,57 +209,6 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
   }
 }
 
-class FoodModel extends ChangeNotifier {
-  final List<FoodItem> _foods = [];
-
-  List<FoodItem> get foods => _foods;
-
-  void add(FoodItem food) {
-    _foods.add(food);
-    notifyListeners();
-  
-
-  }
-  void remove(FoodItem food) {
-    _foods.remove(food);
-    notifyListeners();
-  }
-}
-
-class MacroModel extends ChangeNotifier {
-   double carbGoal = 100;
-   double fatGoal = 80;
-   double proteinGoal = 100;
-   double get calorieGoal => (carbGoal * 4) + (fatGoal * 8) + (proteinGoal * 4);
-
-
-
-  
-}
-
-class WidgetCalorieState extends ChangeNotifier {
-  double calorieAmount = 0;
-  double carbAmount = 0;
-  double fatAmount = 0;
-  double proteinAmount = 0;
-
-  void addMacros(FoodItem food) {
-    calorieAmount += food.calories;
-    carbAmount += food.carbs;
-    fatAmount += food.fats;
-    proteinAmount += food.proteins;
-    notifyListeners();
-
-  }
-
-  void removeMacros(FoodItem food) {
-    calorieAmount -= food.calories;
-    carbAmount -= food.carbs;
-    fatAmount -= food.fats;
-    proteinAmount -= food.proteins;
-    notifyListeners();
-  }
-}
 
 Widget _buildFoodRow(FoodItem food, BuildContext context, FoodModel foods, WidgetCalorieState widgetInfo) {
     return Container(

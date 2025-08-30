@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection.dart';
+
 
 class WidgetCalorieState extends ChangeNotifier {
   double calorieAmount = 0;
