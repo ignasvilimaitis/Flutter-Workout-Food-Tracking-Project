@@ -1,4 +1,4 @@
-import 'package:flutter_application_1/features/food-logging/classes/food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
 
 List<FoodItem> foods = [
   FoodItem(name: 'Mango', calories: 120, carbs: 28.0, fats: 0.5, proteins: 1.0),

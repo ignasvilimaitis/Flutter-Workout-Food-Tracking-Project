@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/features/food-logging/classes/food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
 import 'package:flutter_application_1/features/food-logging/food_data/list.dart';
 
 
@@ -17,9 +16,9 @@ class _FoodSelectorState extends State<FoodSelector> {
     return Scaffold(
       body: ListView(
         children: foods.map(
-          (foodd) { 
+          (food) { 
           return FoodListTileWidget(
-            food: foodd,
+            food: food,
             isSelected: false,
             onSelectedFood: onSelectedFood,
           );

@@ -13,16 +13,16 @@ class FoodItem {
     required this.proteins
   });
 
-//   @override
-//   bool operator ==(Object other) =>
-//       identical(this, other) ||
-//       other is FoodItem &&
-//           runtimeType == other.runtimeType &&
-//           name == other.name && calories == other.calories &&
-//           carbs == other.carbs && fats == other.fats &&
-//            proteins == other.proteins;
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FoodItem &&
+          runtimeType == other.runtimeType &&
+          name == other.name && calories == other.calories &&
+          carbs == other.carbs && fats == other.fats &&
+           proteins == other.proteins;
            
-//   @override
-//   int get hashCode => name.hashCode ^ calories.hashCode;
-// 
+  @override
+  int get hashCode => name.hashCode ^ calories.hashCode;
+
 }
