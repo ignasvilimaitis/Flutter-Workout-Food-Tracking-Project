@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection.dart';
+import 'package:flutter_application_1/features/food-logging/states/states.dart';
+import 'package:provider/provider.dart';
 
 class DiaryWidget extends StatefulWidget {
+  final String diaryName;
+
   const DiaryWidget({
-    super.key,
     required this.diaryName,
+    super.key,
     });
 
-  final String diaryName;
 
   @override
   State<DiaryWidget> createState() => _DiaryWidgetState();
 }
 
 class _DiaryWidgetState extends State<DiaryWidget> {
-  List<FoodItem> foodItems = [];
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
+    return Consumer3<MacroGoal, TotalMacros, DiaryFoodList>(
+      builder: (context, macroState, macroTotal, diaryFoodList, child) {
+      return IntrinsicHeight(
               child: Container(
                 margin: EdgeInsets.fromLTRB(
                   8.0,
@@ -28,7 +32,7 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                   15.0
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular((3.0)),
+                  borderRadius: BorderRadius.circular((20.0)),
                   color: Colors.white,
                 ),
                 child: Column(
@@ -41,31 +45,31 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                         ),
                         Text(widget.diaryName),
                         SizedBox(width: 15),
-                        //Text("Cals ${calorieAmount.toStringAsFixed(1)}"),
+                        Text("Cals ${diaryFoodList.getCalorieAmount(widget.diaryName).toStringAsFixed(1)}"),
                         SizedBox(width: 5,),
-                        //Text("Carbs ${carbAmount.toStringAsFixed(1)} "),
+                        Text("Carbs ${diaryFoodList.getCarbAmount(widget.diaryName).toStringAsFixed(1)} "),
                         SizedBox(width: 5),                        
-                        //Text("Fat ${fatAmount.toStringAsFixed(1)}"),
+                        Text("Fat ${diaryFoodList.getFatAmount(widget.diaryName).toStringAsFixed(1)}"),
                         SizedBox(width: 5),                        
-                        //Text("Protein ${proteinAmount.toStringAsFixed(1)}"),                        
+                        Text("Protein ${diaryFoodList.getProteinAmount(widget.diaryName).toStringAsFixed(1)}"),                        
                         
                       ],
                     ),
                   
                     Column(
                       mainAxisSize: MainAxisSize.min,
-                        children: foodItems.map((food) => _buildFoodRow(food)).toList(),
+                        children: diaryFoodList.getFoods(widget.diaryName.toLowerCase())
+                            .map((food) => _buildFoodRow(food, context, diaryFoodList, macroTotal, widget.diaryName))
+                            .toList(),
                       ),
                       FilledButton.icon(
                           onPressed: () async {
                             final food = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => FoodSelector()));
-                            if ((food != null)) {
-                              setState(() {
-                                foodItems.add(food);
-                                //FoodModel().add(food);
-                            });
+                            if (food != null) {
+                              diaryFoodList.add(food, widget.diaryName);
+                              macroTotal.addMacros(food);
                             }
                           },
                           label: Text('Add Food'),
@@ -73,13 +77,14 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                         ),            
                   ],
                 )
-              ),
-            );
+                  ),
+                );
+      }
+    );
   }
-  
 }
-
-Widget _buildFoodRow(FoodItem food) {
+  
+Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, TotalMacros widgetInfo, String diaryName) {
     return Container(
         height: 50,
         width: 400,
@@ -96,6 +101,7 @@ Widget _buildFoodRow(FoodItem food) {
         ),
         child: Row(
           children: [
+            SizedBox(width: 15,),
             Text(food.name.toString()),
             SizedBox(width: 10),
             Text(food.calories.toString()),
@@ -104,11 +110,55 @@ Widget _buildFoodRow(FoodItem food) {
             SizedBox(width: 10),              
             Text('${food.fats.toString()}F'),
             SizedBox(width: 10),              
-            Text('${food.proteins.toString()}P'),          
+            Text('${food.proteins.toString()}P'), 
+            SizedBox(width: 50,),
+            TextButton(
+              onPressed: () async {
+                final toRemove = await showConfirmDialog(context) ?? false;
+                if (toRemove) {
+                  foods.remove(food, diaryName);
+                  widgetInfo.removeMacros(food);
+                } else {
+                  return;
+                }
+              },
+             child: const Text(
+              'Remove',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+             ),
+             ),
           ],
 
 
         ),
       );
 }
-    
+
+Future<bool?> showConfirmDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text("Are you sure you want to remove this item?"),
+        actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(textStyle: Theme.of(context).textTheme.labelLarge),
+              child: const Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(textStyle: Theme.of(context).textTheme.labelLarge),
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
+      );
+    }
+  );
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
+import 'package:flutter_application_1/features/food-logging/widgets/diary_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -21,10 +22,10 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer3<WidgetCalorieState, FoodModel, MacroModel>(
-          builder: (context, widgetState, foodState, macroState, child) {
+      body: Consumer2<TotalMacros, MacroGoal>(
+          builder: (context, totalMacros, macroGoals, child) {
           return ListView(
-            shrinkWrap: true,
+            //shrinkWrap: true,
             children: <Widget> [
               Column(
                 children: [
@@ -126,7 +127,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                                   ),
                                               ),
                                               TextSpan(
-                                                text: '${widgetState.carbAmount.toStringAsFixed(1)}g',
+                                                text: '${totalMacros.carbAmount.toStringAsFixed(1)}g',
                                                 style: TextStyle(
                                                 color: const Color.fromARGB(255, 82, 82, 82),
                                                 fontWeight: FontWeight.w100,
@@ -138,7 +139,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          "${macroState.carbGoal}g",
+                                          "${macroGoals.carbGoal - totalMacros.carbAmount}g",
                                           style: TextStyle(
                                             color: const Color.fromARGB(255, 82, 82, 82),
                                             fontWeight: FontWeight.w100,
@@ -147,7 +148,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                       ],
                                     ),
                                     LinearProgressIndicator(
-                                    value: widgetState.carbAmount / macroState.carbGoal,
+                                    value: totalMacros.carbAmount / macroGoals.carbGoal,
                                     minHeight: 10,
                                     color: Colors.white,
                                     valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),               
@@ -179,7 +180,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                                   ),
                                               ),
                                               TextSpan(
-                                                text: '${widgetState.fatAmount.toStringAsFixed(1)}g',
+                                                text: '${totalMacros.fatAmount.toStringAsFixed(1)}g',
                                                 style: TextStyle(
                                                 color: const Color.fromARGB(255, 82, 82, 82),
                                                 fontWeight: FontWeight.w100,
@@ -190,7 +191,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                         ),
                                        Spacer(),
                                         Text(
-                                          "${macroState.fatGoal}g",
+                                          "${macroGoals.fatGoal - totalMacros.fatAmount}g",
                                           style: TextStyle(
                                             color: const Color.fromARGB(255, 82, 82, 82),
                                             fontWeight: FontWeight.w100,
@@ -199,7 +200,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                 ],
                               ),
                                     LinearProgressIndicator(
-                                    value: widgetState.fatAmount / macroState.fatGoal,
+                                    value: totalMacros.fatAmount / macroGoals.fatGoal,
                                     minHeight: 10,
                                     color: Colors.white,
                                     valueColor: AlwaysStoppedAnimation<Color>(const Color.fromARGB(255, 250, 113, 71)),
@@ -231,7 +232,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                                   ),
                                               ),
                                               TextSpan(
-                                                text: '${widgetState.proteinAmount.toStringAsFixed(1)}g',
+                                                text: '${totalMacros.proteinAmount.toStringAsFixed(1)}g',
                                                 style: TextStyle(
                                                 color: const Color.fromARGB(255, 82, 82, 82),
                                                 fontWeight: FontWeight.w100,
@@ -242,7 +243,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                         ),
                                       Spacer(),
                                       Text(
-                                          "${macroState.proteinGoal}g",
+                                          "${macroGoals.proteinGoal - totalMacros.proteinAmount}g",
                                           style: TextStyle(
                                             color: const Color.fromARGB(255, 82, 82, 82),
                                             fontWeight: FontWeight.w100,
@@ -251,7 +252,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                 ],
                               ),
                                     LinearProgressIndicator(
-                                    value: widgetState.fatAmount / macroState.fatGoal,
+                                    value: totalMacros.fatAmount / macroGoals.fatGoal,
                                     minHeight: 10,
                                     color: Colors.white,
                                     valueColor: AlwaysStoppedAnimation<Color>(const Color.fromARGB(255, 67, 204, 67),),
@@ -266,63 +267,10 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                   ),
                 ],
               ),    
-            // First diary widget block (Breakfast)      
-            IntrinsicHeight(
-            child: Container(
-              margin: EdgeInsets.fromLTRB(
-                8.0,
-                24.0,
-                8.0,
-                15.0
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular((20.0)),
-                color: Colors.white,
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 15,
-                        height: 50,
-                      ),
-                      Text("Breakfast"),
-                      SizedBox(width: 15),
-                      Text("Cals ${widgetState.calorieAmount.toStringAsFixed(1)}"),
-                      SizedBox(width: 5,),
-                      Text("Carbs ${widgetState.carbAmount.toStringAsFixed(1)} "),
-                      SizedBox(width: 5),                        
-                      Text("Fat ${widgetState.fatAmount.toStringAsFixed(1)}"),
-                      SizedBox(width: 5),                        
-                      Text("Protein ${widgetState.proteinAmount.toStringAsFixed(1)}"),                        
-                      
-                    ],
-                  ),
-                
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                      children: foodState.foods.map((food) => _buildFoodRow(food, context, foodState, widgetState)).toList(),
-                    ),
-                    FilledButton.icon(
-                        onPressed: () async {
-                          final food = await Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => FoodSelector()));
-                          if ((food != null)) {
-                            setState(() {
-                              foodState.add(food);
-                              widgetState.addMacros(food);
-                          });
-                          }
-                        },
-                        label: Text('Add Food'),
-                        icon: const Icon(Icons.add),                       
-                      ),            
-                ],
-              )
-                ),
-              ),
+            DiaryWidget(diaryName:'Breakfast'),
+            DiaryWidget(diaryName:'Lunch'),
+            DiaryWidget(diaryName:'Dinner'),
+            DiaryWidget(diaryName:'Snacks'),
               ],
             );
           }
@@ -332,83 +280,3 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
   }
 }
 
-
-Widget _buildFoodRow(FoodItem food, BuildContext context, FoodModel foods, WidgetCalorieState widgetInfo) {
-    return Container(
-        height: 50,
-        width: 400,
-        margin: EdgeInsets.fromLTRB(
-          8.0,
-          0.0,
-          8.0,
-          15.0
-        ),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular((3.0)),
-          border: BoxBorder.all(),        
-        ),
-        child: Row(
-          children: [
-            SizedBox(width: 15,),
-            Text(food.name.toString()),
-            SizedBox(width: 10),
-            Text(food.calories.toString()),
-            SizedBox(width: 10),              
-            Text('${food.carbs.toString()}C'),
-            SizedBox(width: 10),              
-            Text('${food.fats.toString()}F'),
-            SizedBox(width: 10),              
-            Text('${food.proteins.toString()}P'), 
-            SizedBox(width: 50,),
-            TextButton(
-              onPressed: () async {
-                final toRemove = await showConfirmDialog(context) ?? false;
-                if (toRemove) {
-                  foods.remove(food);
-                  widgetInfo.removeMacros(food);
-
-                } else {
-                  return;
-                }
-              },
-             child: const Text(
-              'Remove',
-              style: TextStyle(
-                color: Colors.red,
-              ),
-             ),
-             ),
-          ],
-
-
-        ),
-      );
-}
-
-Future<bool?> showConfirmDialog(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text("Are you sure you want to remove this item?"),
-        actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(textStyle: Theme.of(context).textTheme.labelLarge),
-              child: const Text('Yes'),
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-            ),
-            TextButton(
-              style: TextButton.styleFrom(textStyle: Theme.of(context).textTheme.labelLarge),
-              child: const Text('No'),
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-            ),
-          ],
-      );
-    }
-  );
-}

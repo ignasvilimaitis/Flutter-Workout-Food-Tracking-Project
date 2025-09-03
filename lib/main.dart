@@ -13,9 +13,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-    ChangeNotifierProvider(create: (context) => FoodModel()),
-    ChangeNotifierProvider(create: (context) => WidgetCalorieState()),
-    ChangeNotifierProvider(create: (context) => MacroModel(),)
+    ChangeNotifierProvider(create: (context) => DiaryFoodList()),
+    ChangeNotifierProvider(create: (context) => TotalMacros()),
+    ChangeNotifierProvider(create: (context) => MacroGoal(),)
       ],
         child: MyApp(),
       ),
