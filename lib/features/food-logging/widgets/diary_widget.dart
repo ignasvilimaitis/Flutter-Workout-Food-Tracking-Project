@@ -2,24 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection.dart';
 
-
-class WidgetCalorieState extends ChangeNotifier {
-  double calorieAmount = 0;
-  double carbAmount = 0;
-  double fatAmount = 0;
-  double proteinAmount = 0;
-
-  void addMacros(FoodItem food) {
-    calorieAmount += food.calories;
-    carbAmount += food.carbs;
-    fatAmount += food.fats;
-    proteinAmount += food.proteins;
-    notifyListeners();
-  
-  //void remove TODO: Removal of macros
-  }
-}
-
 class DiaryWidget extends StatefulWidget {
   const DiaryWidget({
     super.key,

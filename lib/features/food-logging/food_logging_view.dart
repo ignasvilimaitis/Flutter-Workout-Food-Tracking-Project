@@ -1,6 +1,4 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/ui_background.dart';
 import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
@@ -16,7 +14,7 @@ class FoodLoggingView extends StatefulWidget {
   
 
   @override
-  State<FoodLoggingView> createState() => _FoodLoggingViewState(); // TODO: Bug - weird rounding issue with macros
+  State<FoodLoggingView> createState() => _FoodLoggingViewState();
 }
 
 class _FoodLoggingViewState extends State<FoodLoggingView> {
@@ -114,26 +112,39 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                 child:Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text.rich(
-                                      TextSpan(
-                                        children: [
+                                    Row(
+                                      children: [
+                                        Text.rich(
                                           TextSpan(
-                                            text: 'Carbs: ',
-                                            style: TextStyle(
-                                              color: const Color.fromARGB(255, 82, 82, 82),
-                                              fontWeight: FontWeight.w900,
-                                              fontSize: 12.0,
+                                            children: [
+                                              TextSpan(
+                                                text: 'Carbs: ',
+                                                style: TextStyle(
+                                                  color: const Color.fromARGB(255, 82, 82, 82),
+                                                  fontWeight: FontWeight.w900,
+                                                  fontSize: 12.0,
+                                                  ),
                                               ),
+                                              TextSpan(
+                                                text: '${widgetState.carbAmount.toStringAsFixed(1)}g',
+                                                style: TextStyle(
+                                                color: const Color.fromARGB(255, 82, 82, 82),
+                                                fontWeight: FontWeight.w100,
+                                                fontSize: 12.0),
+                                              ),
+              
+                                            ],
                                           ),
-                                          TextSpan(
-                                            text: '${widgetState.carbAmount}g',
-                                            style: TextStyle(
+                                        ),
+                                        Spacer(),
+                                        Text(
+                                          "${macroState.carbGoal}g",
+                                          style: TextStyle(
                                             color: const Color.fromARGB(255, 82, 82, 82),
                                             fontWeight: FontWeight.w100,
                                             fontSize: 12.0),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                     LinearProgressIndicator(
                                     value: widgetState.carbAmount / macroState.carbGoal,
@@ -154,27 +165,39 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                           child:Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text.rich(
-                                TextSpan(
-                                  children: [
+                              Row(
+                                children: [
+                                  Text.rich(
                                     TextSpan(
-                                            text: 'Fats: ',
-                                            style: TextStyle(
-                                              color: const Color.fromARGB(255, 82, 82, 82),
-                                              fontWeight: FontWeight.w900,
-                                              fontSize: 12.0,
+                                      children: [
+                                        TextSpan(
+                                                text: 'Fats: ',
+                                                style: TextStyle(
+                                                  color: const Color.fromARGB(255, 82, 82, 82),
+                                                  fontWeight: FontWeight.w900,
+                                                  fontSize: 12.0,
+                                                  ),
                                               ),
+                                              TextSpan(
+                                                text: '${widgetState.fatAmount.toStringAsFixed(1)}g',
+                                                style: TextStyle(
+                                                color: const Color.fromARGB(255, 82, 82, 82),
+                                                fontWeight: FontWeight.w100,
+                                                fontSize: 12.0),
+                                              ),
+                                            ],
                                           ),
-                                          TextSpan(
-                                            text: '${widgetState.fatAmount}g',
-                                            style: TextStyle(
+                                        ),
+                                       Spacer(),
+                                        Text(
+                                          "${macroState.fatGoal}g",
+                                          style: TextStyle(
                                             color: const Color.fromARGB(255, 82, 82, 82),
                                             fontWeight: FontWeight.w100,
                                             fontSize: 12.0),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                        ),
+                                ],
+                              ),
                                     LinearProgressIndicator(
                                     value: widgetState.fatAmount / macroState.fatGoal,
                                     minHeight: 10,
@@ -194,27 +217,39 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                           child:Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text.rich(
-                                TextSpan(
-                                  children: [
+                              Row(
+                                children: [
+                                  Text.rich(
                                     TextSpan(
-                                            text: 'Proteins: ',
-                                            style: TextStyle(
-                                              color: const Color.fromARGB(255, 82, 82, 82),
-                                              fontWeight: FontWeight.w900,
-                                              fontSize: 12.0,
+                                      children: [
+                                        TextSpan(
+                                                text: 'Proteins: ',
+                                                style: TextStyle(
+                                                  color: const Color.fromARGB(255, 82, 82, 82),
+                                                  fontWeight: FontWeight.w900,
+                                                  fontSize: 12.0,
+                                                  ),
                                               ),
+                                              TextSpan(
+                                                text: '${widgetState.proteinAmount.toStringAsFixed(1)}g',
+                                                style: TextStyle(
+                                                color: const Color.fromARGB(255, 82, 82, 82),
+                                                fontWeight: FontWeight.w100,
+                                                fontSize: 12.0),
+                                              ),
+                                            ],
                                           ),
-                                          TextSpan(
-                                            text: '${widgetState.fatAmount}g',
-                                            style: TextStyle(
+                                        ),
+                                      Spacer(),
+                                      Text(
+                                          "${macroState.proteinGoal}g",
+                                          style: TextStyle(
                                             color: const Color.fromARGB(255, 82, 82, 82),
                                             fontWeight: FontWeight.w100,
                                             fontSize: 12.0),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                        ),
+                                ],
+                              ),
                                     LinearProgressIndicator(
                                     value: widgetState.fatAmount / macroState.fatGoal,
                                     minHeight: 10,

@@ -24,9 +24,6 @@ class MacroModel extends ChangeNotifier {
    double proteinGoal = 100;
    double get calorieGoal => (carbGoal * 4) + (fatGoal * 8) + (proteinGoal * 4);
 
-
-
-  
 }
 
 class WidgetCalorieState extends ChangeNotifier {
@@ -45,10 +42,23 @@ class WidgetCalorieState extends ChangeNotifier {
   }
 
   void removeMacros(FoodItem food) {
-    calorieAmount -= food.calories;
-    carbAmount -= food.carbs;
-    fatAmount -= food.fats;
-    proteinAmount -= food.proteins;
-    notifyListeners();
+  calorieAmount -= food.calories;
+  carbAmount -= food.carbs;
+  fatAmount -= food.fats;
+  proteinAmount -= food.proteins;
+
+  // Fix tiny floating-point artifacts (e.g. -0.0) by snapping near-zero values to 0.0
+  const double eps = 1e-9;
+  if (calorieAmount.abs() < eps) calorieAmount = 0.0;
+  if (carbAmount.abs() < eps) carbAmount = 0.0;
+  if (fatAmount.abs() < eps) fatAmount = 0.0;
+  if (proteinAmount.abs() < eps) proteinAmount = 0.0;
+  // Ensures values do not go negative
+  if (calorieAmount < 0) calorieAmount = 0.0;
+  if (carbAmount < 0) carbAmount = 0.0;
+  if (fatAmount < 0) fatAmount = 0.0;
+  if (proteinAmount < 0) proteinAmount = 0.0;
+
+  notifyListeners();
   }
 }
