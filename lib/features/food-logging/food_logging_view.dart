@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/diary_widget.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

@@ -14,7 +14,7 @@ class DiaryEntry extends ChangeNotifier {
   DiaryEntry({required this.id});
 
   void addFood(FoodItem food) {
-    print("Adding food ${food.name} to diary $id");
+    print("Adding food ${food.productName} to diary $id");
     foods.add(food);  // Add the food to the list
     calorieAmount += food.calories;
     carbAmount += food.carbs;

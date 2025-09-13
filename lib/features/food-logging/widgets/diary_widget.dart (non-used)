@@ -107,7 +107,7 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
         child: Row(
           children: [
             SizedBox(width: 15,),
-            Text(food.name.toString()),
+            Text(food.productName.toString()),
             SizedBox(width: 10),
             Text(food.calories.toString()),
             SizedBox(width: 10),              

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/routes.dart';
 import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
@@ -39,12 +40,15 @@ class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
                   subtitle: Text("${diaryFoodList.getCalorieAmount(widget.diaryName).toStringAsFixed(1)} Kcal"), // TODO: Implement switching between kcals and macros
                   leading:IconButton(
                   onPressed: () async {
-                  final food = await Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => FoodSelector()));
+                  final FoodItem? food = await Navigator.pushNamed<FoodItem>(
+                    context,
+                    foodSelectionRoute,
+                    );
                   if (food != null) {
                    diaryFoodList.add(food, widget.diaryName);
                    macroTotal.addMacros(food);
-                        }},
+                        }
+                    },
                   icon: const Icon(Icons.add),                       
                   ),
                   trailing: Icon(_controller.isExpanded ? Icons.expand_less : Icons.expand_more),
@@ -111,7 +115,7 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
         child: Row(
           children: [
             SizedBox(width: 15,),
-            Text(food.name.toString()),
+            Text(food.productName.toString()),
             SizedBox(width: 10),
             Text(food.calories.toString()),
             SizedBox(width: 10),              
