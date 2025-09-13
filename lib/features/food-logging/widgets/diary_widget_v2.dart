@@ -4,91 +4,99 @@ import 'package:flutter_application_1/features/food-logging/food_selection.dart'
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:provider/provider.dart';
 
-class DiaryWidget extends StatefulWidget {
+class DiaryWidgetV2 extends StatefulWidget {
+  const DiaryWidgetV2({
+    super.key,
+    required this.diaryName});
+
   final String diaryName;
 
-  const DiaryWidget({
-    required this.diaryName,
-    super.key,
-    });
-
-
   @override
-  State<DiaryWidget> createState() => _DiaryWidgetState();
+  State<DiaryWidgetV2> createState() => _DiaryWidgetV2State();
 }
 
-class _DiaryWidgetState extends State<DiaryWidget> {
-
+class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
+  final ExpansibleController _controller = ExpansibleController();
   @override
   Widget build(BuildContext context) {
     return Consumer3<MacroGoal, TotalMacros, DiaryFoodList>(
       builder: (context, macroState, macroTotal, diaryFoodList, child) {
-      return ExpansionTile(
-        subtitle: Text("Kcal total: ${diaryFoodList.getCalorieAmount(widget.diaryName).toStringAsFixed(1)}"), // TODO: Implement switching between kcals and macros
-        leading: Icon(Icons.add_box_outlined),
-        title: Text(widget.diaryName),
-        children: <Widget>[
-                Container(
-                  margin: EdgeInsets.fromLTRB(
-                    8.0,
-                    24.0,
-                    8.0,
-                    15.0
-                  ),
+      return Expansible(
+        headerBuilder: (context, isOpen) {
+          return Column(
+            children: [
+              Container(
+                  width: 365,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular((20.0)),
-                    color: Colors.white,
+                  borderRadius: BorderRadius.circular((20.0)),
+                  color: Colors.white,
+                  border: BoxBorder.all(
+                    color: Colors.grey,
+                  )
+                ),
+                child: ListTile(
+                  title: Text(widget.diaryName),
+                  subtitle: Text("${diaryFoodList.getCalorieAmount(widget.diaryName).toStringAsFixed(1)} Kcal"), // TODO: Implement switching between kcals and macros
+                  leading:IconButton(
+                  onPressed: () async {
+                  final food = await Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => FoodSelector()));
+                  if (food != null) {
+                   diaryFoodList.add(food, widget.diaryName);
+                   macroTotal.addMacros(food);
+                        }},
+                  icon: const Icon(Icons.add),                       
                   ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 15,
-                            height: 50,
-                          ),
-                          Text(widget.diaryName),
-                          SizedBox(width: 15),
-                          Text("Cals ${diaryFoodList.getCalorieAmount(widget.diaryName).toStringAsFixed(1)}"),
-                          SizedBox(width: 5,),
-                          Text("Carbs ${diaryFoodList.getCarbAmount(widget.diaryName).toStringAsFixed(1)} "),
-                          SizedBox(width: 5),                        
-                          Text("Fat ${diaryFoodList.getFatAmount(widget.diaryName).toStringAsFixed(1)}"),
-                          SizedBox(width: 5),                        
-                          Text("Protein ${diaryFoodList.getProteinAmount(widget.diaryName).toStringAsFixed(1)}"),                        
-                          
-                        ],
-                      ),
-                    
+                  trailing: Icon(_controller.isExpanded ? Icons.expand_less : Icons.expand_more),
+                ),
+              ),
+            ],
+          );
+        },
+        bodyBuilder: (context, isOpen) {
+          return Container(
+            margin: EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 15.0),
+            child: Column(
+              children: [
                       Column(
                         mainAxisSize: MainAxisSize.min,
                           children: diaryFoodList.getFoods(widget.diaryName.toLowerCase())
                               .map((food) => _buildFoodRow(food, context, diaryFoodList, macroTotal, widget.diaryName))
                               .toList(),
                         ),
-                        FilledButton.icon(
-                            onPressed: () async {
-                              final food = await Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => FoodSelector()));
-                              if (food != null) {
-                                diaryFoodList.add(food, widget.diaryName);
-                                macroTotal.addMacros(food);
-                              }
-                            },
-                            label: Text('Add Food'),
-                            icon: const Icon(Icons.add),                       
-                          ),            
-                    ],
-                  )
-                  ),
-        ]
+              ],
+            ),
+          );
+        },
+        controller: _controller,
+        expansibleBuilder: (context, header, body, animation) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GestureDetector(
+              onTap: () {
+                if (_controller.isExpanded) {
+                  _controller.collapse();
+                } else {
+                  _controller.expand();
+                }
+              },
+              child: header,
+            ),
+            SizeTransition(
+              sizeFactor: animation,
+              child: body,
+            ),
+            
+          ],
+        );
+        }
       );
       }
     );
   }
 }
-  
+
 Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, TotalMacros widgetInfo, String diaryName) {
     return Container(
         height: 50,
@@ -97,13 +105,9 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
           8.0,
           0.0,
           8.0,
-          15.0
+          0.0
         ),
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular((3.0)),
-          border: BoxBorder.all(),        
-        ),
         child: Row(
           children: [
             SizedBox(width: 15,),

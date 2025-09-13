@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/diary_widget.dart';
+import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -66,7 +67,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                     ),
                     SizedBox(width: 15),
                     Container(
-                      width: 334,
+                      width: 330,
                       height: 45,
                       decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular((16.0)),
@@ -77,7 +78,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                         Icon(
                           Icons.arrow_left,
                           size: 50,),
-                        SizedBox(width: 29),
+                        SizedBox(width: 20),
                         Padding(
                           padding: const EdgeInsets.only(top: 7.0),
                           child: Text(
@@ -87,7 +88,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                               fontWeight: FontWeight.bold
                             ),),
                         ),
-                        SizedBox(width: 25),
+                        SizedBox(width: 20),
                         Icon(
                           Icons.arrow_right,
                           size: 50,),
@@ -305,11 +306,26 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                       ),
                     ),
                     ]
-              ),    
-            DiaryWidget(diaryName:'Breakfast'),
-            DiaryWidget(diaryName:'Lunch'),
-            DiaryWidget(diaryName:'Dinner'),
-            DiaryWidget(diaryName:'Snacks'),
+              ),  
+            Padding(padding: EdgeInsetsGeometry.only(top: 15)
+                  ),
+            Column(
+              children: [
+                Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular((20.0)),
+                        color: Colors.white,
+                      ),
+                  width:MediaQuery.of(context).size.width * 0.97,
+                  child: Column(
+                    children: [
+                      const Text ("Log"),
+                      DiaryWidgetV2(diaryName: "Breakfast",),
+                    ],
+                  )),
+              ],
+            ),
+
               ],
             );
           }
