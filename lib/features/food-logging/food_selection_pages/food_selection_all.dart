@@ -11,14 +11,28 @@ class FoodSelector extends StatefulWidget {
   State<FoodSelector> createState() => _FoodSelectorState();
 }
 
-class _FoodSelectorState extends State<FoodSelector> {
+class _FoodSelectorState extends State<FoodSelector>  with TickerProviderStateMixin{
   final GetQuery query = GetQuery();
   List<FoodItem> foods = []; // <--- state field (was a local var before)
+  late TabController _tabController;
+  int _currentPageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose () {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column( // TODO: Change so the header is not part of the scrollable list but also not fixed to the top (disappears when scrolling down)
+      body: Column( // TODO: Change so the header is not fixed to the top (disappears when scrolling down)
         children: [
           Padding(padding: const EdgeInsets.only(top: 20.0, left: 16.0, right: 16.0,),
           ),
@@ -138,20 +152,54 @@ class _FoodSelectorState extends State<FoodSelector> {
               ),
             ],
           ),
-          Expanded(
-            child: ListView(
-              children: foods
-                  .map(
-                    (food) => FoodListTileWidget(
-                      food: food,
-                      isSelected: false,
-                      onSelectedFood: onSelectedFood,
-                    ),
-                  )
-                  .toList(),
+          Container(
+            height: 40,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.0),
+              color: Colors.white
             ),
+            child: TabBar(
+              indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                  color: Colors.green
+              ),
+              controller: _tabController,
+              tabs: <Widget>[
+                Tab(
+                  text: 'All',
+                  height: 20,),
+                Tab(
+                  text: 'Favourites',
+                  height: 20,),
+                Tab(text: 'Custom'),
+              ],
+              ),
           ),
-        ],
+          // Body
+             Expanded(
+               child: TabBarView(
+                controller: _tabController,
+                 children: <Widget> [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: foods.length,
+                    itemBuilder: (context, index) {
+                    final food = foods[index];
+                    return FoodListTileWidget(
+                            food: food,
+                            isSelected: false,
+                            onSelectedFood: onSelectedFood,
+                    );
+                    },
+                  ),
+               
+                  const Text("here are my favourites"),
+                  const Text("here are my custom foods")
+                            
+                 ]
+               ),
+             ),
+            ]
       ),
       backgroundColor: Theme.of(context).primaryColor,
     );

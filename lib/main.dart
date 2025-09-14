@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/routes.dart';
 import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
-import 'package:flutter_application_1/features/food-logging/food_logging_view.dart';
-import 'package:flutter_application_1/features/food-logging/food_selection.dart';
+import 'package:flutter_application_1/features/food-logging/food_diary.dart';
+import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection_all.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/home/presentation/home.dart';
 import 'package:flutter_application_1/features/settings/presentation/settings_screen.dart';
