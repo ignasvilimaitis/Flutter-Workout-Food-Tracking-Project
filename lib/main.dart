@@ -3,6 +3,7 @@ import 'package:flutter_application_1/core/routes.dart';
 import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
 import 'package:flutter_application_1/features/food-logging/food_diary.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection_all.dart';
+import 'package:flutter_application_1/features/food-logging/states/recent_foods.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/home/presentation/home.dart';
 import 'package:flutter_application_1/features/settings/presentation/settings_screen.dart';
@@ -20,7 +21,8 @@ void main() {
       providers: [
     ChangeNotifierProvider(create: (context) => DiaryFoodList()),
     ChangeNotifierProvider(create: (context) => TotalMacros()),
-    ChangeNotifierProvider(create: (context) => MacroGoal(),)
+    ChangeNotifierProvider(create: (context) => MacroGoal(),),
+    ChangeNotifierProvider(create: (context) => RecentFoods(),),
       ],
         child: MyApp(),
       ),
