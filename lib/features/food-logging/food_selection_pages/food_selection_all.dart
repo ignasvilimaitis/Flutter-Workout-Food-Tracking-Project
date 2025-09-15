@@ -189,6 +189,7 @@ class _FoodSelectorState extends State<FoodSelector>
                 color: Colors.white,
               ),
               child: TabBar(
+                dividerColor: Colors.transparent,
                 indicatorColor: Colors.transparent,
                 controller: _tabController,
                 tabs: [
