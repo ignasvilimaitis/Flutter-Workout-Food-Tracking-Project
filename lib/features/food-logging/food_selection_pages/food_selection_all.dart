@@ -21,6 +21,9 @@ class _FoodSelectorState extends State<FoodSelector>  with TickerProviderStateMi
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -153,24 +156,40 @@ class _FoodSelectorState extends State<FoodSelector>  with TickerProviderStateMi
             ],
           ),
           Container(
-            height: 40,
+            height: 30,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.0),
               color: Colors.white
             ),
             child: TabBar(
-              indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.0),
-                  color: Colors.green
-              ),
+              indicatorColor: Colors.transparent,
               controller: _tabController,
-              tabs: <Widget>[
-                Tab(
-                  text: 'All',
-                  height: 20,),
+              tabs: [
+                // All tab
+                Container(
+                  width: 100,
+                  height: 23,
+                  decoration: BoxDecoration(
+                    color: _tabController.index == 0 ? getThemeData().primaryColor : Colors.white,
+                    borderRadius: BorderRadius.circular(16.0),
+                    border: BoxBorder.all(
+                      color: getThemeData().primaryColor
+                  )
+                  ),
+                  child: Tab(
+                    height: 20,
+                    child: Text(
+                      "All",
+                      style: TextStyle(
+                        color: Colors.black
+                      ),)
+                    ),
+                ),
+                // Favourites tab
                 Tab(
                   text: 'Favourites',
                   height: 20,),
+                // Custom tab
                 Tab(text: 'Custom'),
               ],
               ),
