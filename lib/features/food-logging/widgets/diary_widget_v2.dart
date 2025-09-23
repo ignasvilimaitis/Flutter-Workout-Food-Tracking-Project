@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/routes.dart';
 import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/food_nutrition/food_nutrition_infopage.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection_all.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:provider/provider.dart';
@@ -102,51 +103,58 @@ class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
 }
 
 Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, TotalMacros widgetInfo, String diaryName) {
-    return Container(
-        height: 50,
-        width: 400,
-        margin: EdgeInsets.fromLTRB(
-          8.0,
-          0.0,
-          8.0,
-          0.0
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => FoodNutritionInfopage(food: food)));
+      },
+      child: Container(
+          height: 50,
+          width: 400,
+          margin: EdgeInsets.fromLTRB(
+            8.0,
+            0.0,
+            8.0,
+            0.0
+          ),
+          alignment: Alignment.center,
+          child: Row(
+            children: [
+              SizedBox(width: 15,),
+              Text(food.productName.toString()),
+              SizedBox(width: 10),
+              Text(food.calories.toString()),
+              SizedBox(width: 10),              
+              Text('${food.carbs.toString()}C'),
+              SizedBox(width: 10),              
+              Text('${food.fats.toString()}F'),
+              SizedBox(width: 10),              
+              Text('${food.proteins.toString()}P'), 
+              SizedBox(width: 50,),
+              TextButton(
+                onPressed: () async {
+                  final toRemove = await showConfirmDialog(context) ?? false;
+                  if (toRemove) {
+                    foods.remove(food, diaryName);
+                    widgetInfo.removeMacros(food);
+                  } else {
+                    return;
+                  }
+                },
+               child: const Text(
+                'Remove',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+               ),
+               ),
+            ],
+      
+      
+          ),
         ),
-        alignment: Alignment.center,
-        child: Row(
-          children: [
-            SizedBox(width: 15,),
-            Text(food.productName.toString()),
-            SizedBox(width: 10),
-            Text(food.calories.toString()),
-            SizedBox(width: 10),              
-            Text('${food.carbs.toString()}C'),
-            SizedBox(width: 10),              
-            Text('${food.fats.toString()}F'),
-            SizedBox(width: 10),              
-            Text('${food.proteins.toString()}P'), 
-            SizedBox(width: 50,),
-            TextButton(
-              onPressed: () async {
-                final toRemove = await showConfirmDialog(context) ?? false;
-                if (toRemove) {
-                  foods.remove(food, diaryName);
-                  widgetInfo.removeMacros(food);
-                } else {
-                  return;
-                }
-              },
-             child: const Text(
-              'Remove',
-              style: TextStyle(
-                color: Colors.red,
-              ),
-             ),
-             ),
-          ],
-
-
-        ),
-      );
+    );
 }
 
 Future<bool?> showConfirmDialog(BuildContext context) {

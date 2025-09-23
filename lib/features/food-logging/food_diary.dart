@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
+import 'package:flutter_application_1/features/food-logging/widgets/ui_button.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -51,18 +52,9 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                   ),
                   Row(children: [
                     SizedBox(width: 10),
-                    Container(
-                      width: 45,
-                      height: 45,
-                      decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular((16.0)),
-                      color: Colors.white,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.keyboard_return)),
+                    UIButton(
+                      function: 'Return',
+                      iconData: Icons.keyboard_return,
                     ),
                     SizedBox(width: 15),
                     Container(
