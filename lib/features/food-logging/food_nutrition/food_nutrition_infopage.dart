@@ -56,7 +56,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                   SizedBox(height: 25),
                   // Top container
                   Container(
-                    width: 380,
+                    width: 390,
                     height: 250,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16.0),
@@ -65,6 +65,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                     child: Row(
                       children: [
                         SizedBox(width: 15),
+                        // Pie Chart
                         SizedBox(
                           height: 175,
                           width: 175,
@@ -76,7 +77,12 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                   sectionsSpace: 5.0,
                                   sections: [
                                     PieChartSectionData(
-                                      color: Colors.green,
+                                      color: const Color.fromARGB(
+                                        255,
+                                        99,
+                                        199,
+                                        102,
+                                      ),
                                       radius: 12.0,
                                       value: widget.food.carbs,
                                       showTitle: false,
@@ -100,14 +106,26 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text('${widget.food.calories} Kcal'),
+                                  Text(
+                                    '${widget.food.calories.toStringAsFixed(1)} Kcal',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   Text(
                                     "P - ${widget.food.proteins.toStringAsFixed(1)}g",
                                     style: TextStyle(color: Colors.blue),
                                   ),
                                   Text(
                                     "C - ${widget.food.carbs.toStringAsFixed(1)}g",
-                                    style: TextStyle(color: Colors.green),
+                                    style: TextStyle(
+                                      color: const Color.fromARGB(
+                                        255,
+                                        99,
+                                        199,
+                                        102,
+                                      ),
+                                    ),
                                   ),
                                   Text(
                                     "F - ${widget.food.fats.toStringAsFixed(1)}g",
@@ -118,6 +136,163 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                             ],
                           ),
                         ),
+                        SizedBox(width: 14),
+                        Column(
+                          children: [
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text("Amount :"),
+                                SizedBox(width: 7),
+                                Container(
+                                  width: 100,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    border: BoxBorder.all(
+                                      width: 2,
+                                      color: getThemeData().primaryColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text("Serving :"),
+                                SizedBox(width: 7),
+                                Container(
+                                  width: 100,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    border: BoxBorder.all(
+                                      width: 2,
+                                      color: getThemeData().primaryColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text("Entry :"),
+                                SizedBox(width: 22),
+                                Container(
+                                  width: 100,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    border: BoxBorder.all(
+                                      width: 2,
+                                      color: getThemeData().primaryColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text("Time :"),
+                                SizedBox(width: 22),
+                                // 24H time format (this block is the hour)
+                                Container(
+                                  width: 50,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    border: BoxBorder.all(
+                                      width: 2,
+                                      color: getThemeData().primaryColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                ),
+                                SizedBox(width: 5),
+                                // This block are the minutes
+                                Container(
+                                  width: 50,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    border: BoxBorder.all(
+                                      width: 2,
+                                      color: getThemeData().primaryColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    width: 390,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.0),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              SizedBox(width: 8),
+                              const Text(
+                                "Calories",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w100,
+                                ),
+                              ),
+
+                              SizedBox(width: 180),
+                              Text(
+                                "${(totalMacros.calorieAmount + widget.food.calories).toStringAsFixed(1)}/${macroGoals.calorieGoal}",
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 360,
+                          child: Stack(
+                            children: [
+                              LinearProgressIndicator(
+                                borderRadius: BorderRadius.circular(16.0),
+                                minHeight: 10,
+                                value:0
+                              ),
+                              LinearProgressIndicator(
+                                backgroundColor: Colors.transparent,
+                              borderRadius: BorderRadius.circular(16.0),
+                              value: (totalMacros.calorieAmount + widget.food.calories) / macroGoals.calorieGoal,
+                              minHeight: 10,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                const Color.fromARGB(255, 158, 109, 109),
+                              ),
+                            ),
+                            LinearProgressIndicator(
+                              backgroundColor: Colors.transparent,
+                              borderRadius: BorderRadius.circular(16.0),
+                              value:
+                                  totalMacros.calorieAmount /
+                                  macroGoals.calorieGoal,
+                              minHeight: 10,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                const Color.fromARGB(255, 116, 11, 11),
+                              ),
+                            ),
+                            ]
+                          ),
+                        ),
+                        SizedBox(width: 20,),
                       ],
                     ),
                   ),

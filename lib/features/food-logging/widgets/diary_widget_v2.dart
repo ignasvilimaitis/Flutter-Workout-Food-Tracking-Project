@@ -124,14 +124,14 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
               SizedBox(width: 15,),
               Text(food.productName.toString()),
               SizedBox(width: 10),
-              Text(food.calories.toString()),
+              Text(food.calories.toStringAsFixed(1)),
               SizedBox(width: 10),              
-              Text('${food.carbs.toString()}C'),
+              Text('${food.carbs.toStringAsFixed(1)}C'),
               SizedBox(width: 10),              
-              Text('${food.fats.toString()}F'),
+              Text('${food.fats.toStringAsFixed(1)}F'),
               SizedBox(width: 10),              
-              Text('${food.proteins.toString()}P'), 
-              SizedBox(width: 50,),
+              Text('${food.proteins.toStringAsFixed(1)}P'), 
+              SizedBox(width: 10,),
               TextButton(
                 onPressed: () async {
                   final toRemove = await showConfirmDialog(context) ?? false;
