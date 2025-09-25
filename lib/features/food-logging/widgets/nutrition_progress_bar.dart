@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:provider/provider.dart';
 
@@ -9,11 +9,13 @@ class NutritionProgressBar extends StatefulWidget {
   final String nutrientName;
   final NutrientType nutrientType;
   final FoodItem food;
+  final Color widgetColor;
   const NutritionProgressBar(
     {super.key,
     required this.nutrientType,
     required this.food,
     required this.nutrientName,
+    required this.widgetColor,
     });
 
   @override
@@ -75,8 +77,7 @@ class _NutritionProgressBarState extends State<NutritionProgressBar> {
                                 ),
                               ),
                               TextSpan(
-                                text:
-                                    '${current.toStringAsFixed(1)}g',
+                                text: '${current.toStringAsFixed(1)}g',
                                 style: TextStyle(
                                   color:
                                       const Color.fromARGB(
@@ -95,7 +96,7 @@ class _NutritionProgressBarState extends State<NutritionProgressBar> {
                         ),
                         Spacer(),
                         Text(
-                          "${(goal - current).toStringAsFixed(1)}g",
+                          "${(goal).toStringAsFixed(1)}g",
                           style: TextStyle(
                             color: const Color.fromARGB(
                               255,
@@ -118,7 +119,7 @@ class _NutritionProgressBarState extends State<NutritionProgressBar> {
                       color: Colors.white,
                       valueColor:
                           AlwaysStoppedAnimation<Color>(
-                            Colors.blueAccent,
+                            widget.widgetColor,
                           ),
                     ),
                   ],

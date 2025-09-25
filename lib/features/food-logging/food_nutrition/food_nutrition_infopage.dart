@@ -1,11 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/theme.dart';
-import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/nutrition_progress_bar.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/ui_button.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 
 class FoodNutritionInfopage extends StatefulWidget {
   final FoodItem food;
@@ -301,7 +301,6 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                   SizedBox(height: 20,),
                   Container(
                     width: 390,
-                    height: 250,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16.0),
                       color: Colors.white,
@@ -326,18 +325,42 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                               ),
                               SizedBox(width: 15,),
                               Text("serving size here"),
-                              Column(
-                                children: [
-                                  NutritionProgressBar(
-                                    nutrientType: NutrientType.energy,
-                                    food: widget.food,
-                                    nutrientName: 'nutrientName')
-                                ],
-                              )
+                            
                             ],
                           ),
-                        )
-
+                        ),
+                            Column(
+                                children: [
+                                  NutritionProgressBar(
+                                    widgetColor: const Color.fromARGB(223, 146, 30, 30),
+                                    nutrientType: NutrientType.energy,
+                                    food: widget.food,
+                                    nutrientName: 'Energy'),
+                                    SizedBox(height: 10,),
+                                  NutritionProgressBar(
+                                    widgetColor: Colors.blueAccent,
+                                    nutrientType: NutrientType.protein,
+                                    food: widget.food,
+                                    nutrientName: 'Protein'),
+                                  SizedBox(height: 10,),  
+                                  NutritionProgressBar(
+                                    widgetColor: Colors.orange,
+                                    nutrientType: NutrientType.fat,
+                                    food: widget.food,
+                                    nutrientName: 'Fat'), 
+                                   SizedBox(height: 10,),
+                                  NutritionProgressBar(
+                                    widgetColor: const Color.fromARGB(
+                                        255,
+                                        99,
+                                        199,
+                                        102,
+                                      ),
+                                    nutrientType: NutrientType.carbs,
+                                    food: widget.food,
+                                    nutrientName: 'Carbs'),                                                                       
+                                ],
+                              )
                       ],
                     ),
                   ),
