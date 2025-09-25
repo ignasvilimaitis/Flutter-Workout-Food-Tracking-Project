@@ -1,3 +1,5 @@
+import 'package:openfoodfacts/openfoodfacts.dart';
+
 class FoodItem {
 
   FoodItem( {
@@ -7,7 +9,8 @@ class FoodItem {
     required this.calories,
     required this.carbs,
     required this.fats,
-    required this.proteins
+    required this.proteins,
+    required this.nutriments,
   });
 
   final String? brand;
@@ -17,6 +20,7 @@ class FoodItem {
   final double carbs; // TODO: per serving size or per 100g?
   final double fats;
   final double proteins;
+  final Nutriments? nutriments;
 
   factory FoodItem.fromMap(Map<String, dynamic> json) => FoodItem(
         calories: json["energy-kcal_100g"],
@@ -26,6 +30,7 @@ class FoodItem {
         ingredientsText: json["ingredients_text"],
         productName: json["product_name"],
         proteins: json["proteins_100g"],
+        nutriments: json[""]
       );
 
   Map<String, dynamic> toMap() => {

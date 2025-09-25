@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 
 class RecentFoods extends ChangeNotifier {
   late List<FoodItem> recentFoods = [];

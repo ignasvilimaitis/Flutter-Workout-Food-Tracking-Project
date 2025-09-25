@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/routes.dart';
-import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 import 'package:flutter_application_1/features/food-logging/food_nutrition/food_nutrition_infopage.dart';
 
 class FoodListTileWidget extends StatelessWidget {

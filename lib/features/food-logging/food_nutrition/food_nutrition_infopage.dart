@@ -1,8 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/theme.dart';
-import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
+import 'package:flutter_application_1/features/food-logging/widgets/nutrition_progress_bar.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/ui_button.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ class FoodNutritionInfopage extends StatefulWidget {
 }
 
 class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
+  final int foodAmount = 1; //Food amount is 1 by default
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,17 +109,17 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '${widget.food.calories.toStringAsFixed(1)} Kcal',
+                                    '${widget.food.calories.toStringAsFixed(1) * foodAmount} Kcal',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
-                                    "P - ${widget.food.proteins.toStringAsFixed(1)}g",
+                                    "P - ${widget.food.proteins.toStringAsFixed(1) * foodAmount}g",
                                     style: TextStyle(color: Colors.blue),
                                   ),
                                   Text(
-                                    "C - ${widget.food.carbs.toStringAsFixed(1)}g",
+                                    "C - ${widget.food.carbs.toStringAsFixed(1) * foodAmount}g",
                                     style: TextStyle(
                                       color: const Color.fromARGB(
                                         255,
@@ -128,7 +130,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                     ),
                                   ),
                                   Text(
-                                    "F - ${widget.food.fats.toStringAsFixed(1)}g",
+                                    "F - ${widget.food.fats.toStringAsFixed(1) * foodAmount}g",
                                     style: TextStyle(color: Colors.orange),
                                   ),
                                 ],
@@ -211,7 +213,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                   ),
                                 ),
                                 SizedBox(width: 5),
-                                // This block are the minutes
+                                // This block is the minutes
                                 Container(
                                   width: 50,
                                   height: 35,
@@ -255,7 +257,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
 
                               SizedBox(width: 180),
                               Text(
-                                "${(totalMacros.calorieAmount + widget.food.calories).toStringAsFixed(1)}/${macroGoals.calorieGoal}",
+                                "${(totalMacros.calorieAmount + (widget.food.calories * foodAmount)).toStringAsFixed(1)}/${macroGoals.calorieGoal}",
                               ),
                             ],
                           ),
@@ -293,6 +295,49 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                           ),
                         ),
                         SizedBox(width: 20,),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Container(
+                    width: 390,
+                    height: 250,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.0),
+                      color: Colors.white,
+                    ),
+                    child:  Column(
+                      children: [
+                        SizedBox(height: 5,),
+                        const Text("OpenFoodFacts",
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                        ),
+                        SizedBox(height: 15,),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              const Text("Nutrient Breakdown",
+                              style: TextStyle(
+                                fontSize: 16
+                              ),
+                              ),
+                              SizedBox(width: 15,),
+                              Text("serving size here"),
+                              Column(
+                                children: [
+                                  NutritionProgressBar(
+                                    nutrientType: NutrientType.energy,
+                                    food: widget.food,
+                                    nutrientName: 'nutrientName')
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+
                       ],
                     ),
                   ),

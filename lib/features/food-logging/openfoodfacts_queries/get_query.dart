@@ -1,4 +1,4 @@
-import 'package:flutter_application_1/features/food-logging/classes/Food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 
 class GetQuery {
@@ -55,19 +55,19 @@ class GetQuery {
           final nutr = product.nutriments;
 
           // helper to read most nutrients per 100g
-          double _get(Nutrient n) =>
-              nutr?.getValue(n, PerSize.oneHundredGrams) ?? 0.0;
+          double get(Nutrient n) =>
+              nutr?.getValue(n, PerSize.serving) ?? 0.0;
           // Gotta use helper methods for all the macros since they removed direct getters, e.g. product.carbohydrates
           // -- now you have to read through enum values
 
           // Calories: prefer kcal; if not available, try kJ -> convert to kcal (1 kcal = 4.184 kJ)
-          double _getCalories() {
+          double getCalories() {
             final kcal = nutr?.getValue(
               Nutrient.energyKCal,
-              PerSize.oneHundredGrams,
+              PerSize.serving,
             );
             if (kcal != null) return kcal;
-            final kj = nutr?.getComputedKJ(PerSize.oneHundredGrams);
+            final kj = nutr?.getComputedKJ(PerSize.serving);
             if (kj != null) return kj / 4.184;
             return 0.0;
           }
@@ -75,11 +75,12 @@ class GetQuery {
           return FoodItem(
             brand: product.brands ?? 'Unknown Brand',
             productName: product.productName ?? 'Unknown Product',
-            calories: _getCalories(),
-            carbs: _get(Nutrient.carbohydrates),
-            fats: _get(Nutrient.fat),
-            proteins: _get(Nutrient.proteins),
+            calories: getCalories(),
+            carbs: get(Nutrient.carbohydrates),
+            fats: get(Nutrient.fat),
+            proteins: get(Nutrient.proteins),
             ingredientsText: product.ingredientsText ?? 'No ingredients listed',
+            nutriments: product.nutriments,
           );
         }).toList() ??
         [];
