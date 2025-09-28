@@ -11,6 +11,7 @@ class FoodItem {
     required this.fats,
     required this.proteins,
     required this.nutriments,
+    required this.servingSize,
   });
 
   final String? brand;
@@ -21,6 +22,7 @@ class FoodItem {
   final double fats;
   final double proteins;
   final Nutriments? nutriments;
+  final String servingSize;
 
   factory FoodItem.fromMap(Map<String, dynamic> json) => FoodItem(
         calories: json["energy-kcal_100g"],
@@ -30,7 +32,8 @@ class FoodItem {
         ingredientsText: json["ingredients_text"],
         productName: json["product_name"],
         proteins: json["proteins_100g"],
-        nutriments: json[""]
+        nutriments: json[""],
+        servingSize: json["quantity"],
       );
 
   Map<String, dynamic> toMap() => {

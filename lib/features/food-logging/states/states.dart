@@ -152,6 +152,7 @@ class MacroGoal extends ChangeNotifier { // User's macro goals
    double carbGoal = 100;
    double fatGoal = 80;
    double proteinGoal = 100;
+   double saltGoal = 10;
    double get calorieGoal => (carbGoal * 4) + (fatGoal * 8) + (proteinGoal * 4);
 
 }

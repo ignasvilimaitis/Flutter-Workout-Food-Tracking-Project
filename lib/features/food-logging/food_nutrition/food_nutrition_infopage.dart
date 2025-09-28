@@ -324,7 +324,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                               ),
                               ),
                               SizedBox(width: 15,),
-                              Text("serving size here"),
+                              Text(widget.food.servingSize.toString()),
                             
                             ],
                           ),
@@ -350,15 +350,16 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                     nutrientName: 'Fat'), 
                                    SizedBox(height: 10,),
                                   NutritionProgressBar(
-                                    widgetColor: const Color.fromARGB(
-                                        255,
-                                        99,
-                                        199,
-                                        102,
-                                      ),
+                                    widgetColor: const Color.fromARGB(255, 99,199, 102,),
                                     nutrientType: NutrientType.carbs,
                                     food: widget.food,
-                                    nutrientName: 'Carbs'),                                                                       
+                                    nutrientName: 'Carbs'),   
+                                  NutritionProgressBar(
+                                    nutrientType: NutrientType.salt,
+                                    food: widget.food,
+                                    nutrientName: 'Salt',
+                                    widgetColor: Colors.purple,
+                                    ),                                                                  
                                 ],
                               )
                       ],

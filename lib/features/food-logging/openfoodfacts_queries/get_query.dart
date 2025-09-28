@@ -81,6 +81,7 @@ class GetQuery {
             proteins: get(Nutrient.proteins),
             ingredientsText: product.ingredientsText ?? 'No ingredients listed',
             nutriments: product.nutriments,
+            servingSize: product.servingSize ?? 'Unknown Serving Size',
           );
         }).toList() ??
         [];

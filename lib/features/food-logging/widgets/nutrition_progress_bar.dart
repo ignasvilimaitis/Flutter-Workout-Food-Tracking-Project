@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
+import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
 
-enum NutrientType {energy, carbs, protein, fat}
+enum NutrientType {energy, carbs, protein, fat, salt}
 
 class NutritionProgressBar extends StatefulWidget {
   final String nutrientName;
   final NutrientType nutrientType;
   final FoodItem food;
   final Color widgetColor;
+
   const NutritionProgressBar(
     {super.key,
     required this.nutrientType,
@@ -27,7 +29,7 @@ class _NutritionProgressBarState extends State<NutritionProgressBar> {
   Widget build(BuildContext context) {
     return Consumer<MacroGoal>(
       builder: (context, macroGoals, child) {
-        double current;
+        double? current;
         double goal;
         switch (widget.nutrientType) {
           case NutrientType.energy:
@@ -45,6 +47,9 @@ class _NutritionProgressBarState extends State<NutritionProgressBar> {
           current = widget.food.fats;
           goal = macroGoals.fatGoal;
           break;
+          case NutrientType.salt:
+          current = widget.food.nutriments?.getValue(Nutrient.salt, PerSize.serving);
+          goal = macroGoals.saltGoal;
         }
       return Container(
                 width:
@@ -77,7 +82,7 @@ class _NutritionProgressBarState extends State<NutritionProgressBar> {
                                 ),
                               ),
                               TextSpan(
-                                text: '${current.toStringAsFixed(1)}g',
+                                text: widget.nutrientType == NutrientType.energy ? '${current?.toStringAsFixed(1)}Kcal' : '${current?.toStringAsFixed(1)}g',
                                 style: TextStyle(
                                   color:
                                       const Color.fromARGB(
@@ -96,7 +101,7 @@ class _NutritionProgressBarState extends State<NutritionProgressBar> {
                         ),
                         Spacer(),
                         Text(
-                          "${(goal).toStringAsFixed(1)}g",
+                          widget.nutrientType == NutrientType.energy ?  "${(goal).toStringAsFixed(1)}Kcal" : "${(goal).toStringAsFixed(1)}g",
                           style: TextStyle(
                             color: const Color.fromARGB(
                               255,
@@ -113,7 +118,7 @@ class _NutritionProgressBarState extends State<NutritionProgressBar> {
                     LinearProgressIndicator(
                       borderRadius: BorderRadius.circular(16.0),
                       value:
-                          current /
+                          current! /
                           goal,
                       minHeight: 10,
                       color: Colors.white,

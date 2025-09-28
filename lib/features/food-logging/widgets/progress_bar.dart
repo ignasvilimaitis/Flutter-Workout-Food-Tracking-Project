@@ -7,10 +7,13 @@ enum MacroType {carbs, protein, fat}
 class MacroProgressBar extends StatefulWidget {
   final String macroName;
   final MacroType macroType;
+  final Color color;
+
   const MacroProgressBar(
     {super.key,
     required this.macroName,
     required this.macroType,
+    required this.color,
     });
 
   @override
@@ -111,7 +114,7 @@ class _MacroProgressBarState extends State<MacroProgressBar> {
                       color: Colors.white,
                       valueColor:
                           AlwaysStoppedAnimation<Color>(
-                            Colors.blueAccent,
+                            widget.color,
                           ),
                     ),
                   ],

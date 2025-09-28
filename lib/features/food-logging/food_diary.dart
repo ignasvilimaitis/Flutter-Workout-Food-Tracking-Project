@@ -114,16 +114,19 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                   ),
                                   // Carbs Progress Bar
                                   MacroProgressBar(
+                                    color: Colors.blueAccent,
                                     macroName: 'Carbs',
                                     macroType: MacroType.carbs
                                     ),
                                     SizedBox(height: 25,),
                                   MacroProgressBar(
+                                    color: Colors.green,
                                     macroName: 'Protein',
                                     macroType: MacroType.protein
                                     ),
-                                                                        SizedBox(height: 25,),
+                                    SizedBox(height: 25,),
                                   MacroProgressBar(
+                                    color: Colors.orange,
                                     macroName: 'Fat',
                                     macroType: MacroType.fat
                                     ),
