@@ -8,11 +8,9 @@ class FoodListTileWidget extends StatelessWidget {
   final FoodItem food;
   final bool isSelected;
   final ValueChanged<FoodItem> onSelectedFood;
-  final bool ifRecent;
 
   const FoodListTileWidget({
     super.key,
-    required this.ifRecent,
     required this.food,
     required this.isSelected,
     required this.onSelectedFood,
