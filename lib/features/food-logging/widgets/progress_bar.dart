@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:provider/provider.dart';
 
-enum MacroType {carbs, protein, fat}
+enum MacroType {energy, carbs, protein, fat}
 
 class MacroProgressBar extends StatefulWidget {
   final String macroName;
@@ -28,6 +28,9 @@ class _MacroProgressBarState extends State<MacroProgressBar> {
         double current;
         double goal;
         switch (widget.macroType) {
+          case MacroType.energy:
+          current = totalMacros.calorieAmount;
+          goal = macroGoals.calorieGoal;
           case MacroType.carbs:
           current = totalMacros.carbAmount;
           goal = macroGoals.carbGoal;
@@ -38,7 +41,7 @@ class _MacroProgressBarState extends State<MacroProgressBar> {
           break;
           case MacroType.fat:
           current = totalMacros.proteinAmount;
-          goal = macroGoals.proteinGoal;
+          goal = macroGoals.fatGoal;
         }
       return Container(
                 width:

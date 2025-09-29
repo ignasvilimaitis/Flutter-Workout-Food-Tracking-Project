@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/local_time.dart';
 import 'package:flutter_application_1/core/theme.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/nutrition_progress_bar.dart';
@@ -9,7 +10,12 @@ import 'package:flutter_application_1/features/food-logging/classes/food_item.da
 
 class FoodNutritionInfopage extends StatefulWidget {
   final FoodItem food;
-  const FoodNutritionInfopage({super.key, required this.food});
+  final String diaryEntry;
+  const FoodNutritionInfopage({
+    super.key,
+    required this.food,
+    required this.diaryEntry,
+    });
 
   @override
   State<FoodNutritionInfopage> createState() => _FoodNutritionInfopageState();
@@ -147,6 +153,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                 Text("Amount :"),
                                 SizedBox(width: 7),
                                 Container(
+                                  alignment: Alignment.center,
                                   width: 100,
                                   height: 35,
                                   decoration: BoxDecoration(
@@ -156,6 +163,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                     ),
                                     borderRadius: BorderRadius.circular(12.0),
                                   ),
+                                  child: Text(foodAmount.toString()),
                                 ),
                               ],
                             ),
@@ -165,6 +173,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                 Text("Serving :"),
                                 SizedBox(width: 7),
                                 Container(
+                                  alignment: Alignment.center,
                                   width: 100,
                                   height: 35,
                                   decoration: BoxDecoration(
@@ -173,7 +182,9 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                       color: getThemeData().primaryColor,
                                     ),
                                     borderRadius: BorderRadius.circular(12.0),
+                                    
                                   ),
+                                  child: Text(widget.food.servingSize),
                                 ),
                               ],
                             ),
@@ -183,6 +194,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                 Text("Entry :"),
                                 SizedBox(width: 22),
                                 Container(
+                                  alignment: Alignment.center,
                                   width: 100,
                                   height: 35,
                                   decoration: BoxDecoration(
@@ -192,6 +204,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                     ),
                                     borderRadius: BorderRadius.circular(12.0),
                                   ),
+                                  child: Text(widget.diaryEntry),
                                 ),
                               ],
                             ),
@@ -202,6 +215,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                 SizedBox(width: 22),
                                 // 24H time format (this block is the hour)
                                 Container(
+                                  alignment: Alignment.center,
                                   width: 50,
                                   height: 35,
                                   decoration: BoxDecoration(
@@ -211,10 +225,13 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                     ),
                                     borderRadius: BorderRadius.circular(12.0),
                                   ),
+                                  child: Text(
+                                    LocalTime().militaryTimeH),
                                 ),
                                 SizedBox(width: 5),
                                 // This block is the minutes
                                 Container(
+                                  alignment: Alignment.center,
                                   width: 50,
                                   height: 35,
                                   decoration: BoxDecoration(
@@ -224,6 +241,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                     ),
                                     borderRadius: BorderRadius.circular(12.0),
                                   ),
+                                  child: Text(LocalTime().militaryTimeM),
                                 ),
                               ],
                             ),

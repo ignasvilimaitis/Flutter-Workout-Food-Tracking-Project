@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/routes.dart';
+import 'package:flutter_application_1/features/food-logging/arguments/diary_entry.dart';
 import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 import 'package:flutter_application_1/features/food-logging/food_nutrition/food_nutrition_infopage.dart';
-import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection_all.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:provider/provider.dart';
 
@@ -44,6 +44,7 @@ class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
                   final FoodItem? food = await Navigator.pushNamed<FoodItem>(
                     context,
                     foodSelectionRoute,
+                    arguments : DiaryEntryName(widget.diaryName)
                     );
                   if (food != null) {
                    diaryFoodList.add(food, widget.diaryName);
@@ -107,7 +108,7 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => FoodNutritionInfopage(food: food)));
+          MaterialPageRoute(builder: (context) => FoodNutritionInfopage(food: food, diaryEntry: diaryName,)));
       },
       child: Container(
           height: 50,

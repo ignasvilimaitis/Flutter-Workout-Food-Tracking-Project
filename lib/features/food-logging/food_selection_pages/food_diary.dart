@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/local_time.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/progress_bar.dart';
@@ -6,9 +7,6 @@ import 'package:flutter_application_1/features/food-logging/widgets/ui_button.da
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-DateTime date = DateTime.now();
-String today = '${date.day}th ${DateFormat('MMMM').format(date)} ${date.year}';
 
 class FoodLoggingView extends StatefulWidget {
   const FoodLoggingView({super.key});
@@ -19,7 +17,6 @@ class FoodLoggingView extends StatefulWidget {
 
 class _FoodLoggingViewState extends State<FoodLoggingView> {
   late PageController _pageController;
-  late TabController _tabController;
   int currentPageIndex = 0;
 
   @override
@@ -70,7 +67,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                             Padding(
                               padding: const EdgeInsets.only(top: 7.0),
                               child: Text(
-                                today,
+                                LocalTime().today,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -112,19 +109,21 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                       ),
                                     ),
                                   ),
-                                  // Carbs Progress Bar
+                                  // Protein Progress Bar
+                                   MacroProgressBar(
+                                    color: Colors.green,
+                                    macroName: 'Protein',
+                                    macroType: MacroType.protein
+                                    ),
+                                SizedBox(height: 25,),
+                                // Carbs Progress Bar
                                   MacroProgressBar(
                                     color: Colors.blueAccent,
                                     macroName: 'Carbs',
                                     macroType: MacroType.carbs
                                     ),
                                     SizedBox(height: 25,),
-                                  MacroProgressBar(
-                                    color: Colors.green,
-                                    macroName: 'Protein',
-                                    macroType: MacroType.protein
-                                    ),
-                                    SizedBox(height: 25,),
+                                  // Fat Progress Bar
                                   MacroProgressBar(
                                     color: Colors.orange,
                                     macroName: 'Fat',
@@ -159,8 +158,11 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                     width: MediaQuery.of(context).size.width * 0.97,
                     child: Column(
                       children: [
-                        const Text("Log"),
-                        DiaryWidgetV2(diaryName: "Breakfast"),
+                        const Text('Log'),
+                        DiaryWidgetV2(diaryName: 'Breakfast'),
+                        DiaryWidgetV2(diaryName: 'Lunch'),
+                        DiaryWidgetV2(diaryName: 'Dinner'),
+                        DiaryWidgetV2(diaryName: 'Snacks')
                       ],
                     ),
                   ),

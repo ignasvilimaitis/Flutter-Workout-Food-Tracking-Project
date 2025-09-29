@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/routes.dart';
+import 'package:flutter_application_1/features/food-logging/arguments/diary_entry.dart';
 import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 import 'package:flutter_application_1/features/food-logging/food_nutrition/food_nutrition_infopage.dart';
+import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection_all.dart';
 
 class FoodListTileWidget extends StatelessWidget {
   final FoodItem food;
@@ -19,10 +20,11 @@ class FoodListTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as DiaryEntryName;
     return ListTile(
       onTap: () => Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => FoodNutritionInfopage(food: food)) ), // this should take you to the nutrition screen
+        MaterialPageRoute(builder: (context) => FoodNutritionInfopage(food: food, diaryEntry: args.name.toString() ,)) ), // this should take you to the nutrition screen
       title: Text(food.productName),
       subtitle: Text("${food.calories.toStringAsFixed(1)}Kcal"
               "           ${food.proteins.toStringAsFixed(1)}P"
