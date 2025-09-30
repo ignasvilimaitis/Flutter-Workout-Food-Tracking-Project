@@ -20,7 +20,7 @@ class FoodSelector extends StatefulWidget {
 class _FoodSelectorState extends State<FoodSelector>
     with TickerProviderStateMixin {
   final GetQuery query = GetQuery();
-  List<FoodItem> foods = []; // <--- state field (was a local var before)
+  List<FoodItem> searchedFoods = []; // <--- state field (was a local var before)
   late TabController _tabController;
   final RecentFoods recentFoods = RecentFoods();
   final List<String> tabs = ['All', 'Favourites', 'Custom',];
@@ -120,14 +120,20 @@ Column buildHeader(BuildContext context) {
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
-                            onSubmitted: (String value) async {
+                            onChanged: (String value) async {
                               print('Searching for: $value');
+                              if (value.isEmpty || value.trim().isEmpty) {
+                                setState(() {
+                                  searchedFoods = [];
+                                  return;
+                                });
+                              }
                               SearchResult? result = await query.searchProducts(
                                 value,
                               );
 
                               setState(() {
-                                foods =  query.getSearchResults(result);
+                                searchedFoods =  query.getSearchResults(result);
                               });
                             },
                           ),
@@ -193,10 +199,11 @@ Column buildHeader(BuildContext context) {
   }
 
   Consumer<RecentFoods> buildBody (BuildContext context) { // For now this works but also needs to go back to recent
-  // view when the search is cleared, some sort of live updates must happen of some sort when the search bar is clear
-      return Consumer<RecentFoods>(
+  // view when the search is cleared, some sort of live updates must happen when the search bar is clear
+      return Consumer<RecentFoods>( // will have to convert this to a stream builder/future builder
+      // get the food data from OFF Json, convert it to FoodItem and add to a List<FoodItem>
       builder: (context, recentFoodList, child) {
-        if (foods.isEmpty) {
+        if (searchedFoods.isEmpty) {
         return Expanded(
                   child: TabBarView(
                     controller: _tabController,
@@ -207,7 +214,7 @@ Column buildHeader(BuildContext context) {
                     ]
                   ),
         );
-        } else if (foods.isNotEmpty) {
+        } else if (searchedFoods.isNotEmpty) {
           return Expanded(
             child: Align(
               alignment: Alignment.topCenter,
@@ -219,9 +226,9 @@ Column buildHeader(BuildContext context) {
                 ),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: foods.length,
+                  itemCount: searchedFoods.length,
                   itemBuilder: (context, index) {
-                    final food = foods[index];
+                    final food = searchedFoods[index];
                     return Column(
                       children: [
                         FoodListTileWidget(

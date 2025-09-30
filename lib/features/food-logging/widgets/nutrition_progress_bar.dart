@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/enums.dart';
 import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
-
-enum NutrientType {energy, carbs, protein, fat, salt}
 
 class NutritionProgressBar extends StatefulWidget {
   final String nutrientName;
@@ -48,7 +47,7 @@ class _NutritionProgressBarState extends State<NutritionProgressBar> {
           goal = macroGoals.fatGoal;
           break;
           case NutrientType.salt:
-          current = widget.food.nutriments?.getValue(Nutrient.salt, PerSize.serving);
+          current = widget.food.nutriments?.getValue(Nutrient.salt, PerSize.serving) ?? 0.0;
           goal = macroGoals.saltGoal;
         }
       return Container(
@@ -118,7 +117,7 @@ class _NutritionProgressBarState extends State<NutritionProgressBar> {
                     LinearProgressIndicator(
                       borderRadius: BorderRadius.circular(16.0),
                       value:
-                          current! /
+                          current /
                           goal,
                       minHeight: 10,
                       color: Colors.white,

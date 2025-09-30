@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/enums.dart';
 import 'package:flutter_application_1/core/local_time.dart';
 import 'package:flutter_application_1/core/theme.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_application_1/features/food-logging/widgets/nutrition_pr
 import 'package:flutter_application_1/features/food-logging/widgets/ui_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
+
 
 class FoodNutritionInfopage extends StatefulWidget {
   final FoodItem food;
@@ -22,7 +24,7 @@ class FoodNutritionInfopage extends StatefulWidget {
 }
 
 class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
-  final int foodAmount = 1; //Food amount is 1 by default
+  late int foodAmount = 1; //Food amount is 1 by default
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +52,9 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                           borderRadius: BorderRadius.circular((16.0)),
                           color: Colors.white,
                         ),
-                        child: Row(children: [Text(widget.food.productName)]),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [Text(widget.food.productName)]),
                       ),
                       SizedBox(width: 10),
                       UIButton(
@@ -115,17 +119,17 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '${widget.food.calories.toStringAsFixed(1) * foodAmount} Kcal',
+                                    '${(widget.food.calories * foodAmount).toStringAsFixed(1)} Kcal',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
-                                    "P - ${widget.food.proteins.toStringAsFixed(1) * foodAmount}g",
+                                    "P - ${(widget.food.proteins * foodAmount).toStringAsFixed(1)}g",
                                     style: TextStyle(color: Colors.blue),
                                   ),
                                   Text(
-                                    "C - ${widget.food.carbs.toStringAsFixed(1) * foodAmount}g",
+                                    "C - ${(widget.food.carbs * foodAmount).toStringAsFixed(1)}g",
                                     style: TextStyle(
                                       color: const Color.fromARGB(
                                         255,
@@ -136,7 +140,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                     ),
                                   ),
                                   Text(
-                                    "F - ${widget.food.fats.toStringAsFixed(1) * foodAmount}g",
+                                    "F - ${(widget.food.fats * foodAmount).toStringAsFixed(1)}g",
                                     style: TextStyle(color: Colors.orange),
                                   ),
                                 ],
@@ -163,7 +167,31 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                     ),
                                     borderRadius: BorderRadius.circular(12.0),
                                   ),
-                                  child: Text(foodAmount.toString()),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<int>(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      value: foodAmount,
+                                      isExpanded: true,
+                                      isDense: true,
+                                      onChanged: (value) => {
+                                        print('Selected amount: $value'),
+                                        setState(() {
+                                          foodAmount = value!;
+                                        })
+                                      },
+                                      items: List.generate(
+        5,
+        (i) => DropdownMenuItem(
+          value: i + 1,
+          child: Align(
+            alignment: Alignment.center, // centers text inside menu
+            child: Text('${i + 1}'),
+          ),
+        ),
+      ),
+                                  ),
+                              
+                                ),
                                 ),
                               ],
                             ),
