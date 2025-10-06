@@ -1,8 +1,9 @@
+
 import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 
 class GetQuery {
-  Future<Product?> fetchProduct() async {
+  Future<Product?> fetchProduct() async { // test loading a single product by barcode
     final String barcode = '737628064502';
     final ProductQueryConfiguration configuration = ProductQueryConfiguration(
       barcode,
@@ -85,7 +86,6 @@ class GetQuery {
           );
         }).toList() ??
         [];
-
         return foods;
   }
 }
