@@ -44,7 +44,6 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
               Column(
                 children: [
                   // Header
-                  Padding(padding: EdgeInsetsGeometry.only(top: 15)),
                   Row(
                     children: [
                       SizedBox(width: 10),
@@ -54,7 +53,6 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                       ),
                       SizedBox(width: 15),
                       Container(
-                        width: 330,
                         height: 45,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular((16.0)),
@@ -82,91 +80,102 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                     ],
                   ),
                   // Scrollable Widget Row
-                  Container(
-                    margin: EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 0.0),
-                    width: 400,
-                    height: 230,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular((20.0)),
-                      color: Colors.white,
-                    ),
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: <Widget>[
-                        PageView(
-                          controller: _pageController,
-                          children: <Widget>[
-                            Container(
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: const Text(
-                                      'Targets',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(8.0, 10.0, 16.0, 0.0),
+                    child: Container(
+                      height: 230,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular((20.0)),
+                        color: Colors.white,
+                      ),
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: <Widget>[
+                          PageView(
+                            controller: _pageController,
+                            children: <Widget>[
+                              Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: const Text(
+                                        'Targets',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  // Protein Progress Bar
-                                   MacroProgressBar(
-                                    color: Colors.green,
-                                    macroName: 'Protein',
-                                    macroType: MacroType.protein
-                                    ),
-                                SizedBox(height: 25,),
-                                // Carbs Progress Bar
-                                  MacroProgressBar(
-                                    color: Colors.blueAccent,
-                                    macroName: 'Carbs',
-                                    macroType: MacroType.carbs
-                                    ),
-                                    SizedBox(height: 25,),
-                                  // Fat Progress Bar
-                                  MacroProgressBar(
-                                    color: Colors.orange,
-                                    macroName: 'Fat',
-                                    macroType: MacroType.fat
-                                    ),
-                                ],
+                                    // Protein Progress Bar
+                                     MacroProgressBar(
+                                      color: Colors.green,
+                                      macroName: 'Protein',
+                                      macroType: MacroType.protein
+                                      ),
+                                  SizedBox(height: 25,),
+                                  // Carbs Progress Bar
+                                    MacroProgressBar(
+                                      color: Colors.blueAccent,
+                                      macroName: 'Carbs',
+                                      macroType: MacroType.carbs
+                                      ),
+                                      SizedBox(height: 25,),
+                                    // Fat Progress Bar
+                                    MacroProgressBar(
+                                      color: Colors.orange,
+                                      macroName: 'Fat',
+                                      macroType: MacroType.fat
+                                      ),
+                                  ],
+                                ),
+                              const Text("Page 2"),
+                              const Text("Page 3"),
+                              const Text("Page 4"),
+                              const Text("Page 5"),
+                            ],
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: SmoothPageIndicator(
+                              effect: WormEffect(
+                                dotHeight: 12,
+                                dotWidth: 12,
+                                spacing: 8,
+                                dotColor: Colors.grey,
+                                activeDotColor: Theme.of(context).colorScheme.primary,
                               ),
+                              controller: _pageController,
+                              count: 5,
                             ),
-                            const Text("Page 2"),
-                            const Text("Page 3"),
-                            const Text("Page 4"),
-                            const Text("Page 5"),
-                          ],
-                        ),
-                        SmoothPageIndicator(
-                          controller: _pageController,
-                          count: 5,
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
-              Padding(padding: EdgeInsetsGeometry.only(top: 15)),
-              Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular((20.0)),
-                      color: Colors.white,
-                    ),
-                    width: MediaQuery.of(context).size.width * 0.97,
-                    child: Column(
-                      children: [
-                        const Text('Log'),
-                        DiaryWidgetV2(diaryName: 'Breakfast'),
-                        DiaryWidgetV2(diaryName: 'Lunch'),
-                        DiaryWidgetV2(diaryName: 'Dinner'),
-                        DiaryWidgetV2(diaryName: 'Snacks')
-                      ],
-                    ),
-                  ),
-                ],
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 16.0, 0.0),
+                child: Column(
+                  children: [
+                     Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular((20.0)),
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                          children: [
+                            const Text('Log'),
+                            DiaryWidgetV2(diaryName: 'Breakfast'),
+                            DiaryWidgetV2(diaryName: 'Lunch'),
+                            DiaryWidgetV2(diaryName: 'Dinner'),
+                            DiaryWidgetV2(diaryName: 'Snacks')
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ],
           );
