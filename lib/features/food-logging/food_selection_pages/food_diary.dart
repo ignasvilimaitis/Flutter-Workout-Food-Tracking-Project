@@ -4,6 +4,7 @@ import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/progress_bar.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/ui_button.dart';
+import 'package:graphic/graphic.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -166,7 +167,20 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                         ),
                         child: Column(
                           children: [
-                            const Text('Log'),
+                            Row(
+                              children: [
+                                Spacer(),
+                                const Text('Log'),
+                                Spacer(),
+                                TextButton.icon(
+                                  onPressed: () {},
+                                    label: Text('Add Food'),
+                                   icon: Icon(Icons.swap_horiz_rounded),
+                                   ),
+                                   
+
+                              ],
+                            ),
                             DiaryWidgetV2(diaryName: 'Breakfast'),
                             DiaryWidgetV2(diaryName: 'Lunch'),
                             DiaryWidgetV2(diaryName: 'Dinner'),

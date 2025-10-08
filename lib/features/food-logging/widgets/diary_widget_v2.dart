@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/enums.dart';
 import 'package:flutter_application_1/core/routes.dart';
 import 'package:flutter_application_1/features/food-logging/arguments/diary_entry.dart';
 import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
@@ -16,6 +17,7 @@ class DiaryWidgetV2 extends StatefulWidget {
 
 class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
   final ExpansibleController _controller = ExpansibleController();
+  final MacroType currentDisplayedMacroType = MacroType.energy;
 
   @override
   Widget build(BuildContext context) {
@@ -113,13 +115,22 @@ Widget _buildHeader(BuildContext context, DiaryFoodList diaryFoodList, TotalMacr
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("${diaryFoodList.getCalorieAmount(widget.diaryName).toStringAsFixed(1)} Kcal",
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                )
-      ),
-      SizedBox(width: 20,),
+              Container(
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                child: Text(
+                  "${diaryFoodList.getCalorieAmount(widget.diaryName).toStringAsFixed(1)} Kcal"
+                  ,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              SizedBox(width: 20,),
               Icon(
                 isExpanded ? Icons.expand_less : Icons.expand_more,
               ),
@@ -131,10 +142,49 @@ Widget _buildHeader(BuildContext context, DiaryFoodList diaryFoodList, TotalMacr
 
 }
 
+Widget getCurrentDisplayedMacro(DiaryFoodList foods, TotalMacros widgetInfo, String diaryName, MacroType currentDisplayedMacroType) {
+  switch (currentDisplayedMacroType) {
+    case MacroType.energy:
+      return Text(
+        "${foods.getCalorieAmount(diaryName).toStringAsFixed(1)} Kcal",
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
+      );
+    case MacroType.carbs:
+      return Text(
+        "${widgetInfo.carbAmount.toStringAsFixed(1)} g",
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
+      );
+    case MacroType.protein:
+      return Text(
+        "${widgetInfo.proteinAmount.toStringAsFixed(1)} g",
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
+      );
+    case MacroType.fat:
+      return Text(
+        "${widgetInfo.fatAmount.toStringAsFixed(1)} g",
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
+      );
+    default:
+      return const Text("N/A");
+  }
+
+}
 
 Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, TotalMacros widgetInfo, String diaryName) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       child: Row(
         children: [
           Expanded(
@@ -148,36 +198,70 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
                     alignment: Alignment.center,
                     child: Row(
                       children: [
-                        SizedBox(width: 15,),
-                        Text(food.productName.toString()),
-                        SizedBox(width: 10),
-                        Text(food.calories.toStringAsFixed(1)),
-                        SizedBox(width: 10),              
-                        Text('${food.carbs.toStringAsFixed(1)}C'),
-                        SizedBox(width: 10),              
-                        Text('${food.fats.toStringAsFixed(1)}F'),
-                        SizedBox(width: 10),              
-                        Text('${food.proteins.toStringAsFixed(1)}P'), 
+                        Icon(Icons.fastfood, size: 24.0, color: Colors.grey[700]), // placeholder for icon (will need to
+                        // implement different icons for different food types later)
                         SizedBox(width: 10,),
-                        Flexible(
-                          child: TextButton(
-                            onPressed: () async {
-                              final toRemove = await showConfirmDialog(context) ?? false;
-                              if (toRemove) {
-                                foods.remove(food, diaryName);
-                                widgetInfo.removeMacros(food);
-                              } else {
-                                return;
-                              }
-                            },
-                           child: const Text(
-                            'Remove',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                           ),
-                           ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '${food.productName} ' + bullet,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight:
+                                      FontWeight.bold,
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    food.productName,
+                                style: TextStyle(
+                                  color:
+                                      const Color.fromARGB(
+                                        255,
+                                        82,
+                                        82,
+                                        82,
+                                      ),
+                                  fontWeight:
+                                      FontWeight.w100,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+                        Text(food.servingSize,
+                        style: TextStyle(
+                          color: Colors.grey[900],
+                          fontSize: 12,
+                        ),)
+                          ],
+                        
+                        ),
+                        SizedBox(width: 120,),
+                        Container(
+                          padding: EdgeInsets.all(3),
+                            width: 50,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Text(
+                              "${food.calories.toStringAsFixed(0)} Kcal",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.grey[900],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
                       ],
                 
                 
@@ -216,3 +300,25 @@ Future<bool?> showConfirmDialog(BuildContext context) {
     }
   );
 }
+
+// Flexible(
+//                           child: TextButton(
+//                             onPressed: () async {
+//                               final toRemove = await showConfirmDialog(context) ?? false;
+//                               if (toRemove) {
+//                                 foods.remove(food, diaryName);
+//                                 widgetInfo.removeMacros(food);
+//                               } else {
+//                                 return;
+//                               }
+//                             },
+//                            child: const Text(
+//                             overflow: TextOverflow.ellipsis,
+//                             maxLines: 1,
+//                             'Remove',
+//                             style: TextStyle(
+//                               color: Colors.red,
+//                             ),
+//                            ),
+//                            ),
+//                         ),
