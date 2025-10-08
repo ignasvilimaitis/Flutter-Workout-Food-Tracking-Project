@@ -4,9 +4,8 @@ import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/progress_bar.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/ui_button.dart';
-import 'package:graphic/graphic.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_application_1/core/enums.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class FoodLoggingView extends StatefulWidget {
@@ -37,8 +36,8 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer2<TotalMacros, MacroGoal>(
-        builder: (context, totalMacros, macroGoals, child) {
+      body: Consumer3<TotalMacros, MacroGoal, CurrentMacroDisplay>(
+        builder: (context, totalMacros, macroGoals, currentDisplayedMacroType, child) {
           return ListView(
             shrinkWrap: true,
             children: <Widget>[
@@ -173,8 +172,18 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                 const Text('Log'),
                                 Spacer(),
                                 TextButton.icon(
-                                  onPressed: () {},
-                                    label: Text('Add Food'),
+                                  onPressed: () {
+                                    currentDisplayedMacroType.setCurrentDisplay(
+                                      currentDisplayedMacroType.getCurrentDisplay() == MacroType.protein
+                                      ? MacroType.carbs
+                                      : currentDisplayedMacroType.getCurrentDisplay() == MacroType.carbs
+                                      ? MacroType.fat
+                                      : currentDisplayedMacroType.getCurrentDisplay() == MacroType.fat
+                                      ? MacroType.energy
+                                      : MacroType.protein
+                                    );
+                                  },
+                                    label: Text(getCurrentMacro(currentDisplayedMacroType)),
                                    icon: Icon(Icons.swap_horiz_rounded),
                                    ),
                                    
@@ -198,4 +207,17 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
       backgroundColor: Theme.of(context).colorScheme.primary,
     );
   }
+
+String getCurrentMacro(CurrentMacroDisplay currentDisplayedMacroType) {
+  switch (currentDisplayedMacroType.getCurrentDisplay()) {
+    case MacroType.energy:
+      return "Kcals";
+    case MacroType.protein:
+      return "Protein";
+    case MacroType.carbs:
+      return "Carbs";
+    case MacroType.fat:
+      return "Fat";
+  }
+}
 }

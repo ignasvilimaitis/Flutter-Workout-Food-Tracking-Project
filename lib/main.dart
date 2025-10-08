@@ -23,6 +23,7 @@ void main() {
     ChangeNotifierProvider(create: (context) => TotalMacros()),
     ChangeNotifierProvider(create: (context) => MacroGoal(),),
     ChangeNotifierProvider(create: (context) => RecentFoods(),),
+    ChangeNotifierProvider(create: (context) => CurrentMacroDisplay(),),
       ],
         child: MyApp(),
       ),

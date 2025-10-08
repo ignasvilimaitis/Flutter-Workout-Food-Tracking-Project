@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:provider/provider.dart';
-
-enum MacroType {energy, carbs, protein, fat}
+import 'package:flutter_application_1/core/enums.dart';
 
 class MacroProgressBar extends StatefulWidget {
   final String macroName;
