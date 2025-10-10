@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/local_time.dart';
+import 'package:flutter_application_1/core/theme.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/progress_bar.dart';
@@ -155,11 +156,10 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                 ],
               ),
               SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 16.0, 0.0),
-                child: Column(
+              Column(
                   children: [
                      Container(
+                      margin: EdgeInsets.fromLTRB(8.0, 0.0, 16.0, 0.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular((20.0)),
                           color: Colors.white,
@@ -167,11 +167,17 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                         child: Column(
                           children: [
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Spacer(),
-                                const Text('Log'),
+                                SizedBox(width: 178), // TODO: Temp fix to put in the middle
+                                const Text('Log',
+                                style: TextStyle(
+                                  fontSize: 18
+                                ),
+                                ),
                                 Spacer(),
                                 TextButton.icon(
+                                  iconAlignment: IconAlignment.end,
                                   onPressed: () {
                                     currentDisplayedMacroType.setCurrentDisplay(
                                       currentDisplayedMacroType.getCurrentDisplay() == MacroType.protein
@@ -183,23 +189,32 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                       : MacroType.protein
                                     );
                                   },
-                                    label: Text(getCurrentMacro(currentDisplayedMacroType)),
-                                   icon: Icon(Icons.swap_horiz_rounded),
+                                    label: (getCurrentMacro(currentDisplayedMacroType)),
+                                   icon: Icon(Icons.swap_horiz_rounded,
+                                   color: currentDisplayedMacroType.getCurrentDisplay() == MacroType.protein ?
+                                   Colors.green : currentDisplayedMacroType.getCurrentDisplay() == MacroType.fat ? Colors.orange
+                                   : currentDisplayedMacroType.getCurrentDisplay() == MacroType.carbs ? Colors.blue : getThemeData().primaryColor,),
+
                                    ),
+                                  SizedBox(width: 10,)
                                    
 
                               ],
                             ),
                             DiaryWidgetV2(diaryName: 'Breakfast'),
+                            SizedBox(height: 20,),
                             DiaryWidgetV2(diaryName: 'Lunch'),
+                            SizedBox(height: 20,),
                             DiaryWidgetV2(diaryName: 'Dinner'),
-                            DiaryWidgetV2(diaryName: 'Snacks')
+                            SizedBox(height: 20,),
+                            DiaryWidgetV2(diaryName: 'Snacks'),
+                            SizedBox(height: 20,),
+
                           ],
                         ),
                       ),
                   ],
                 ),
-              ),
             ],
           );
         },
@@ -208,16 +223,29 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
     );
   }
 
-String getCurrentMacro(CurrentMacroDisplay currentDisplayedMacroType) {
+// Helper function to get the label string + color for macro view switching
+Widget getCurrentMacro(CurrentMacroDisplay currentDisplayedMacroType) {
   switch (currentDisplayedMacroType.getCurrentDisplay()) {
     case MacroType.energy:
-      return "Kcals";
+      return Text("Kcals");
     case MacroType.protein:
-      return "Protein";
+      return Text("Protein",
+      style: TextStyle(
+        color: Colors.green
+      ),
+      );
     case MacroType.carbs:
-      return "Carbs";
+      return Text("Carbs",
+      style: TextStyle(
+        color: Colors.blue
+      ),
+      );
     case MacroType.fat:
-      return "Fat";
+      return Text("Fat",
+      style: TextStyle(
+        color: Colors.orange
+      ),
+      );
   }
 }
 }

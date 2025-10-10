@@ -39,7 +39,7 @@ class _MacroProgressBarState extends State<MacroProgressBar> {
           goal = macroGoals.proteinGoal;
           break;
           case MacroType.fat:
-          current = totalMacros.proteinAmount;
+          current = totalMacros.fatAmount;
           goal = macroGoals.fatGoal;
         }
       return Container(

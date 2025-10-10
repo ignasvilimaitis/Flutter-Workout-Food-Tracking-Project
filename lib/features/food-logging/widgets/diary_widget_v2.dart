@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/enums.dart';
 import 'package:flutter_application_1/core/routes.dart';
+import 'package:flutter_application_1/core/theme.dart';
 import 'package:flutter_application_1/features/food-logging/arguments/diary_entry.dart';
 import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
 import 'package:flutter_application_1/features/food-logging/food_nutrition/food_nutrition_infopage.dart';
@@ -88,7 +89,7 @@ Widget _buildBody(BuildContext context,DiaryFoodList diaryFoodList, TotalMacros 
 }
 
 Widget _buildHeader(BuildContext context, DiaryFoodList diaryFoodList, TotalMacros macroTotal,
- CurrentMacroDisplay currentMacroDisplay) {
+ CurrentMacroDisplay currentDisplayedMacroType) {
   final isExpanded = _controller.isExpanded;
 
   return InkWell(
@@ -120,11 +121,13 @@ Widget _buildHeader(BuildContext context, DiaryFoodList diaryFoodList, TotalMacr
               Container(
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                              color: Colors.grey[300],
+                              color: currentDisplayedMacroType.getCurrentDisplay() == MacroType.protein ?
+                                   Colors.green : currentDisplayedMacroType.getCurrentDisplay() == MacroType.fat ? Colors.orange
+                                   : currentDisplayedMacroType.getCurrentDisplay() == MacroType.carbs ? Colors.blue : getThemeData().primaryColor,
                               borderRadius: BorderRadius.circular(7),
                             ),
                 child: getCurrentDisplayedMacroHeader(diaryFoodList, macroTotal,
-                widget.diaryName, currentMacroDisplay.getCurrentDisplay())
+                widget.diaryName, currentDisplayedMacroType.getCurrentDisplay())
               ),
               SizedBox(width: 20,),
               Icon(
@@ -184,7 +187,7 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
       child: Row(
         children: [
           Expanded(
-            child: GestureDetector(
+            child: InkWell(
                 onTap: () {
                   Navigator.push(
                     context,
@@ -194,7 +197,7 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
                     alignment: Alignment.center,
                     child: Row(
                       children: [
-                        Icon(Icons.fastfood, size: 24.0, color: Colors.grey[700]), // placeholder for icon (will need to
+                        Icon(Icons.fastfood, size: 24.0, color: Colors.grey[700]), // TODO: placeholder for icon (will need to
                         // implement different icons for different food types later)
                         SizedBox(width: 10,),
                         Column(
@@ -241,12 +244,15 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
                         ),
                         SizedBox(width: 120,),
                         Container(
+                          alignment: Alignment.center,
                           padding: EdgeInsets.all(3),
-                            width: 50,
-                            height: 20,
+                            width: 59,
+                            height: 30,
                             decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(7),
+                              color: currentDisplayedMacroType == MacroType.protein ?
+                                   Colors.green : currentDisplayedMacroType == MacroType.fat ? Colors.orange
+                                   : currentDisplayedMacroType == MacroType.carbs ? Colors.blue : getThemeData().primaryColor,
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             child: getCurrentDisplayedMacroBody(food, currentDisplayedMacroType)
                           ),
@@ -266,10 +272,10 @@ Widget getCurrentDisplayedMacroBody(FoodItem food, MacroType currentDisplayedMac
   switch (currentDisplayedMacroType) {
     case MacroType.energy:
       return Text(
-        "${food.calories.toStringAsFixed(1)} Kcal",
+        "${food.calories.toStringAsFixed(1)} kcal",
         style: const TextStyle(
           fontWeight: FontWeight.w400,
-          fontSize: 14,
+          fontSize: 12,
         ),
       );
     case MacroType.carbs:
@@ -277,7 +283,7 @@ Widget getCurrentDisplayedMacroBody(FoodItem food, MacroType currentDisplayedMac
         "${food.carbs.toStringAsFixed(1)} g",
         style: const TextStyle(
           fontWeight: FontWeight.w400,
-          fontSize: 14,
+          fontSize: 12,
         ),
       );
     case MacroType.protein:
@@ -285,7 +291,7 @@ Widget getCurrentDisplayedMacroBody(FoodItem food, MacroType currentDisplayedMac
         "${food.proteins.toStringAsFixed(1)} g",
         style: const TextStyle(
           fontWeight: FontWeight.w400,
-          fontSize: 14,
+          fontSize: 12,
         ),
       );
     case MacroType.fat:
@@ -293,7 +299,7 @@ Widget getCurrentDisplayedMacroBody(FoodItem food, MacroType currentDisplayedMac
         "${food.fats.toStringAsFixed(1)} g",
         style: const TextStyle(
           fontWeight: FontWeight.w400,
-          fontSize: 14,
+          fontSize: 12,
         ),
       );
     default:
