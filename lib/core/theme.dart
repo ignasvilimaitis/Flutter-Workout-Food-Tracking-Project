@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 ThemeData getThemeData(){
   return ThemeData(
-    fontFamily: 'Inter',
 
     primaryColor: Color.fromRGBO(218, 218, 218, 1),
     cardColor: Colors.white,
+    fontFamily: 'Inter',
 
     colorScheme: ColorScheme.light(
       primary: Color.fromRGBO(218, 218, 218, 1),
