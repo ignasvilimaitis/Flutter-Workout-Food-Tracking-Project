@@ -2,6 +2,7 @@ class AppAssets {
   static const workout = _WorkoutAssets();
   static const food = _FoodAssets();
   static const misc = _MiscAssets();
+  static const logging = _LoggingAssets();
 }
 
 class _WorkoutAssets {
@@ -21,4 +22,9 @@ class _MiscAssets {
   final String settingsIcon = 'assets/svg/material-symbols--settings.svg';
   final String plansIcon = 'assets/svg/ri--calendar-schedule-fill.svg';
   final String targetIcon = 'assets/svg/material-symbols--target.svg';
+}
+
+class _LoggingAssets {
+  const _LoggingAssets();
+  final String missingFoodIcon = 'assets/svg/food--not--found.svg';
 }

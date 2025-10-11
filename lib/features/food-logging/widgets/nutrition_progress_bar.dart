@@ -81,7 +81,7 @@ class _NutritionProgressBarState extends State<NutritionProgressBar> {
                                 ),
                               ),
                               TextSpan(
-                                text: widget.nutrientType == NutrientType.energy ? '${current?.toStringAsFixed(1)}Kcal' : '${current?.toStringAsFixed(1)}g',
+                                text: widget.nutrientType == NutrientType.energy ? '${current.toStringAsFixed(1)}Kcal' : '${current.toStringAsFixed(1)}g',
                                 style: TextStyle(
                                   color:
                                       const Color.fromARGB(

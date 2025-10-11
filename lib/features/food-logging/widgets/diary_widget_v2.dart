@@ -122,7 +122,7 @@ Widget _buildHeader(BuildContext context, DiaryFoodList diaryFoodList, TotalMacr
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
                               color: currentDisplayedMacroType.getCurrentDisplay() == MacroType.protein ?
-                                   Colors.green : currentDisplayedMacroType.getCurrentDisplay() == MacroType.fat ? Colors.orange
+                            Color.fromARGB(255, 106, 206, 110) : currentDisplayedMacroType.getCurrentDisplay() == MacroType.fat ? Colors.orange
                                    : currentDisplayedMacroType.getCurrentDisplay() == MacroType.carbs ? Colors.blue : getThemeData().primaryColor,
                               borderRadius: BorderRadius.circular(7),
                             ),
@@ -175,8 +175,6 @@ Widget getCurrentDisplayedMacroHeader(DiaryFoodList foods, TotalMacros widgetInf
           fontSize: 14,
         ),
       );
-    default:
-      return const Text("N/A");
   }
 }
 
@@ -217,7 +215,7 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
                               ),
                               TextSpan(
                                 text:
-                                    food.productName,
+                                    food.brand ?? '',
                                 style: TextStyle(
                                   color:
                                       const Color.fromARGB(
@@ -242,7 +240,7 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
                           ],
                         
                         ),
-                        SizedBox(width: 120,),
+                        Spacer(),
                         Container(
                           alignment: Alignment.center,
                           padding: EdgeInsets.all(3),
@@ -250,7 +248,7 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
                             height: 30,
                             decoration: BoxDecoration(
                               color: currentDisplayedMacroType == MacroType.protein ?
-                                   Colors.green : currentDisplayedMacroType == MacroType.fat ? Colors.orange
+                              Color.fromARGB(255, 106, 206, 110) : currentDisplayedMacroType == MacroType.fat ? Colors.orange
                                    : currentDisplayedMacroType == MacroType.carbs ? Colors.blue : getThemeData().primaryColor,
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -277,6 +275,7 @@ Widget getCurrentDisplayedMacroBody(FoodItem food, MacroType currentDisplayedMac
           fontWeight: FontWeight.w400,
           fontSize: 12,
         ),
+        overflow: TextOverflow.ellipsis,
       );
     case MacroType.carbs:
       return Text(
@@ -285,6 +284,7 @@ Widget getCurrentDisplayedMacroBody(FoodItem food, MacroType currentDisplayedMac
           fontWeight: FontWeight.w400,
           fontSize: 12,
         ),
+        overflow: TextOverflow.ellipsis,
       );
     case MacroType.protein:
       return Text(
@@ -293,6 +293,7 @@ Widget getCurrentDisplayedMacroBody(FoodItem food, MacroType currentDisplayedMac
           fontWeight: FontWeight.w400,
           fontSize: 12,
         ),
+        overflow: TextOverflow.ellipsis,
       );
     case MacroType.fat:
       return Text(
@@ -301,9 +302,8 @@ Widget getCurrentDisplayedMacroBody(FoodItem food, MacroType currentDisplayedMac
           fontWeight: FontWeight.w400,
           fontSize: 12,
         ),
+        overflow: TextOverflow.ellipsis,
       );
-    default:
-      return const Text("N/A");
   }
 }
 

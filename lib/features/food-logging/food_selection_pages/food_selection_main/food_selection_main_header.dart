@@ -42,7 +42,7 @@ class FoodSelectionMainHeader extends StatelessWidget {
                   ),
                   Container(
                     // Search container (including search icon, textfield and filter)
-                    width: 290,
+                    width: 290, // TODO: Fix fixed size width
                     height: 45,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular((16.0)),
@@ -102,7 +102,7 @@ class FoodSelectionMainHeader extends StatelessWidget {
               SizedBox(height: 6),
               //Tab bar (all, favourites, custom)
               Container(
-                width: 390,
+                width: 390, // TODO: Fix fixed size width
                 height: 30,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.0),

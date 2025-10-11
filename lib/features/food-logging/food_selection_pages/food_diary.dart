@@ -109,7 +109,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                                     ),
                                     // Protein Progress Bar
                                      MacroProgressBar(
-                                      color: Colors.green,
+                                      color: const Color.fromARGB(255, 106, 206, 110),
                                       macroName: 'Protein',
                                       macroType: MacroType.protein
                                       ),

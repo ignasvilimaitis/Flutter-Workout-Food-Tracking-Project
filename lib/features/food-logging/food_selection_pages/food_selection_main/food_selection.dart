@@ -8,8 +8,7 @@ import 'package:flutter_application_1/features/food-logging/food_selection_pages
 import 'package:flutter_application_1/features/food-logging/openfoodfacts_queries/get_query.dart';
 import 'package:flutter_application_1/features/food-logging/states/recent_foods.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/food_list_tile.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/tab_bar.dart';
-import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:flutter_application_1/features/food-logging/widgets/no_food_found.dart';
 import 'package:provider/provider.dart';
 
 class FoodSelector extends StatefulWidget {
@@ -23,7 +22,8 @@ class _FoodSelectorState extends State<FoodSelector>
     with TickerProviderStateMixin {
   final Debouncer debouncer = Debouncer(milliseconds: 500);
   final GetQuery query = GetQuery();
-  List<FoodItem> searchedFoods = []; // <--- state field (was a local var before)
+  List<FoodItem> searchedFoods = [];
+  String _lastSearch = ''; // <-- new field
   late TabController _tabController;
   final RecentFoods recentFoods = RecentFoods();
   final List<String> tabs = ['All', 'Favourites', 'Custom',];
@@ -56,12 +56,15 @@ class _FoodSelectorState extends State<FoodSelector>
                     if (value.isEmpty) {
                       setState(() {
                         searchedFoods = [];
+                        _lastSearch = ''; // no active search
                       });
                       return;
                     }
                     final results = await query.searchProducts(value);
                     setState(() {
-                      searchedFoods = query.getSearchResults(results);
+                      List<FoodItem> returnedFoods = query.getSearchResults(results);
+                      searchedFoods = returnedFoods;
+                      _lastSearch = value; // mark that a search was performed
                     });
                   });
                 },
@@ -74,7 +77,6 @@ class _FoodSelectorState extends State<FoodSelector>
     );
 
   }
-
 
   void onSelectedFood(FoodItem food) {
     Provider.of<RecentFoods>(context, listen: false).addRecentFood(food);
@@ -89,9 +91,9 @@ class _FoodSelectorState extends State<FoodSelector>
           child: TabBarView(
             controller: _tabController,
             children: <Widget>[
-              searchedFoods.isEmpty
-                  ? FoodSelectorAll() // If not searched
-                  : searchFood(),// If not searched, show recent foods
+              _lastSearch.isEmpty
+                ? FoodSelectorAll()
+                : (searchedFoods.isEmpty ? NoFoodFoundPopUp() : searchFood()),
               // Favourites tab
               FoodSelectionFavourites(),
               // Custom tab
@@ -104,6 +106,9 @@ class _FoodSelectorState extends State<FoodSelector>
 }
 
 Widget searchFood() {
+  if (searchedFoods.isEmpty) {
+    return NoFoodFoundPopUp();
+  } else {
   return Container(
     decoration: BoxDecoration(
       color: Colors.white,
@@ -122,6 +127,7 @@ Widget searchFood() {
       },
     ),
   );
+  }
 }
 }
 
