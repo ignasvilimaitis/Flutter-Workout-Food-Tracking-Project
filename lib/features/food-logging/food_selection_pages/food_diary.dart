@@ -50,100 +50,22 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                       minHeight: constraints.maxHeight,
                     ),
                     child: IntrinsicHeight(
-                      child: Column(
-                        children: [
-                          // Header
-                          Row(
-                            children: [
-                              SizedBox(width: 10),
-                              UIButton(
-                                function: 'Return',
-                                iconData: Icons.keyboard_return,
-                              ),
-                              SizedBox(width: 15),
-                              Container(
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular((16.0)),
-                                  color: Colors.white,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.arrow_left, size: 50),
-                                    SizedBox(width: 20),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 7.0),
-                                      child: Text(
-                                        LocalTime().today,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 20),
-                                    Icon(Icons.arrow_right, size: 50),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          // Scrollable Widget Row
-                          scrollableWidgetRow(),
-                          SizedBox(height: 20),
-                          //Diary Section (body)
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular((20.0)),
-                                color: Colors.white,
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(width: 178), // TODO: Temp fix to put in the middle
-                                      const Text('Log',
-                                      style: TextStyle(
-                                        fontSize: 18
-                                      ),
-                                      ),
-                                      Spacer(),
-                                      TextButton.icon(
-                                        iconAlignment: IconAlignment.end,
-                                        onPressed: () {
-                                          currentDisplayedMacroType.setCurrentDisplay(getNextMacroType(currentDisplayedMacroType)
-                                          );
-                                        },
-                                          label: (getCurrentMacro(currentDisplayedMacroType)),
-                                         icon: Icon(Icons.swap_horiz_rounded,
-                                         color: getMacroColor(currentDisplayedMacroType)
-                
-                                         ),
-                                      ),
-                                        SizedBox(width: 10,)
-                                        
-                
-                                    ],
-                                  ),
-                                  DiaryWidgetV2(diaryName: 'Breakfast'),
-                                  SizedBox(height: 20,),
-                                  DiaryWidgetV2(diaryName: 'Lunch'),
-                                  SizedBox(height: 20,),
-                                  DiaryWidgetV2(diaryName: 'Dinner'),
-                                  SizedBox(height: 20,),
-                                  DiaryWidgetV2(diaryName: 'Snacks'),
-                                  SizedBox(height: 20,),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Transform.translate(
-                            offset: const Offset(0, -10),
-                            child: DiaryFooter()),
-                        ],
+                      child: SafeArea(
+                        child: Column(
+                          children: [
+                            // Header
+                            buildHeader(),
+                            // Scrollable Widget Row
+                            buildScrollableWidgetRow(),
+                            SizedBox(height: 20),
+                            //Diary Section (body)
+                            buildBody(currentDisplayedMacroType),
+                            // Overlap footer
+                            Transform.translate(
+                              offset: const Offset(0, -10),
+                              child: DiaryFooter()),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -207,8 +129,46 @@ MacroType getNextMacroType(CurrentMacroDisplay currentDisplayedMacroType) {
       return MacroType.energy;
   }
 }
-
-Widget scrollableWidgetRow() {
+Widget buildHeader() {
+    return Row(
+    children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(12.0, 10.0, 12.0, 10.0),
+        child: UIButton(
+          function: 'Return',
+          iconData: Icons.keyboard_return,
+        ),
+      ),
+      Expanded(
+        child: Container(
+          margin: EdgeInsets.fromLTRB(0.0, 10.0, 12.0, 10.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular((16.0)),
+            color: Colors.white,
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.arrow_left, size: 50),
+              Spacer(),
+              Text(
+                  LocalTime().today,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              Spacer(),
+              Icon(Icons.arrow_right,
+              size: 50,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
+  );
+}
+Widget buildScrollableWidgetRow() {
   return Padding(
     padding: EdgeInsets.fromLTRB(12.0, 10.0, 12.0, 0.0),
     child: Container(
@@ -277,6 +237,56 @@ Widget scrollableWidgetRow() {
               count: 5,
             ),
           ),
+        ],
+      ),
+    ),
+  );
+}
+Widget buildBody(CurrentMacroDisplay currentDisplayedMacroType) {
+  return Expanded(
+    child: Container(
+      margin: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular((20.0)),
+        color: Colors.white,
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(width: 178), // TODO: Temp fix to put in the middle
+              const Text('Log',
+              style: TextStyle(
+                fontSize: 18
+              ),
+              ),
+              Spacer(),
+              TextButton.icon(
+                iconAlignment: IconAlignment.end,
+                onPressed: () {
+                  currentDisplayedMacroType.setCurrentDisplay(getNextMacroType(currentDisplayedMacroType)
+                  );
+                },
+                  label: (getCurrentMacro(currentDisplayedMacroType)),
+                  icon: Icon(Icons.swap_horiz_rounded,
+                  color: getMacroColor(currentDisplayedMacroType)
+              
+                  ),
+              ),
+                SizedBox(width: 10,)
+                
+              
+            ],
+          ),
+          DiaryWidgetV2(diaryName: 'Breakfast'),
+          SizedBox(height: 20,),
+          DiaryWidgetV2(diaryName: 'Lunch'),
+          SizedBox(height: 20,),
+          DiaryWidgetV2(diaryName: 'Dinner'),
+          SizedBox(height: 20,),
+          DiaryWidgetV2(diaryName: 'Snacks'),
+          SizedBox(height: 20,),
         ],
       ),
     ),
