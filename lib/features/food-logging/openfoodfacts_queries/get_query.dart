@@ -1,5 +1,5 @@
 
-import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
+import 'package:flutter_application_1/features/food-logging/classes/food_Item.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 
 class GetQuery {

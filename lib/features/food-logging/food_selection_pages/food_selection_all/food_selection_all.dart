@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/features/food-logging/classes/food_item.dart';
+import 'package:flutter_application_1/features/food-logging/classes/food_Item.dart';
 import 'package:flutter_application_1/features/food-logging/states/recent_foods.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/food_list_tile.dart';
 import 'package:provider/provider.dart';
