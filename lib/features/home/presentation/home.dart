@@ -68,6 +68,7 @@ Card createHeader(String greeting, String currentDate, context) {
                   ),
                   onPressed: () {
                     // Navigate to workout screen
+                    Navigator.pushNamed(context, workoutHomeRoute);
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

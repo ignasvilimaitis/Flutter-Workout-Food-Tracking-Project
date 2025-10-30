@@ -22,6 +22,8 @@ class _MiscAssets {
   final String settingsIcon = 'assets/svg/material-symbols--settings.svg';
   final String plansIcon = 'assets/svg/ri--calendar-schedule-fill.svg';
   final String targetIcon = 'assets/svg/material-symbols--target.svg';
+  final String returnIcon = 'assets/svg/streamline--return-2-solid.svg';
+  final String plusIcon = 'assets/svg/ic--round-plus.svg';
 }
 
 class _LoggingAssets {

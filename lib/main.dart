@@ -8,6 +8,7 @@ import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/home/presentation/home.dart';
 import 'package:flutter_application_1/features/settings/presentation/settings_screen.dart';
 import 'package:flutter_application_1/core/theme.dart';
+import 'package:flutter_application_1/features/workout-logging/presentation/workout.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
 
@@ -62,8 +63,14 @@ class MyApp extends StatelessWidget {
             (builder: (context) => FoodSelector(),
             settings: settings,
            );
+          case (workoutHomeRoute):
+            return MaterialPageRoute(
+              builder: (context) => WorkoutHomePage(),
+              settings: settings,
+            );
         }
-        }
+        return null;
+      }
     );
   }
 }
