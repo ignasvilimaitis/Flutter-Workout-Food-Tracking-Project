@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'schemas/exercise_schema.dart';
@@ -21,8 +20,9 @@ class AppDatabase {
   }
 
   Future<Database> _initDB(String fileName) async {
-    final dir = await getApplicationDocumentsDirectory();
-    final path = join(dir.path, fileName);
+    final dir = await getDatabasesPath();
+    final path = join(dir, fileName);
+    log('Database path: $path');
     return await openDatabase(
       path,
       version: 1,
