@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/assets.dart';
 import 'package:flutter_application_1/core/theme.dart';
 
 // Widgets
 import 'package:flutter_application_1/features/workout-logging/presentation/widgets/quick_start.dart';
 import 'package:flutter_application_1/features/workout-logging/presentation/widgets/dashboard.dart';
+import 'package:flutter_svg/svg.dart';
 
 class WorkoutHomePage extends StatelessWidget {
   @override
@@ -13,6 +15,22 @@ class WorkoutHomePage extends StatelessWidget {
       appBar: CustomAppBar(
         title: 'Workout Diary',
       ),
+      floatingActionButton: SizedBox(
+        width: 68, // custom width
+        height: 68, // custom height
+        child: FloatingActionButton(
+          onPressed: () {},
+          shape: CircleBorder(),
+          backgroundColor: Colors.black,
+          child: SvgPicture.asset(
+            AppAssets.misc.plusIcon,
+            height: 64,
+            width: 64,
+            colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: CustomCenterDockedFABLocation(-15),
       bottomNavigationBar: CustomBottomAppBar(module: 'workout'),
       body: SafeArea(
         child: Padding(
@@ -53,7 +71,7 @@ class WorkoutHomePage extends StatelessWidget {
               // Current Routine Section
               Flexible(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  padding: const EdgeInsets.only(top: 4),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -69,8 +87,6 @@ class WorkoutHomePage extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // Footer Section
             ],
           ),
         ),

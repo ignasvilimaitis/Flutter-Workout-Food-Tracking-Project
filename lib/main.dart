@@ -12,11 +12,17 @@ import 'package:flutter_application_1/features/workout-logging/presentation/work
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
 
+import 'core/database/app_database.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   OpenFoodAPIConfiguration.userAgent = UserAgent(name: 'Gym & Food Tracker', version: '1.0.0');
   OpenFoodAPIConfiguration.globalLanguages = [OpenFoodFactsLanguage.ENGLISH];
   OpenFoodAPIConfiguration.globalCountry = OpenFoodFactsCountry.UNITED_KINGDOM;
+
+  // Intialise DB
+  AppDatabase.instance.database;
+
   runApp(
     MultiProvider(
       providers: [
