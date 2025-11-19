@@ -23,10 +23,30 @@ class FoodListTileWidget extends StatelessWidget {
         context,
         MaterialPageRoute(builder: (context) => FoodNutritionInfopage(food: food, diaryEntry: args.name.toString() ,)) ), // this should take you to the nutrition screen
       title: Text(food.productName),
-      subtitle: Text("${food.calories.toStringAsFixed(1)}Kcal"
-              "           ${food.proteins.toStringAsFixed(1)}P"
-              "           ${food.carbs.toStringAsFixed(1)}C"
-              "           ${food.fats.toStringAsFixed(1)}F"),
+      subtitle: Text.rich( 
+        overflow: TextOverflow.ellipsis,
+        TextSpan(
+          children: [
+            TextSpan(
+              text: "${food.calories.toStringAsFixed(1)}Kcal"
+              "    ${food.proteins.toStringAsFixed(1)}P"
+              "    ${food.carbs.toStringAsFixed(1)}C"
+              "    ${food.fats.toStringAsFixed(1)}F",
+              style: const TextStyle(fontSize: 12),
+            ),
+            TextSpan(
+              text: "    ${food.servingSize}",
+              style: const TextStyle(
+                fontSize: 12,
+                color: Color.fromARGB(255, 66, 66, 66),
+                fontWeight: FontWeight.bold,
+              ),
+            
+            ),
+          ]
+
+              ),
+      ),
       // the fact this subtitle works is beyond me
       trailing: GestureDetector(
         onTap: () => onSelectedFood(food), // this will remain the same (essentially a quick add)
