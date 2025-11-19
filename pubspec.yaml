@@ -19,6 +19,8 @@ dependencies:
   fl_chart: ^1.0.0
   smooth_page_indicator: ^1.2.1
   openfoodfacts: ^3.25.1
+  sqflite: ^2.4.2
+  path: ^1.9.1
 
 dev_dependencies:
   flutter_test:
@@ -44,3 +46,10 @@ flutter:
     - assets/svg/material-symbols--settings.svg
     - assets/svg/bxs--widget.svg
     - assets/svg/food--not--found.svg
+    - assets/svg/streamline--return-2-solid.svg
+    - assets/svg/ic--round-plus.svg
+    - assets/svg/material-symbols--trophy-outline.svg
+    - assets/svg/mdi--calendar.svg
+    - assets/svg/streamline-plump--dumbell-solid.svg
+    - assets/svg/emojione-monotone--fork-and-knife-with-plate.svg
+    - assets/svg/material-symbols--barcode.svg

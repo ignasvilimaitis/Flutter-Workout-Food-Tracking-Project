@@ -38,6 +38,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: CustomBottomAppBar(module: 'food'),
       body: Consumer3<TotalMacros, MacroGoal, CurrentMacroDisplay>(
         builder: (context, totalMacros, macroGoals, currentDisplayedMacroType, child) {
           return LayoutBuilder(
