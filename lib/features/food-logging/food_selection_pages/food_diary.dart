@@ -61,10 +61,6 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                             SizedBox(height: 20),
                             //Diary Section (body)
                             buildBody(currentDisplayedMacroType),
-                            // Overlap footer
-                            Transform.translate(
-                              offset: const Offset(0, -10),
-                              child: DiaryFooter()),
                           ],
                         ),
                       ),
