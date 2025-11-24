@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/assets.dart';
 import 'package:flutter_application_1/core/theme.dart';
 
+// Database
+import 'package:flutter_application_1/core/database/app_database.dart';
+
 // Widgets
 import 'package:flutter_application_1/features/workout-logging/presentation/widgets/quick_start.dart';
 import 'package:flutter_application_1/features/workout-logging/presentation/widgets/dashboard.dart';
@@ -10,6 +13,7 @@ import 'package:flutter_svg/svg.dart';
 class WorkoutHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AppDatabase.instance.database;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: CustomAppBar(

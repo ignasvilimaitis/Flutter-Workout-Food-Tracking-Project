@@ -16,7 +16,7 @@ class QuickStart extends StatelessWidget {
           child: InkWell(
             onTap:() => print('Empty Workout'),
             child: Container(
-              height: 40,
+              height: 45,
               decoration: BoxDecoration(
                 color: secondaryColor,
                 borderRadius: BorderRadius.circular(12)
@@ -51,7 +51,7 @@ class QuickStart extends StatelessWidget {
           child: InkWell(
             onTap:() => print('Routine Workout'),
             child: Container(
-              height: 40,
+              height: 45,
               decoration: BoxDecoration(
                 color: tertiaryColor,
                 borderRadius: BorderRadius.circular(12)

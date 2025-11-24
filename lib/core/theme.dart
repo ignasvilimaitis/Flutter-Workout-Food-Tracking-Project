@@ -173,7 +173,7 @@ class CustomBottomAppBar extends StatelessWidget {
     }
 
     return BottomAppBar(
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
       color: Color.fromARGB(0, 0, 0, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -191,7 +191,7 @@ class CustomBottomAppBar extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             // Threshold width at which to hide text
-            final bool isCompact = constraints.maxWidth < 55;
+            final bool isCompact = constraints.maxWidth < 65;
 
             return ElevatedButton(
               onPressed: () {
