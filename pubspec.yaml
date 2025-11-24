@@ -37,6 +37,10 @@ flutter:
       fonts:
         - asset: assets/fonts/IstokWeb-Regular.ttf
   assets:
+    # JSON Data Files
+    - assets/data/default_exercises.json
+    - assets/data/default_muscles.json
+
     # SVG Icons
     - assets/svg/lucide--dumbbell.svg
     - assets/svg/mdi--food-apple-outline.svg

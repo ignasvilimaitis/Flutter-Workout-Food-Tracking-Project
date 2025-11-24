@@ -1,30 +1,39 @@
 class WorkoutSchema {
-  static const createWorkoutsTable = '''
-  CREATE TABLE workouts (
-    workout_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    started_at INTEGER,
-    finished_at INTEGER,
-    notes TEXT
+  static const createWorkoutTable = '''
+  CREATE TABLE Workout (
+    pk_workout_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    notes TEXT,
+
+    -- Use UNIX timestamps - better for performance
+    started_at INTEGER NOT NULL,
+    finished_at INTEGER NOT NULL
   );
   ''';
 
   static const createWorkoutEntriesTable = '''
-  CREATE TABLE workout_entries (
-    entry_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    workout_id INTEGER NOT NULL,
-    exercise_id INTEGER NOT NULL,
-    variant_id INTEGER,
-    order_index INTEGER
+  CREATE TABLE WorkoutEntries (
+    pk_entry_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fk_workout_id INTEGER NOT NULL REFERENCES Workout(pk_workout_id) ON DELETE CASCADE, -- Foreign key to Workouts table
+    fk_variant_id INTEGER NOT NULL REFERENCES ExerciseVariants(pk_variant_id), -- Foreign key to Exercise Variants table
+    order_index INTEGER,
+    notes TEXT
   );
   ''';
 
   static const createSetsTable = '''
-  CREATE TABLE sets (
-    set_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    entry_id INTEGER NOT NULL,
+  CREATE TABLE Sets (
+    pk_set_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fk_entry_id INTEGER NOT NULL REFERENCES WorkoutEntries(pk_entry_id) ON DELETE CASCADE, -- Foreign key to Workout Entries table
     reps INTEGER,
     weight_value REAL,
     weight_unit TEXT,
+    rpe INTEGER,
+    is_failure BOOLEAN,
+    is_dropset BOOLEAN,
+    is_warmup BOOLEAN,
+    is_left BOOLEAN,
+    is_right BOOLEAN,
     timestamp INTEGER
   );
   ''';
