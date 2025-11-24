@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/local_time.dart';
 import 'package:flutter_application_1/core/theme.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/diary_footer.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/progress_bar.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/ui_button.dart';
