@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter_application_1/core/database/schemas/food_schema.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -61,6 +62,14 @@ class AppDatabase {
     await db.execute(WorkoutSchema.createWorkoutEntriesTable);
     await db.execute(WorkoutSchema.createSetsTable);
 
+    // Food-related tables
+    await db.execute(FoodSchema.createFoodItemTable);
+    await db.execute(FoodSchema.createCategoryTable);
+    await db.execute(FoodSchema.createMealTable);
+    await db.execute(FoodSchema.createDiaryEntryTable);
+    await db.execute(FoodSchema.createDiaryEntryFoodItemTable);
+    await db.execute(FoodSchema.createMealFoodItemTable);
+
     //Populate default values
     await _populateDefaultValues(db);
 
@@ -71,10 +80,13 @@ class AppDatabase {
     // Load default data from JSON files
     final defaultMusclesJson = await readJson('assets/data/default_muscles.json');
     final defaultExercisesJson = await readJson('assets/data/default_exercises.json');
+    final defaultFoodJson = await readJson('assets/data/default_foods.json');
+
 
     final defaultData = [
       defaultMusclesJson,
-      defaultExercisesJson
+      defaultExercisesJson,
+      defaultFoodJson,
     ];
 
     // Dynamically insert data into respective tables
