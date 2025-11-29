@@ -29,6 +29,8 @@ class _MiscAssets {
   final String returnIcon = 'assets/svg/streamline--return-2-solid.svg';
   final String plusIcon = 'assets/svg/ic--round-plus.svg';
   final String calendarIcon = 'assets/svg/mdi--calendar.svg';
+  final String filterIcon = 'assets/svg/mdi--filter.svg';
+  final String searchIcon = 'assets/svg/entypo--magnifying-glass.svg';
 }
 
 class _LoggingAssets {

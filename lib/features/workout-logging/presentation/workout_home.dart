@@ -1,41 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/assets.dart';
-import 'package:flutter_application_1/core/theme.dart';
-
-// Database
-import 'package:flutter_application_1/core/database/app_database.dart';
 
 // Widgets
 import 'package:flutter_application_1/features/workout-logging/presentation/widgets/quick_start.dart';
 import 'package:flutter_application_1/features/workout-logging/presentation/widgets/dashboard.dart';
-import 'package:flutter_svg/svg.dart';
+import 'workout_base.dart' show CustomAppBarHome;
 
 class WorkoutHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AppDatabase.instance.database;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      appBar: CustomAppBar(
+      appBar: CustomAppBarHome(
         title: 'Workout Diary',
       ),
-      floatingActionButton: SizedBox(
-        width: 68, // custom width
-        height: 68, // custom height
-        child: FloatingActionButton(
-          onPressed: () {},
-          shape: CircleBorder(),
-          backgroundColor: Colors.black,
-          child: SvgPicture.asset(
-            AppAssets.misc.plusIcon,
-            height: 64,
-            width: 64,
-            colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: CustomCenterDockedFABLocation(-15),
-      bottomNavigationBar: CustomBottomAppBar(module: 'workout'),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(10),
@@ -98,3 +75,4 @@ class WorkoutHomePage extends StatelessWidget {
     );
   }
 }
+
