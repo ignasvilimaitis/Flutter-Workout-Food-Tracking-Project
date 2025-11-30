@@ -28,7 +28,7 @@ class FoodSchema {
         serving_size TEXT,
         is_favourite BOOLEAN,
         is_custom BOOLEAN,
-        last_used INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
+        last_used INTEGER NOT NULL 
       );
     ''';
 

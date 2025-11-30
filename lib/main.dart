@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/database/app_database.dart';
 import 'package:flutter_application_1/core/routes.dart';
 import 'package:flutter_application_1/features/food-logging/classes/food_Item.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_diary.dart';
@@ -18,6 +19,8 @@ void main() {
   OpenFoodAPIConfiguration.userAgent = UserAgent(name: 'Gym & Food Tracker', version: '1.0.0');
   OpenFoodAPIConfiguration.globalLanguages = [OpenFoodFactsLanguage.ENGLISH];
   OpenFoodAPIConfiguration.globalCountry = OpenFoodFactsCountry.UNITED_KINGDOM;
+
+  AppDatabase.instance.database; // Initialize the database
 
   runApp(
     MultiProvider(

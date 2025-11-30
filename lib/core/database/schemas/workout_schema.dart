@@ -6,10 +6,10 @@ class WorkoutSchema {
     notes TEXT,
 
     -- Use UNIX timestamps - better for performance
-    started_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
-    finished_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
+    started_at INTEGER NOT NULL,
+    finished_at INTEGER NOT NULL
   );
-  '''; 
+  ''';
 
   static const createWorkoutEntriesTable = '''
   CREATE TABLE WorkoutEntries (
