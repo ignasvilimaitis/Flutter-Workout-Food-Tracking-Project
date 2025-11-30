@@ -9,9 +9,10 @@ import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/home/presentation/home.dart';
 import 'package:flutter_application_1/features/settings/presentation/settings_screen.dart';
 import 'package:flutter_application_1/core/theme.dart';
-import 'package:flutter_application_1/features/workout-logging/presentation/workout.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
+
+import './features/workout-logging/presentation/workout_base.dart' as workout_module show BaseLayout;
 
 
 void main() {
@@ -70,7 +71,7 @@ class MyApp extends StatelessWidget {
            );
           case (workoutHomeRoute):
             return MaterialPageRoute(
-              builder: (context) => WorkoutHomePage(),
+              builder: (context) => workout_module.BaseLayout(),
               settings: settings,
             );
         }

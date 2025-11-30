@@ -58,3 +58,5 @@ flutter:
     - assets/svg/streamline-plump--dumbell-solid.svg
     - assets/svg/emojione-monotone--fork-and-knife-with-plate.svg
     - assets/svg/material-symbols--barcode.svg
+    - assets/svg/mdi--filter.svg
+    - assets/svg/entypo--magnifying-glass.svg
