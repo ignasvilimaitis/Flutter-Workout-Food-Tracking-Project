@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter_application_1/core/database/schemas/food_schema.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -61,7 +62,16 @@ class AppDatabase {
     await db.execute(WorkoutSchema.createWorkoutEntriesTable);
     await db.execute(WorkoutSchema.createSetsTable);
 
+    // Food-related tables
+    await db.execute(FoodSchema.createFoodItemTable);
+    await db.execute(FoodSchema.createCategoryTable);
+    await db.execute(FoodSchema.createMealTable);
+    await db.execute(FoodSchema.createDiaryEntryTable);
+    await db.execute(FoodSchema.createDiaryEntryFoodItemTable);
+    await db.execute(FoodSchema.createMealFoodItemTable);
+
     //Populate default values
+    await importUsdaFoodsFromAsset('assets/data/usda_foundation_foods.json', db);
     await _populateDefaultValues(db);
 
     return db;
@@ -72,9 +82,10 @@ class AppDatabase {
     final defaultMusclesJson = await readJson('assets/data/default_muscles.json');
     final defaultExercisesJson = await readJson('assets/data/default_exercises.json');
 
+
     final defaultData = [
       defaultMusclesJson,
-      defaultExercisesJson
+      defaultExercisesJson,
     ];
 
     // Dynamically insert data into respective tables
@@ -86,5 +97,7 @@ class AppDatabase {
         }
       }
     }
+    log('Default values populated successfully.');
   }
+
 }

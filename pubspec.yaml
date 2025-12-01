@@ -40,6 +40,8 @@ flutter:
     # JSON Data Files
     - assets/data/default_exercises.json
     - assets/data/default_muscles.json
+    - assets/data/default_foods.json
+    - assets/data/usda_foundation_foods.json
 
     # SVG Icons
     - assets/svg/lucide--dumbbell.svg

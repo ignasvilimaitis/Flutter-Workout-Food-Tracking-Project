@@ -1,6 +1,6 @@
 //Nutrient types for progress bars and tracking in nutrition info page
 
-enum NutrientType {energy, carbs, protein, fat, salt}
+enum NutrientType {energy, carbs, protein, fat}
 
 // Macro types for progress bars in food diary page
 

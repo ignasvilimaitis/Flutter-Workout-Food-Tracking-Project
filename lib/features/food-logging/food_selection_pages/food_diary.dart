@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/local_time.dart';
 import 'package:flutter_application_1/core/theme.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/diary_footer.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/progress_bar.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/ui_button.dart';
@@ -35,51 +34,40 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
     // _tabController.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: CustomBottomAppBar(module: 'food'),
-      body: Consumer3<TotalMacros, MacroGoal, CurrentMacroDisplay>(
-        builder: (context, totalMacros, macroGoals, currentDisplayedMacroType, child) {
-          return LayoutBuilder(
-            builder: (context, constraints) {
-              return Stack(
-                children: [
-                SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
+@override
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    bottomNavigationBar: CustomBottomAppBar(module: 'food'),
+    body: Consumer3<TotalMacros, MacroGoal, CurrentMacroDisplay>(
+      builder: (context, totalMacros, macroGoals, currentDisplayedMacroType, child) {
+        return SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              // Header - Fixed height
+              buildHeader(),
+              // Scrollable content area
+              SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                      children: [
+                        // Scrollable Widget Row
+                        buildScrollableWidgetRow(),
+                        SizedBox(height: 20),
+                        // Diary Section (body)
+                        buildBody(currentDisplayedMacroType),
+                      ],
                     ),
-                    child: IntrinsicHeight(
-                      child: SafeArea(
-                        child: Column(
-                          children: [
-                            // Header
-                            buildHeader(),
-                            // Scrollable Widget Row
-                            buildScrollableWidgetRow(),
-                            SizedBox(height: 20),
-                            //Diary Section (body)
-                            buildBody(currentDisplayedMacroType),
-                            // Overlap footer
-                            Transform.translate(
-                              offset: const Offset(0, -10),
-                              child: DiaryFooter()),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
                 ),
-                ],
-              );
-            },
-          );
-        },
-      ),
-      backgroundColor: Theme.of(context).colorScheme.primary,
-    );
-  }
+            ],
+          ),
+        );
+      },
+    ),
+    backgroundColor: Theme.of(context).colorScheme.primary,
+  );
+}
 
 // Helper function to get the label string + color for macro view switching
 Widget getCurrentMacro(CurrentMacroDisplay currentDisplayedMacroType) {
@@ -244,14 +232,14 @@ Widget buildScrollableWidgetRow() {
   );
 }
 Widget buildBody(CurrentMacroDisplay currentDisplayedMacroType) {
-  return Expanded(
-    child: Container(
+  return Container(
       margin: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular((20.0)),
+        borderRadius: BorderRadius.circular(22.0),
         color: Colors.white,
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -287,10 +275,9 @@ Widget buildBody(CurrentMacroDisplay currentDisplayedMacroType) {
           DiaryWidgetV2(diaryName: 'Dinner'),
           SizedBox(height: 20,),
           DiaryWidgetV2(diaryName: 'Snacks'),
-          SizedBox(height: 20,),
+          SizedBox(height: 75,) // TODO: temp fix for bottom padding
         ],
       ),
-    ),
-  );
+    );
 }
 }
