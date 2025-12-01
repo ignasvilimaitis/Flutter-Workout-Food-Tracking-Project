@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/arguments/diary_entry.dart';
-import 'package:flutter_application_1/features/food-logging/classes/food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
 import 'package:flutter_application_1/features/food-logging/food_nutrition/food_nutrition_infopage.dart';
 
 class FoodListTileWidget extends StatelessWidget {
@@ -22,7 +22,7 @@ class FoodListTileWidget extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => FoodNutritionInfopage(food: food, diaryEntry: args.name.toString() ,)) ), // this should take you to the nutrition screen
-      title: Text(food.productName),
+      title: Text(food.name,),
       subtitle: Text.rich( 
         overflow: TextOverflow.ellipsis,
         TextSpan(

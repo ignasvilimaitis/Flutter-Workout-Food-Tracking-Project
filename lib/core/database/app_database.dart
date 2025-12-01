@@ -71,6 +71,7 @@ class AppDatabase {
     await db.execute(FoodSchema.createMealFoodItemTable);
 
     //Populate default values
+    await importUsdaFoodsFromAsset('assets/data/usda_foundation_foods.json', db);
     await _populateDefaultValues(db);
 
     return db;
@@ -80,13 +81,11 @@ class AppDatabase {
     // Load default data from JSON files
     final defaultMusclesJson = await readJson('assets/data/default_muscles.json');
     final defaultExercisesJson = await readJson('assets/data/default_exercises.json');
-    final defaultFoodJson = await readJson('assets/data/default_foods.json');
 
 
     final defaultData = [
       defaultMusclesJson,
       defaultExercisesJson,
-      defaultFoodJson,
     ];
 
     // Dynamically insert data into respective tables
@@ -98,5 +97,7 @@ class AppDatabase {
         }
       }
     }
+    log('Default values populated successfully.');
   }
+
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/enums.dart';
-import 'package:flutter_application_1/features/food-logging/classes/food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
@@ -46,9 +46,9 @@ class _NutritionProgressBarState extends State<NutritionProgressBar> {
           current = widget.food.fats;
           goal = macroGoals.fatGoal;
           break;
-          case NutrientType.salt:
-          current = widget.food.nutriments?.getValue(Nutrient.salt, PerSize.serving) ?? 0.0;
-          goal = macroGoals.saltGoal;
+          // case NutrientType.salt:
+          // current = widget.food.nutriments?.getValue(Nutrient.salt, PerSize.serving) ?? 0.0;
+          // goal = macroGoals.saltGoal;
         }
       return Container(
                 width:
