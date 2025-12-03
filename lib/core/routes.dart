@@ -9,3 +9,6 @@ const foodNutritionRoute = '/food-nutrition/';
 
 // Workout
 const workoutHomeRoute = '/workout-home';
+
+// Profile
+const profileRoute = '/profile-base/';

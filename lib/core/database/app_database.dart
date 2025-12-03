@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter_application_1/core/database/schemas/food_schema.dart';
+import 'package:flutter_application_1/core/database/schemas/profile_schema.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -69,6 +70,12 @@ class AppDatabase {
     await db.execute(FoodSchema.createDiaryEntryTable);
     await db.execute(FoodSchema.createDiaryEntryFoodItemTable);
     await db.execute(FoodSchema.createMealFoodItemTable);
+
+    // Profile-related tables
+    await db.execute(ProfileSchema.userProfileTable);
+    await db.execute(ProfileSchema.userSettingsTable);
+    await db.execute(ProfileSchema.foodSettingsTable);
+    await db.execute(ProfileSchema.workoutSettingsTable);
 
     //Populate default values
     await importUsdaFoodsFromAsset('assets/data/usda_foundation_foods.json', db);

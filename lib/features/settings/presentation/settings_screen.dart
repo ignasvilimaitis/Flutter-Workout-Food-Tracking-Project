@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/assets.dart';
 import 'package:flutter_application_1/features/settings/presentation/widgets/settings_button.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -7,121 +9,152 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.height,
-        margin: EdgeInsets.fromLTRB(
-          8.0,
-          24.0,
-          8.0,
-          15.0
-        ),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular((16.0)),
-          color: Colors.white,
-        ),
-        child:
-          Column(
+      body: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular((16.0)),
+            color: Colors.white,
+          ),
+          child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              // Top row with back button and title
+              Stack(
+                alignment: Alignment.center,
                 children: [
-                  TextButton(
-                    onPressed: () {},// TODO: return to menu
-                    child: Icon(
-                      Icons.arrow_back_rounded,
-                      size: 20,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: SvgPicture.asset(
+                        AppAssets.misc.returnIcon,
+                        width: 18,
+                        height: 18,
                       ),
+                    ),
                   ),
-                  Expanded(
-                    child: SizedBox(),
-                  ),
-                  Container( // Settings container
-                    margin: const EdgeInsets.fromLTRB(
-                      0.0,
-                      0.0,
-                      5.0,
-                      0.0,
+                  
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(Icons.settings),
+                      SizedBox(width: 5),
+                      Text(
+                        "Settings",
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                       ),
-                    child: Icon(Icons.settings),
+                    ],
                   ),
-                  const Text(
-                    "Settings",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      ),                      
-                  ),
-                  Padding( // Padding in attempt to center the settings (i'm aware this can definitely be done differently)
-                    padding: EdgeInsetsGeometry.directional(
-                      end: 148.0,
-                      top: 45.0,
-                    ))
                 ],
               ),
-              const Text(
-                "Personal",
-                style: TextStyle(
-                  fontSize: 12.0
-                ),
-              ),
-              Padding(padding: EdgeInsetsGeometry.directional(top: 5)),                
-              UIButton(
+        
+              // Personal Section
+              const Text("Personal", style: TextStyle(fontSize: 12.0)),
+              Padding(padding: EdgeInsetsGeometry.directional(top: 5)),
+              SettingsUIButton(
                 icon: Icons.line_weight,
                 text: "Profile",
-                onPressed: () {}
+                onPressed: () {},
               ),
-              UIButton(
+              SettingsUIButton(
                 icon: Icons.pie_chart,
                 text: "Data",
-                onPressed: () {}
-              ),
-              const Text(
-                "Personalisation",
-                style: TextStyle(
-                  fontSize: 12.0
-                ),
-                ),
-              Padding(padding: EdgeInsetsGeometry.directional(top: 5)),  
-              UIButton(
+                onPressed: () {}),
+        
+              // Personalisation Section
+              const Text("Personalisation", style: TextStyle(fontSize: 12.0)),
+              Padding(padding: EdgeInsetsGeometry.directional(top: 5)),
+              SettingsUIButton(
                 icon: Icons.format_paint,
                 text: "Themes",
-                onPressed: () {}
+                onPressed: () {},
               ),
-              UIButton(
+              SettingsUIButton(
                 icon: Icons.language,
                 text: "Locales",
-                onPressed: () {}
-              ),
-              const Text(
-                "Support",
-                style: TextStyle(
-                  fontSize: 12.0,
-                ),
-              ),
-              Padding(padding: EdgeInsetsGeometry.directional(top: 5)),             
-              UIButton(
+                onPressed: () {}),
+              
+              // Support Section
+              const Text("Support", style: TextStyle(fontSize: 12.0)),
+              Padding(
+                padding: EdgeInsetsGeometry.directional(top: 5)),
+              SettingsUIButton(
                 icon: Icons.info_rounded,
                 text: "About",
                 onPressed: () {}),
-              UIButton(
+              SettingsUIButton(
                 icon: Icons.bug_report,
                 text: "Bugs",
                 onPressed: () {}),
-              UIButton(
+              SettingsUIButton(
                 icon: Icons.support,
                 text: "Support",
                 onPressed: () {}),
-               Padding(padding: EdgeInsetsGeometry.directional(top: 13)), 
-               UIButton(
-                icon: Icons.logout,
-                text: "Log out",
-                onPressed: () {})
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 30.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(
+                              AppAssets.profile.profileDumbellIcon,
+                              width: 100,
+                              height: 100,
+                          ),
+                          const Text('Workout Diary Settings',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
+                      
+                      ],
+                        ),
+                          ),
+                            ),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 30.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.0),
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 22.0),
+                              child: SvgPicture.asset(
+                                AppAssets.profile.profileMealIcon,
+                                width: 50,
+                                height: 50,
+                                                        ),
+                            ),
+                          const Text(
+                            'Food Diary\n  Settings',
+                            style: TextStyle(
+                              fontSize: 16,
+                            )
+                              ),
+                      
+                      ],
+                      ),
+                      
+                      ),
+                    ),
+                ],),
+              )
             ],
           ),
+        ),
       ),
-      backgroundColor: Colors.grey,
+      backgroundColor: Theme.of(context).colorScheme.primary,
     );
   }
 }

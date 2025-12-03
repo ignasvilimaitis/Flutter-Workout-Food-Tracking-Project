@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class UIButton extends StatelessWidget {
+class SettingsUIButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final IconData icon;
 
-  const UIButton({
+  const SettingsUIButton({
     super.key,
     required this.text,
     required this.onPressed,
@@ -15,8 +15,6 @@ class UIButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.075,
-      width: MediaQuery.of(context).size.height * 0.515,
       margin: const EdgeInsets.fromLTRB(
         8.0,
         0.0,
@@ -27,15 +25,15 @@ class UIButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onPressed,
-          borderRadius: BorderRadius.circular(20.0),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: BorderRadius.circular(12.0),
               border: Border.all(
                 color: Colors.grey),
             ),
             padding: const EdgeInsets.symmetric(
-              horizontal: 16.0),
+              horizontal: 16.0,
+              vertical: 3.0),
             child: Row(
               children: [
                 Icon(icon),
@@ -45,7 +43,7 @@ class UIButton extends StatelessWidget {
                   text,
                   style: const TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 const Expanded(

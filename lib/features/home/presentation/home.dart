@@ -278,12 +278,12 @@ Row createFooter(context) {
               backgroundColor: Theme.of(context).cardColor,
             ),
             onPressed: () {
-              // TODO: Navigate to workout screen
+              Navigator.pushNamed(context, settingsRoute);
             },
             child: Column(
               children: [
                 Text(
-                  'Test',
+                  'Settings',
                   style: TextStyle(
                     color: Colors.black,
                   ),

@@ -3,6 +3,7 @@ class AppAssets {
   static const food = _FoodAssets();
   static const misc = _MiscAssets();
   static const logging = _LoggingAssets();
+  static const profile = _ProfileAssets();
 }
 
 class _WorkoutAssets {
@@ -31,6 +32,12 @@ class _MiscAssets {
   final String calendarIcon = 'assets/svg/mdi--calendar.svg';
   final String filterIcon = 'assets/svg/mdi--filter.svg';
   final String searchIcon = 'assets/svg/entypo--magnifying-glass.svg';
+}
+
+class _ProfileAssets {
+  const _ProfileAssets();
+  final String profileDumbellIcon = 'assets/svg/solar_dumbbell-small-bold-duotone.svg';
+  final String profileMealIcon = 'assets/svg/emojione_fork-and-knife.svg';
 }
 
 class _LoggingAssets {
