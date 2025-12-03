@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/assets.dart';
+import 'package:flutter_application_1/core/routes.dart';
 import 'package:flutter_application_1/features/settings/presentation/widgets/settings_button.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -29,8 +30,8 @@ class SettingsScreen extends StatelessWidget {
                       onPressed: () => Navigator.pop(context),
                       icon: SvgPicture.asset(
                         AppAssets.misc.returnIcon,
-                        width: 18,
-                        height: 18,
+                        width: 20,
+                        height: 20,
                       ),
                     ),
                   ),
@@ -38,11 +39,14 @@ class SettingsScreen extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: const [
-                      Icon(Icons.settings),
+                      Icon(Icons.settings
+                        ,
+                        size: 30.0,
+                      ),
                       SizedBox(width: 5),
                       Text(
                         "Settings",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                     ],
                   ),
@@ -55,7 +59,11 @@ class SettingsScreen extends StatelessWidget {
               SettingsUIButton(
                 icon: Icons.line_weight,
                 text: "Profile",
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    editProfileRoute);
+                },
               ),
               SettingsUIButton(
                 icon: Icons.pie_chart,

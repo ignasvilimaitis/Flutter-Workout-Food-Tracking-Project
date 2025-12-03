@@ -38,6 +38,7 @@ class _ProfileAssets {
   const _ProfileAssets();
   final String profileDumbellIcon = 'assets/svg/solar_dumbbell-small-bold-duotone.svg';
   final String profileMealIcon = 'assets/svg/emojione_fork-and-knife.svg';
+  final String profileGenderIcon = 'assets/svg/icons8_gender.svg';
 }
 
 class _LoggingAssets {

@@ -12,3 +12,4 @@ const workoutHomeRoute = '/workout-home';
 
 // Profile
 const profileRoute = '/profile-base/';
+const editProfileRoute = '/edit-profile/';

@@ -7,6 +7,7 @@ import 'package:flutter_application_1/features/food-logging/food_selection_pages
 import 'package:flutter_application_1/features/food-logging/states/recent_foods.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/home/presentation/home.dart';
+import 'package:flutter_application_1/features/settings/presentation/edit_profile_screen.dart';
 import 'package:flutter_application_1/features/settings/presentation/settings_screen.dart';
 import 'package:flutter_application_1/core/theme.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
@@ -54,6 +55,11 @@ class MyApp extends StatelessWidget {
               builder: (context) => const SettingsScreen(),
               settings: settings,
             );
+          case editProfileRoute:
+            return MaterialPageRoute(
+              builder: (context) => const ProfileScreen(),
+              settings: settings,
+            );
           case homeRoute:
             return MaterialPageRoute(
               builder: (context) => HomePage(),
@@ -64,12 +70,12 @@ class MyApp extends StatelessWidget {
               builder: (context) => const FoodLoggingView(),
               settings: settings,
             );
-          case (foodSelectionRoute):
+          case foodSelectionRoute:
             return MaterialPageRoute<FoodItem>
             (builder: (context) => FoodSelector(),
             settings: settings,
            );
-          case (workoutHomeRoute):
+          case workoutHomeRoute:
             return MaterialPageRoute(
               builder: (context) => workout_module.BaseLayout(),
               settings: settings,

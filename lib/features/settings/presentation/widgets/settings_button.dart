@@ -24,6 +24,7 @@ class SettingsUIButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
         color: Colors.transparent,
         child: InkWell(
+          borderRadius: BorderRadius.circular(16.0),
           onTap: onPressed,
           child: Container(
             decoration: BoxDecoration(
@@ -36,14 +37,16 @@ class SettingsUIButton extends StatelessWidget {
               vertical: 3.0),
             child: Row(
               children: [
-                Icon(icon),
+                Icon(icon,
+                  size: 30.0,
+                ),
                 const SizedBox(
                   width: 12.0),
                 Text(
                   text,
                   style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 const Expanded(
