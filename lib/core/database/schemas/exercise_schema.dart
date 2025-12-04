@@ -17,7 +17,8 @@ class ExerciseSchema {
     created_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
     updated_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
     icon_path TEXT,
-    is_custom BOOLEAN NOT NULL DEFAULT 0
+    is_custom BOOLEAN NOT NULL DEFAULT 0,
+    is_favourite BOOLEAN NOT NULL DEFAULT 0
   );
   ''';
 
@@ -25,7 +26,7 @@ class ExerciseSchema {
   CREATE TABLE ExerciseVariants (
     pk_variant_id INTEGER PRIMARY KEY AUTOINCREMENT,
     fk_exercise_id INTEGER NOT NULL REFERENCES Exercise(pk_exercise_id) ON DELETE CASCADE,
-    name TEXT,
+    name TEXT NOT NULL,
     is_default BOOLEAN NOT NULL DEFAULT 0,
     about TEXT,
     notes TEXT,

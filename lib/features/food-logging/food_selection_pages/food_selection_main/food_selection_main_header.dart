@@ -5,7 +5,7 @@ class FoodSelectionMainHeader extends StatelessWidget {
   FoodSelectionMainHeader({super.key, required this.onSearchChanged, required this.tabController});
   final Function(String) onSearchChanged;
   final TabController tabController;
-  final List<String> tabs = ['All', 'Favourites', 'Custom',];
+  final List<String> tabs = ['All', 'Favourites', 'Custom'];
 
   @override
   Widget build(BuildContext context) {

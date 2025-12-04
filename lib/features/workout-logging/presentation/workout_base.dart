@@ -181,12 +181,16 @@ class CustomAppBarExercises extends StatelessWidget implements PreferredSizeWidg
   final VoidCallback? returnHome;
   final Color containerColor;
   final double borderRadius;
+  final TextEditingController searchController;
+  final Function(String) onSearchChanged;
 
   const CustomAppBarExercises({
     super.key,
     this.returnHome,
     this.containerColor = Colors.white,
     this.borderRadius = 12.0,
+    required this.searchController,
+    required this.onSearchChanged,
   });
 
   @override
@@ -213,6 +217,8 @@ class CustomAppBarExercises extends StatelessWidget implements PreferredSizeWidg
               context: context,
               containerColor: containerColor,
               borderRadius: borderRadius,
+              searchController: searchController,
+              onSearchChanged: onSearchChanged,
             ),
           ),
 
@@ -324,7 +330,9 @@ Widget _buildSearchContainer({
   required BuildContext context,
   required Color containerColor,
   required double borderRadius,
-}) {
+  required TextEditingController searchController,
+  required Function(String) onSearchChanged, //Callback for search
+}) { 
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(borderRadius),
@@ -340,10 +348,18 @@ Widget _buildSearchContainer({
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 6),
               child: TextField(
+                controller: searchController,
+                onChanged: onSearchChanged,
+                style: const TextStyle(fontSize: 12),
                 decoration: InputDecoration(
                   labelText: 'Search all exercises...',
                   labelStyle: const TextStyle(fontSize: 12, color: Colors.grey,),
+                  contentPadding: const EdgeInsets.only(bottom: 0.5, left: 6),
                   enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2.5,),
+                  ),
+                  focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(borderRadius),
                     borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2.5,),
                   ),
