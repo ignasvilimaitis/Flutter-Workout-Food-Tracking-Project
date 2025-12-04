@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 // Widgets
-import 'package:flutter_application_1/features/workout-logging/presentation/widgets/quick_start.dart';
-import 'package:flutter_application_1/features/workout-logging/presentation/widgets/dashboard.dart';
+import 'package:flutter_application_1/features/workout-logging/presentation/widgets/base/quick_start.dart';
+import 'package:flutter_application_1/features/workout-logging/presentation/widgets/base/dashboard.dart';
 import 'workout_base.dart' show CustomAppBarHome;
 
 class WorkoutHomePage extends StatelessWidget {

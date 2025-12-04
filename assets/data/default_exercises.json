@@ -12,17 +12,20 @@
     {
       "fk_type_id": 1,
       "name": "Barbell Bench Press",
-      "about": "A compound pressing movement targeting the chest, shoulders, and triceps. Performed by lowering a barbell to the chest and pressing it until the arms are extended."
+      "about": "A compound pressing movement targeting the chest, shoulders, and triceps. Performed by lowering a barbell to the chest and pressing it until the arms are extended.",
+      "icon_path": "assets/exercises/bench-press.png"
     },
     {
       "fk_type_id": 1,
       "name": "Barbell Squat",
-      "about": "A lower-body compound lift where the barbell rests on the upper back. The lifter descends into a squat and stands back up, targeting quads, glutes, and core."
+      "about": "A lower-body compound lift where the barbell rests on the upper back. The lifter descends into a squat and stands back up, targeting quads, glutes, and core.",
+      "icon_path": "assets/exercises/back-squat.png"
     },
     {
       "fk_type_id": 1,
       "name": "Barbell Deadlift",
-      "about": "A hip-hinge movement starting from the floor. The barbell is lifted by extending the hips and knees, engaging posterior-chain muscles."
+      "about": "A hip-hinge movement starting from the floor. The barbell is lifted by extending the hips and knees, engaging posterior-chain muscles.",
+      "icon_path": "assets/exercises/deadlift.png"
     },
     {
       "fk_type_id": 1,
@@ -37,17 +40,20 @@
     {
       "fk_type_id": 2,
       "name": "Dumbbell Shoulder Press",
-      "about": "A pressing movement performed with dumbbells from shoulder height to overhead, strengthening shoulders and triceps."
+      "about": "A pressing movement performed with dumbbells from shoulder height to overhead, strengthening shoulders and triceps.",
+      "icon_path": "assets/exercises/dumbbell-shoulder-press.png"
     },
     {
       "fk_type_id": 2,
       "name": "Dumbbell Chest Press",
-      "about": "Performed on a flat bench by pressing two dumbbells upward, focusing on the chest and supporting muscles."
+      "about": "Performed on a flat bench by pressing two dumbbells upward, focusing on the chest and supporting muscles.",
+      "icon_path": "assets/exercises/dumbbell-chest-press.png"
     },
     {
       "fk_type_id": 2,
       "name": "Dumbbell Bicep Curl",
-      "about": "An isolation movement curling dumbbells upward to strengthen the biceps."
+      "about": "An isolation movement curling dumbbells upward to strengthen the biceps.",
+      "icon_path": "assets/exercises/dumbbell-bicep-curl.png"
     },
     {
       "fk_type_id": 2,
@@ -57,32 +63,38 @@
     {
       "fk_type_id": 3,
       "name": "Pull-Up",
-      "about": "A vertical pulling exercise performed by lifting the body until the chin passes the bar, targeting the back and arms."
+      "about": "A vertical pulling exercise performed by lifting the body until the chin passes the bar, targeting the back and arms.",
+      "icon_path": "assets/exercises/pull-up.png"
     },
     {
       "fk_type_id": 3,
       "name": "Push-Up",
-      "about": "A horizontal pressing movement using bodyweight, targeting the chest, shoulders, and triceps."
+      "about": "A horizontal pressing movement using bodyweight, targeting the chest, shoulders, and triceps.",
+      "icon_path": "assets/exercises/push-up.png"
     },
     {
       "fk_type_id": 3,
       "name": "Bodyweight Squat",
-      "about": "A squat performed without external load, focusing on basic lower-body strength and control."
+      "about": "A squat performed without external load, focusing on basic lower-body strength and control.",
+      "icon_path": "assets/exercises/bodyweight-squat.png"
     },
     {
       "fk_type_id": 3,
       "name": "Plank",
-      "about": "An isometric core exercise maintaining a straight-line body position on forearms and toes."
+      "about": "An isometric core exercise maintaining a straight-line body position on forearms and toes.",
+      "icon_path": "assets/exercises/plank.png"
     },
     {
       "fk_type_id": 4,
       "name": "Leg Press",
-      "about": "A compound leg movement performed on a machine that allows the lifter to press a weighted platform with the legs."
+      "about": "A compound leg movement performed on a machine that allows the lifter to press a weighted platform with the legs.",
+      "icon_path": "assets/exercises/leg-press.png"
     },
     {
       "fk_type_id": 4,
       "name": "Chest Press Machine",
-      "about": "A guided pressing exercise targeting chest muscles with controlled machine motion."
+      "about": "A guided pressing exercise targeting chest muscles with controlled machine motion.",
+      "icon_path": "assets/exercises/chest-press-machine.png"
     },
     {
       "fk_type_id": 4,

@@ -21,11 +21,71 @@ class ExerciseDataSource {
         e.updated_at,
         e.icon_path,
         e.is_custom,
+        e.is_favourite,
         et.name AS type
       FROM Exercise e
       JOIN ExerciseTypes et ON e.fk_type_id = et.pk_type_id;
       '''
     );
     return resp.map((e) => Exercise.fromMap(e)).toList();
+  }
+
+  Future<List<Variation>> getExerciseVariations(int exerciseId) async {
+    final db = await _db;
+    final List<Map<String, dynamic>> resp = await db.query(
+      'ExerciseVariants',
+      where: 'fk_exercise_id = ?',
+      whereArgs: [exerciseId],
+    );
+    return resp.map((v) => Variation.fromMap(v)).toList();
+  }
+
+  Future<int> getExerciseVariationCount(int exerciseId) async {
+    final db = await _db;
+    final count = Sqflite.firstIntValue(
+      await db.rawQuery(
+        'SELECT COUNT(*) FROM ExerciseVariants WHERE fk_exercise_id = ?',
+        [exerciseId],
+      ),
+    );
+    return count ?? 0;
+  }
+
+  Future<List<MuscleGroup>> getExerciseMuscleGroup(int exerciseId) async {
+    final db = await _db;
+    final List<Map<String, dynamic>> resp = await db.rawQuery(
+      '''
+        SELECT 
+          mg.name as 'group',
+          m.name,
+          em.role
+        FROM ExerciseMuscle em
+        JOIN Muscle m on em.fk_muscle_id = m.pk_muscle_id
+        JOIN MuscleGroups mg on mg.pk_group_id = m.fk_group_id
+        WHERE fk_exercise_id = ?
+      ''',
+      [exerciseId],
+    );
+    return resp.map((e) => MuscleGroup.fromMap(e)).toList();
+  }
+
+  Future<int> toggleExerciseFavourite(int exerciseId) async {
+    final db = await _db;
+
+    // Toggle the is_favourite status based on current value
+    final exercise = await db.query(
+      'Exercise',
+      columns: ['is_favourite'],
+      where: 'pk_exercise_id = ?',
+      whereArgs: [exerciseId],
+    );
+    final isFavourite = (exercise.isNotEmpty && exercise.first['is_favourite'] == 1);
+
+    return await db.update(
+      'Exercise',
+      {'is_favourite': isFavourite ? 0 : 1},
+      where: 'pk_exercise_id = ?',
+      whereArgs: [exerciseId],
+    );
   }
 }

@@ -38,26 +38,10 @@ flutter:
         - asset: assets/fonts/IstokWeb-Regular.ttf
   assets:
     # JSON Data Files
-    - assets/data/default_exercises.json
-    - assets/data/default_muscles.json
-    - assets/data/default_foods.json
-    - assets/data/usda_foundation_foods.json
+    - assets/data/
 
     # SVG Icons
-    - assets/svg/lucide--dumbbell.svg
-    - assets/svg/mdi--food-apple-outline.svg
-    - assets/svg/material-symbols--target.svg
-    - assets/svg/game-icons--progression.svg
-    - assets/svg/ri--calendar-schedule-fill.svg
-    - assets/svg/material-symbols--settings.svg
-    - assets/svg/bxs--widget.svg
-    - assets/svg/food--not--found.svg
-    - assets/svg/streamline--return-2-solid.svg
-    - assets/svg/ic--round-plus.svg
-    - assets/svg/material-symbols--trophy-outline.svg
-    - assets/svg/mdi--calendar.svg
-    - assets/svg/streamline-plump--dumbell-solid.svg
-    - assets/svg/emojione-monotone--fork-and-knife-with-plate.svg
-    - assets/svg/material-symbols--barcode.svg
-    - assets/svg/mdi--filter.svg
-    - assets/svg/entypo--magnifying-glass.svg
+    - assets/svg/
+
+    # Exercise Images
+    - assets/exercises/
