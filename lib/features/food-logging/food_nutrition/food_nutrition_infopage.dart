@@ -7,7 +7,7 @@ import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/nutrition_progress_bar.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/ui_button.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_application_1/features/food-logging/classes/food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
 
 
 class FoodNutritionInfopage extends StatefulWidget {
@@ -54,7 +54,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Text(widget.food.productName)]),
+                          children: [Text(widget.food.name)]),
                       ),
                       SizedBox(width: 10),
                       UIButton(
@@ -399,13 +399,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                     widgetColor: const Color.fromARGB(255, 99,199, 102,),
                                     nutrientType: NutrientType.carbs,
                                     food: widget.food,
-                                    nutrientName: 'Carbs'),   
-                                  NutritionProgressBar(
-                                    nutrientType: NutrientType.salt,
-                                    food: widget.food,
-                                    nutrientName: 'Salt',
-                                    widgetColor: Colors.purple,
-                                    ),                                                                  
+                                    nutrientName: 'Carbs'),                                                                   
                                 ],
                               )
                       ],
