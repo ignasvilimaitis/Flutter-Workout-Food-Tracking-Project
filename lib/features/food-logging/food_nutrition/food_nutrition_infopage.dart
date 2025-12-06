@@ -301,9 +301,11 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                 ),
                               ),
 
-                              SizedBox(width: 180),
+                              Spacer(),
                               Text(
                                 "${(totalMacros.calorieAmount + (widget.food.calories * foodAmount)).toStringAsFixed(1)}/${macroGoals.calorieGoal}",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
                             ],
                           ),
