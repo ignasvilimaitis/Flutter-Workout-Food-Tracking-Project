@@ -3,8 +3,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/assets.dart';
+import 'package:flutter_application_1/features/settings/data/profile_shared_preferences.dart';
 import 'package:flutter_application_1/features/settings/presentation/widgets/settings_button.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -13,7 +15,9 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
+
 class _ProfileScreenState extends State<ProfileScreen> {
+  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   final double _kItemExtent = 32.0;
   List<String> genderOptions = ['Male', 'Female', 'Other'];
   String selectedGender = '';
@@ -67,17 +71,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const Text("Sensitive", style: TextStyle(fontSize: 12.0)),
               Padding(padding: EdgeInsetsGeometry.directional(top: 5)),
               SettingsUIButton(
-                text: "Set Gender",
+                text: "Change Gender",
                 onPressed: () {
-                  _showDialog(
+                  showCupertinoDialog(
                     CupertinoPicker(
                       scrollController: FixedExtentScrollController(initialItem: genderOptions.indexOf(selectedGender)),
                       itemExtent: _kItemExtent,
                       onSelectedItemChanged: (int selectedGender) {
                         setState(() {
-                          this.selectedGender = genderOptions[selectedGender];
-                        print(genderOptions[selectedGender]);
-                          
+                          setGenderPreference(genderOptions[selectedGender]);                                            
                         });
                       },
                       children: List<Widget>.generate(genderOptions.length, (int index) {
@@ -91,9 +93,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
                 icon: Icons.wc),
               SettingsUIButton(
-                text: "Set Weight",
+                text: "Change Weight",
                 onPressed: () {
-                  _showDialog(
+                  showCupertinoDialog(
                     CupertinoPicker(
                       scrollController: FixedExtentScrollController(initialItem: selectedWeight),
                       itemExtent: _kItemExtent,
@@ -113,9 +115,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
                 icon: Icons.monitor_weight),
               SettingsUIButton(
-                text: "Set Height",
+                text: "Change Height",
                 onPressed: () {
-                                    _showDialog(
+                    showCupertinoDialog(
                     CupertinoPicker(
                       scrollController: FixedExtentScrollController(initialItem: selectedHeight),
                       itemExtent: _kItemExtent,
@@ -134,6 +136,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     );
                 },
                 icon: Icons.square_foot),
+
+                
             ]
           )
         )
@@ -142,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _showDialog(Widget child) {
+  void showCupertinoDialog(Widget child) {
     showCupertinoModalPopup<void>(
       context: context,
        builder: (BuildContext context) {

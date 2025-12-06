@@ -12,6 +12,7 @@ import 'package:flutter_application_1/features/settings/presentation/settings_sc
 import 'package:flutter_application_1/core/theme.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './features/workout-logging/presentation/workout_base.dart' as workout_module show BaseLayout;
 
@@ -21,6 +22,10 @@ void main() {
   OpenFoodAPIConfiguration.userAgent = UserAgent(name: 'Gym & Food Tracker', version: '1.0.0');
   OpenFoodAPIConfiguration.globalLanguages = [OpenFoodFactsLanguage.ENGLISH];
   OpenFoodAPIConfiguration.globalCountry = OpenFoodFactsCountry.UNITED_KINGDOM;
+
+  final Future<SharedPreferencesWithCache> _prefs = SharedPreferencesWithCache.create(
+    cacheOptions:  const SharedPreferencesWithCacheOptions()
+  );
 
   AppDatabase.instance.database; // Initialize the database
 
