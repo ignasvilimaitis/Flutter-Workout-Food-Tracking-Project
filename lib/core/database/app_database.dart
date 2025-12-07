@@ -13,7 +13,7 @@ class AppDatabase {
   static final AppDatabase instance = AppDatabase._init();
   static Database? _database;
 
-  static const bool forceRecreateDB = false; // Set to true to delete existing DB on startup.
+  static const bool forceRecreateDB = true; // Set to true to delete existing DB on startup.
 
   AppDatabase._init();
 
@@ -64,6 +64,7 @@ class AppDatabase {
     await db.execute(WorkoutSchema.createSetsTable);
 
     // Food-related tables
+    await db.execute(FoodSchema.createDiaryTable);
     await db.execute(FoodSchema.createFoodItemTable);
     await db.execute(FoodSchema.createCategoryTable);
     await db.execute(FoodSchema.createMealTable);
@@ -73,7 +74,6 @@ class AppDatabase {
 
     // Profile-related tables
     await db.execute(ProfileSchema.userProfileTable);
-    await db.execute(ProfileSchema.userSettingsTable);
     await db.execute(ProfileSchema.foodSettingsTable);
     await db.execute(ProfileSchema.workoutSettingsTable);
 
@@ -104,6 +104,20 @@ class AppDatabase {
         }
       }
     }
+
+    db.insert('Category', {
+      'name': 'Breakfast',
+    });
+    db.insert('Category', {
+      'name': 'Lunch',
+    });
+    db.insert('Category', {
+      'name': 'Dinner',
+    });
+    db.insert('Category', {
+      'name': 'Snacks',
+    });
+
     log('Default values populated successfully.');
   }
 

@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/local_time.dart';
 import 'package:flutter_application_1/core/theme.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_data_source.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_repository.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/progress_bar.dart';
@@ -19,19 +23,20 @@ class FoodLoggingView extends StatefulWidget {
 class _FoodLoggingViewState extends State<FoodLoggingView> {
   late PageController _pageController;
   int currentPageIndex = 0;
+  String selectedDate = LocalTime().dbDate; // Initially start with today's date
+  FoodRepository foodRepository = FoodRepository(FoodDataSource());
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
-    // _tabController = TabController(length: 4, vsync: ScrollableState());
   }
 
   @override
   void dispose() {
     super.dispose();
     _pageController.dispose();
-    // _tabController.dispose();
+
   }
 
 @override
@@ -43,24 +48,36 @@ Widget build(BuildContext context) {
       builder: (context, totalMacros, macroGoals, currentDisplayedMacroType, child) {
         return SafeArea(
           bottom: false,
-          child: Column(
-            children: [
-              // Header - Fixed height
-              buildHeader(),
-              // Scrollable content area
-              SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                      children: [
-                        // Scrollable Widget Row
-                        buildScrollableWidgetRow(),
-                        SizedBox(height: 20),
-                        // Diary Section (body)
-                        buildBody(currentDisplayedMacroType),
-                      ],
+          child: FutureBuilder(
+            future: foodRepository.getCurrentDay(selectedDate),
+            builder: (context, asyncSnapshot) {
+              if(asyncSnapshot.hasData) {
+              return Column(
+                children: [
+                  // Header - Fixed height
+                  buildHeader(),
+                  // Scrollable content area
+                  SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                          children: [
+                            // Scrollable Widget Row
+                            buildScrollableWidgetRow(),
+                            SizedBox(height: 20),
+                            // Diary Section (body)
+                            buildBody(currentDisplayedMacroType),
+                          ],
+                        ),
+              
                     ),
-                ),
-            ],
+                ],
+              );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }
           ),
         );
       },
@@ -137,19 +154,34 @@ Widget buildHeader() {
           ),
           child: Row(
             children: [
-              Icon(Icons.arrow_left, size: 50),
+              IconButton(
+                visualDensity: VisualDensity.compact,
+                  onPressed: () {
+                    setState(() {
+                      selectedDate = LocalTime().getPreviousDate(selectedDate);
+                    });
+                    print(selectedDate);
+                  },
+                icon: Icon(Icons.arrow_left),
+                iconSize: 50),
               Spacer(),
               Text(
-                  LocalTime().today,
+                  selectedDate,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               Spacer(),
-              Icon(Icons.arrow_right,
-              size: 50,
-              ),
+              IconButton(
+                visualDensity: VisualDensity.compact,
+                                  onPressed: () {
+                    setState(() {
+                      selectedDate = LocalTime().getAheadDate(selectedDate);
+                    });
+                  },
+                icon: Icon(Icons.arrow_right),
+                iconSize: 50),
             ],
           ),
         ),
@@ -268,14 +300,13 @@ Widget buildBody(CurrentMacroDisplay currentDisplayedMacroType) {
               
             ],
           ),
-          DiaryWidgetV2(diaryName: 'Breakfast'),
+          DiaryWidgetV2(diaryName: 'Breakfast', diaryDate: selectedDate, diaryId: 1,),
           SizedBox(height: 20,),
-          DiaryWidgetV2(diaryName: 'Lunch'),
+          DiaryWidgetV2(diaryName: 'Lunch', diaryDate: selectedDate, diaryId: 2,),
           SizedBox(height: 20,),
-          DiaryWidgetV2(diaryName: 'Dinner'),
+          DiaryWidgetV2(diaryName: 'Dinner', diaryDate: selectedDate, diaryId: 3,),
           SizedBox(height: 20,),
-          DiaryWidgetV2(diaryName: 'Snacks'),
-          SizedBox(height: 75,) // TODO: temp fix for bottom padding
+          DiaryWidgetV2(diaryName: 'Snacks', diaryDate: selectedDate, diaryId: 4,),
         ],
       ),
     );

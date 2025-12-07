@@ -13,16 +13,6 @@ CREATE TABLE UserProfile (
     );
     ''';
 
-  static const  userSettingsTable = '''
-CREATE TABLE UserSettings (
-    user_settings_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id          INTEGER NOT NULL UNIQUE,
-    app_theme        TEXT,
-    app_language     TEXT,
-    FOREIGN KEY (user_id) REFERENCES UserProfile(user_id)
-);
-''';
-
   static const  foodSettingsTable = '''
 CREATE TABLE FoodSettings (
     food_settings_id    INTEGER PRIMARY KEY AUTOINCREMENT,

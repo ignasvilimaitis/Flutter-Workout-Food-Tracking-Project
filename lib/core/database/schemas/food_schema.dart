@@ -1,4 +1,13 @@
 class FoodSchema {
+  static const createDiaryTable = '''
+      CREATE TABLE Diary (
+        pk_date TEXT NOT NULL PRIMARY KEY,
+        calorie_target REAL,
+        protein_percentage REAL,
+        carb_percentage REAL,
+        fat_percentage REAL
+      );
+    ''';
   static const createCategoryTable = '''
       CREATE TABLE Category (
         pk_category_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -10,8 +19,10 @@ class FoodSchema {
       CREATE TABLE DiaryEntry (
         pk_diaryentry_id INTEGER PRIMARY KEY AUTOINCREMENT,
         fk_category_id INTEGER NOT NULL,
-        date TEXT NOT NULL,
+        fk_diary_date TEXT NOT NULL,
+        macro_targets TEXT NULL,
         FOREIGN KEY (fk_category_id) REFERENCES Category(pk_category_id)
+        FOREIGN KEY (fk_diary_date) REFERENCES Diary(pk_date)
       );
     ''';
     

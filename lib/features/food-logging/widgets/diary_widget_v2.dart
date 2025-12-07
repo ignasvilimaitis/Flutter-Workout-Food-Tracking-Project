@@ -3,15 +3,21 @@ import 'package:flutter_application_1/core/enums.dart';
 import 'package:flutter_application_1/core/routes.dart';
 import 'package:flutter_application_1/core/theme.dart';
 import 'package:flutter_application_1/core/utils/helpers.dart';
-import 'package:flutter_application_1/features/food-logging/arguments/diary_entry.dart';
+import 'package:flutter_application_1/features/food-logging/arguments/food_selection_args.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_data_source.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_repository.dart';
 import 'package:flutter_application_1/features/food-logging/food_nutrition/food_nutrition_infopage.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:provider/provider.dart';
 
 class DiaryWidgetV2 extends StatefulWidget {
-  const DiaryWidgetV2({super.key, required this.diaryName});
+  const DiaryWidgetV2({super.key, required this.diaryName, required this.diaryDate, required this.diaryId});
   final String diaryName;
+  final String diaryDate;
+  final int diaryId;
+
+
 
   @override
   State<DiaryWidgetV2> createState() => _DiaryWidgetV2State();
@@ -19,6 +25,34 @@ class DiaryWidgetV2 extends StatefulWidget {
 
 class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
   final ExpansibleController _controller = ExpansibleController();
+    FoodRepository repo = FoodRepository(FoodDataSource());
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDiaryEntry();
+  }
+
+  Future<void> _loadDiaryEntry() async {
+
+    await repo.getOrCreateDiaryEntryForSelectedDate(
+      widget.diaryDate,
+      widget.diaryId,
+    );
+
+    setState(() {}); 
+  }
+
+  @override
+  void didUpdateWidget(covariant DiaryWidgetV2 oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // whenever user switches the date
+    if (oldWidget.diaryDate != widget.diaryDate) {
+      _loadDiaryEntry();
+    }
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -52,42 +86,61 @@ class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
     );
   }
 
-Widget _buildBody(BuildContext context,DiaryFoodList diaryFoodList, TotalMacros macroTotal,
- CurrentMacroDisplay currentMacroDisplay) {
+Widget _buildBody(
+  BuildContext context,
+  DiaryFoodList diaryFoodList,
+  TotalMacros macroTotal,
+  CurrentMacroDisplay currentMacroDisplay,
+) {
   final isExpanded = _controller.isExpanded;
-  final foods = diaryFoodList.getFoods(widget.diaryName.toLowerCase());
+  if (!isExpanded) return const SizedBox.shrink();
 
-  return AnimatedSize(
-    duration: const Duration(milliseconds: 200),
-    curve: Curves.easeInOut,
-    child: isExpanded
-        ? Container(
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: Colors.grey),
-              ),
+  return FutureBuilder<List<Map<String, dynamic>>>(
+    future: repo.getFoodsForDiaryEntry(widget.diaryDate, widget.diaryId),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Center(child: CircularProgressIndicator()),
+        );
+      } else if (snapshot.hasError) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text("Error loading foods: ${snapshot.error}"),
+        );
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        return const SizedBox(height: 1,);
+      } else {
+        final foods = snapshot.data!;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Divider(),
+            ...List.generate(
+              foods.length,
+              (i) {
+                final foodMap = foods[i];
+                return Column(
+                  children: [
+                    _buildFoodRowFromMap(
+                      foodMap,
+                      context,
+                      widget.diaryName,
+                      currentMacroDisplay.getCurrentDisplay(),
+                    ),
+                    if (i != foods.length - 1)
+                      const Divider(height: 1, thickness: 1, color: Colors.grey),
+                  ],
+                );
+              },
             ),
-            child: Column(
-              children: [
-                for (int i = 0; i < foods.length; i++) ... [ // triple dots is the spread operator, 
-                //allows to insert a list of widgets into the children of the column
-                  _buildFoodRow(
-                    foods[i],
-                    context,
-                    diaryFoodList,
-                    macroTotal,
-                    widget.diaryName,
-                    currentMacroDisplay.getCurrentDisplay(),
-                  ),
-                  if (i != foods.length - 1) // if the current iteration is not the last one
-                    const Divider(height: 1, thickness: 1, color: Colors.grey),
-                ],
-              ],
-            ),
-          )
-        : const SizedBox.shrink(),
+          ],
+        );
+      }
+    },
   );
 }
+
 
 Widget _buildHeader(BuildContext context, DiaryFoodList diaryFoodList, TotalMacros macroTotal,
  CurrentMacroDisplay currentDisplayedMacroType) {
@@ -106,10 +159,21 @@ Widget _buildHeader(BuildContext context, DiaryFoodList diaryFoodList, TotalMacr
           final FoodItem? food = await Navigator.pushNamed<FoodItem>(
             context,
             foodSelectionRoute,
-            arguments: DiaryEntryName(widget.diaryName),
+            arguments:  FoodSelectionArgs(
+              widget.diaryName,
+              widget.diaryDate,
+              widget.diaryId,
+            )
+  
           );
           if (food != null) {
-            diaryFoodList.add(food, widget.diaryName);
+            final diaryEntry = await repo.getOrCreateDiaryEntryForSelectedDate(widget.diaryDate, widget.diaryId);
+
+            await repo.addFoodToDiaryEntry(
+              diaryEntry['pk_diaryentry_id'],
+              food.id,
+              quantity: 1,
+            );
             macroTotal.addMacros(food);
           }
         },
@@ -179,135 +243,103 @@ Widget getCurrentDisplayedMacroHeader(DiaryFoodList foods, TotalMacros widgetInf
   }
 }
 
-Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, TotalMacros widgetInfo, String diaryName,
- MacroType currentDisplayedMacroType) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FoodNutritionInfopage(food: food, diaryEntry: diaryName,)));
-                },
-                child: Container(
-                    alignment: Alignment.center,
-                    child: Row(
-                      children: [
-                        Icon(Icons.fastfood, size: 24.0, color: Colors.grey[700]), // TODO: placeholder for icon (will need to
-                        // implement different icons for different food types later)
-                        SizedBox(width: 10,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                          Text.rich(
-                          overflow: TextOverflow.ellipsis,
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: '${truncateText(food.name, 25)} ' + bullet,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight:
-                                      FontWeight.bold,
-                                  fontSize: 14.0,
-                                ),
-                              ),
-                              TextSpan(
-                                text:
-                                    food.brand ?? '',
-                                style: TextStyle(
-                                  color:
-                                      const Color.fromARGB(
-                                        255,
-                                        82,
-                                        82,
-                                        82,
-                                      ),
-                                  fontWeight:
-                                      FontWeight.w100,
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Text(food.servingSize,
-                        style: TextStyle(
-                          color: Colors.grey[900],
-                          fontSize: 12,
-                        ),)
-                          ],
-                        
-                        ),
-                        Spacer(),
-                        Container(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.all(3),
-                            width: 59,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: currentDisplayedMacroType == MacroType.protein ?
-                              Color.fromARGB(255, 106, 206, 110) : currentDisplayedMacroType == MacroType.fat ? Colors.orange
-                                   : currentDisplayedMacroType == MacroType.carbs ? Colors.blue : getThemeData().primaryColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: getCurrentDisplayedMacroBody(food, currentDisplayedMacroType)
-                          ),
-                      ],
-                
-                
-                    ),
+Widget _buildFoodRowFromMap(
+  Map<String, dynamic> foodMap,
+  BuildContext context,
+  String diaryName,
+  MacroType currentDisplayedMacroType,
+) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+    child: Row(
+      children: [
+        Expanded(
+          child: InkWell(
+            onTap: () {
+              // Open nutrition info page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => FoodNutritionInfopage(
+                    food: FoodItem.fromMap(foodMap),
+                    diaryEntry: diaryName,
                   ),
+                ),
+              );
+            },
+            child: Row(
+              children: [
+                Icon(Icons.fastfood, size: 24.0, color: Colors.grey[700]),
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      foodMap['name'] ?? 'Unknown',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.0,
+                      ),
+                    ),
+                    if (foodMap['brand'] != null)
+                      Text(
+                        foodMap['brand'],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w100,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                    if (foodMap['servingSize'] != null)
+                      Text(
+                        foodMap['servingSize'],
+                        style: TextStyle(fontSize: 12, color: Colors.grey[900]),
+                      ),
+                  ],
+                ),
+                const Spacer(),
+                Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(3),
+                  width: 59,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    color: currentDisplayedMacroType == MacroType.protein
+                        ? const Color.fromARGB(255, 106, 206, 110)
+                        : currentDisplayedMacroType == MacroType.fat
+                            ? Colors.orange
+                            : currentDisplayedMacroType == MacroType.carbs
+                                ? Colors.blue
+                                : getThemeData().primaryColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: getCurrentDisplayedMacroBodyFromMap(foodMap, currentDisplayedMacroType),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
-    );
+        ),
+      ],
+    ),
+  );
 }
 
-Widget getCurrentDisplayedMacroBody(FoodItem food, MacroType currentDisplayedMacroType) {
+
+Widget getCurrentDisplayedMacroBodyFromMap(
+  Map<String, dynamic> foodMap,
+  MacroType currentDisplayedMacroType,
+) {
   switch (currentDisplayedMacroType) {
     case MacroType.energy:
-      return Text(
-        "${food.calories.toStringAsFixed(1)} kcal",
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 12,
-        ),
-        overflow: TextOverflow.ellipsis,
-      );
+      return Text("${foodMap['calories']?.toStringAsFixed(1) ?? '0'} kcal", style: const TextStyle(fontSize: 12));
     case MacroType.carbs:
-      return Text(
-        "${food.carbs.toStringAsFixed(1)} g",
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 12,
-        ),
-        overflow: TextOverflow.ellipsis,
-      );
+      return Text("${foodMap['carbs']?.toStringAsFixed(1) ?? '0'} g", style: const TextStyle(fontSize: 12));
     case MacroType.protein:
-      return Text(
-        "${food.proteins.toStringAsFixed(1)} g",
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 12,
-        ),
-        overflow: TextOverflow.ellipsis,
-      );
+      return Text("${foodMap['proteins']?.toStringAsFixed(1) ?? '0'} g", style: const TextStyle(fontSize: 12));
     case MacroType.fat:
-      return Text(
-        "${food.fats.toStringAsFixed(1)} g",
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 12,
-        ),
-        overflow: TextOverflow.ellipsis,
-      );
+      return Text("${foodMap['fats']?.toStringAsFixed(1) ?? '0'} g", style: const TextStyle(fontSize: 12));
   }
 }
+
 
 Future<bool?> showConfirmDialog(BuildContext context) {
   return showDialog<bool>(
