@@ -11,7 +11,7 @@ import '../data/workout_data_source.dart' show ExerciseDataSource;
 class WorkoutExercisesPage extends StatefulWidget {
   final VoidCallback? returnHome;
 
-  const WorkoutExercisesPage({this.returnHome, Key? key}) : super(key: key);
+  const WorkoutExercisesPage({this.returnHome, super.key});
 
   @override
   State<WorkoutExercisesPage> createState() => _WorkoutExercisesPageState();
@@ -59,25 +59,67 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage> {
     });
   }
 
+  void _toggleFavourite(int exerciseId) {
+    setState(() {
+      final exercise = exercises.firstWhere((ex) => ex.id == exerciseId);
+      exercise.isFavourite = !exercise.isFavourite;
+    });
+    exerciseRepo.toggleFavouriteExercise(exerciseId);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: CustomAppBarExercises(
-        returnHome: widget.returnHome,
-        searchController: searchController,
-        onSearchChanged: _filterExercises, // Pass the search callback
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: ExerciseList(
-            exercises: filteredExercises, // Pass the filtered list
-            variationsCount: variationsCount,
-            primaryMuscleGroups: primaryMuscleGroups,
-            exerciseRepo: exerciseRepo,
-          ),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Theme.of(context).primaryColor,
+        appBar: CustomAppBarExercises(
+          returnHome: widget.returnHome,
+          searchController: searchController,
+          onSearchChanged: _filterExercises, // Pass the search callback
+        ),
+        body: TabBarView(
+          children: [
+            // All 
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: ExerciseList(
+                  exercises: filteredExercises, // Pass the filtered list
+                  variationsCount: variationsCount,
+                  primaryMuscleGroups: primaryMuscleGroups,
+                  onFavouriteChanged: (exerciseId) => _toggleFavourite(exerciseId),
+                ),
+              ),
+            ),
+
+            // Favourites
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: ExerciseList(
+                  exercises: filteredExercises.where((exercise) => exercise.isFavourite).toList(), // Pass the filtered list
+                  variationsCount: variationsCount,
+                  primaryMuscleGroups: primaryMuscleGroups,
+                  onFavouriteChanged: (exerciseId) => _toggleFavourite(exerciseId),
+                ),
+              ),
+            ),
+
+            // Custom
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: ExerciseList(
+                  exercises: filteredExercises.where((exercise) => exercise.isCustom).toList(), // Pass the filtered list
+                  variationsCount: variationsCount,
+                  primaryMuscleGroups: primaryMuscleGroups,
+                  onFavouriteChanged: (exerciseId) => _toggleFavourite(exerciseId),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

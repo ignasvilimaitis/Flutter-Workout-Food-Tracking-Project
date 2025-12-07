@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 
 // Data
-import '../../../data/workout_repository.dart';
 import '../../../data/workout_model.dart' show Exercise;
 
-class ExerciseList extends StatelessWidget {
+// ================================= All Exercises List =================================
+
+class ExerciseList extends StatefulWidget {
   final List<Exercise> exercises;
   final Map<int, int> variationsCount;
   final Map<int, String> primaryMuscleGroups;
-  final ExerciseRepository? exerciseRepo;
+  final void Function(int exerciseId)? onFavouriteChanged;
 
   const ExerciseList({
     super.key,
     required this.exercises,
     required this.variationsCount,
     required this.primaryMuscleGroups,
-    this.exerciseRepo,
+    required this.onFavouriteChanged,
   });
 
+  @override
+  State<ExerciseList> createState() => _ExerciseListState();
+}
+
+class _ExerciseListState extends State<ExerciseList> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,12 +32,9 @@ class ExerciseList extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6),
           child: Text(
-            '${exercises.length} Results',
+            '${widget.exercises.length} Results',
             textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[700],
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.grey[700]),
           ),
         ),
         Expanded(
@@ -41,24 +44,24 @@ class ExerciseList extends StatelessWidget {
               color: Theme.of(context).cardColor,
             ),
             child: ListView.builder(
-              itemCount: exercises.length,
+              itemCount: widget.exercises.length,
               itemBuilder: (context, index) {
-                final exercise = exercises[index];
+                final exercise = widget.exercises[index];
                 return ExerciseListItem(
                   exerciseId: exercise.id,
                   exerciseName: exercise.name,
-                  muscleGroup: primaryMuscleGroups[exercise.id] ?? 'N/A',
+                  muscleGroup: widget.primaryMuscleGroups[exercise.id] ?? 'N/A',
                   type: exercise.type ?? 'N/A',
                   imgPath: exercise.iconPath,
-                  variations: variationsCount[exercise.id] ?? 0,
+                  variations: widget.variationsCount[exercise.id] ?? 0,
                   isFavourite: exercise.isFavourite,
-                  exerciseRepo: exerciseRepo,
+                  onFavouriteChanged: widget.onFavouriteChanged,
                   onTap: () {},
                 );
               },
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -73,38 +76,29 @@ class ExerciseListItem extends StatefulWidget {
   final int variations;
   final bool isFavourite;
   final VoidCallback? onTap;
-  final ExerciseRepository? exerciseRepo;
+  final void Function(int exerciseId)? onFavouriteChanged;
 
   const ExerciseListItem({
-    required this.exerciseId,
-    required this.exerciseName,
-    required this.muscleGroup,
-    required this.type,
-    this.imgPath,
-    required this.variations,
-    required this.isFavourite,
-    this.onTap,
-    this.exerciseRepo,
-  });
+  required this.exerciseId,
+  required this.exerciseName,
+  required this.muscleGroup,
+  required this.type,
+  this.imgPath,
+  required this.variations,
+  required this.isFavourite,
+  this.onTap,
+  required this.onFavouriteChanged,
+});
 
   @override
   State<ExerciseListItem> createState() => _ExerciseListItemState();
 }
 
 class _ExerciseListItemState extends State<ExerciseListItem> {
-  late bool _isFavourite;
 
   @override
   void initState() {
     super.initState();
-    _isFavourite = widget.isFavourite;
-  }
-
-  void _toggleFavourite() {
-    setState(() {
-      _isFavourite = !_isFavourite;
-    });
-    widget.exerciseRepo?.toggleFavouriteExercise(widget.exerciseId);
   }
 
   @override
@@ -155,14 +149,14 @@ class _ExerciseListItemState extends State<ExerciseListItem> {
               ),
             ),
             Expanded(
-              child: _isFavourite
+              child: widget.isFavourite
                   ? IconButton(
                       icon: Icon(Icons.star_rounded, color: Colors.amber),
-                      onPressed: _toggleFavourite,
+                      onPressed: () => widget.onFavouriteChanged?.call(widget.exerciseId),
                     )
                   : IconButton(
                       icon: Icon(Icons.star_border_rounded, color: Colors.grey[700]),
-                      onPressed: _toggleFavourite,
+                      onPressed: () => widget.onFavouriteChanged?.call(widget.exerciseId),
                     )
             )
           ],

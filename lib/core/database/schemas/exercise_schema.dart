@@ -16,6 +16,7 @@ class ExerciseSchema {
     notes TEXT,
     created_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
     updated_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
+    last_used_at INTEGER,
     icon_path TEXT,
     is_custom BOOLEAN NOT NULL DEFAULT 0,
     is_favourite BOOLEAN NOT NULL DEFAULT 0

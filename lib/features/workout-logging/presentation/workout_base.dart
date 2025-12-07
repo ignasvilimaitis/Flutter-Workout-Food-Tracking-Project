@@ -101,6 +101,7 @@ class BaseAppBarSkeleton extends StatelessWidget implements PreferredSizeWidget 
   @override
   Widget build(BuildContext context) {
     final double firstRowHeight = kToolbarHeight - 10;
+    final double secondRowHeight = secondRow != null ? (firstRowHeight / 1.5) : 0;
 
     return Padding(
       padding: const EdgeInsets.only(top: 10), // Top padding to separate from status bar
@@ -116,7 +117,10 @@ class BaseAppBarSkeleton extends StatelessWidget implements PreferredSizeWidget 
                 height: firstRowHeight,
                 child: firstRow,
               ),
-              if (secondRow != null) secondRow!,
+              if (secondRow != null) SizedBox(
+                height: secondRowHeight,
+                child: secondRow,
+              ),
             ],
           ),
         ),
@@ -212,7 +216,7 @@ class CustomAppBarExercises extends StatelessWidget implements PreferredSizeWidg
 
           // Search bar
           Expanded(
-            flex: 4,
+            flex: 5,
             child: _buildSearchContainer(
               context: context,
               containerColor: containerColor,
@@ -238,69 +242,50 @@ class CustomAppBarExercises extends StatelessWidget implements PreferredSizeWidg
           borderRadius: BorderRadius.circular(borderRadius),
           color: containerColor,
         ),
-        padding: const EdgeInsets.symmetric(vertical: 3),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          spacing: 8,
-          children: [
-            SizedBox(width: 0.5,),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor,
-                    width: 1.5,
-                  ),
-                ),
-                child: Text(
-                  'All',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12),
-                ),
-              ),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: TabBar(
+            tabs: [
+              Tab(child: _buildTab('All', context)),
+              Tab(child: _buildTab('Favourites', context)),
+              Tab(child: _buildTab('Custom', context)),
+            ],
+            dividerHeight: 0,
+            labelStyle: TextStyle(
+              fontSize: 12,
+              color: Colors.black,
             ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor,
-                    width: 1.5,
-                  ),
-                ),
-                child: Text(
-                  'Favourites',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12),
-                ),
-              ),
+            indicator: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(borderRadius),
             ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor,
-                    width: 1.5,
-                  ),
-                ),
-                child: Text(
-                  'Custom',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12),
-                ),
-              ),
-            ),
-            SizedBox(width: 0.5,),
-          ],
+            indicatorSize: TabBarIndicatorSize.tab,
+            labelPadding: EdgeInsets.zero,
+          ),
         ),
       ),
     );
   }
+}
+
+Widget _buildTab(String label, BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 4),
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Theme.of(context).primaryColor,
+          width: 1.5,
+        ),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        label,
+        style: const TextStyle(fontSize: 12, color: Colors.black),
+      ),
+    ),
+  );
 }
 
 Widget _buildRectButton({

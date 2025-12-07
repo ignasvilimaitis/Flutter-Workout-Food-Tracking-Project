@@ -8,7 +8,7 @@ class Exercise {
   final DateTime updatedAt;
   final String? iconPath;
   final bool isCustom;
-  final bool isFavourite;
+  late bool isFavourite;
   final String? type;
 
   Exercise({
