@@ -9,6 +9,8 @@ import 'package:flutter_application_1/features/food-logging/data/food_model.dart
 import 'package:flutter_application_1/features/food-logging/data/food_repository.dart';
 import 'package:flutter_application_1/features/food-logging/food_nutrition/food_nutrition_infopage.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
+import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 class DiaryWidgetV2 extends StatefulWidget {
@@ -24,6 +26,7 @@ class DiaryWidgetV2 extends StatefulWidget {
 }
 
 class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
+  List<FoodItem> foodss = const [];
   final ExpansibleController _controller = ExpansibleController();
     FoodRepository repo = FoodRepository(FoodDataSource());
 
@@ -76,8 +79,8 @@ class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
             borderRadius: BorderRadius.circular(20.0),
             child: Column(
               children: [
-                _buildHeader(context, diaryFoodList, macroTotal, currentMacroDisplay),
-                _buildBody(context, diaryFoodList, macroTotal, currentMacroDisplay),
+                _buildHeader(context, macroTotal, currentMacroDisplay),
+                _buildBody(context,macroTotal, currentMacroDisplay),
               ],
             ),
           ),
@@ -88,7 +91,6 @@ class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
 
 Widget _buildBody(
   BuildContext context,
-  DiaryFoodList diaryFoodList,
   TotalMacros macroTotal,
   CurrentMacroDisplay currentMacroDisplay,
 ) {
@@ -115,7 +117,7 @@ Widget _buildBody(
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Divider(),
+            const Divider(height: 1, thickness: 1, color: Colors.grey),
             ...List.generate(
               foods.length,
               (i) {
@@ -142,7 +144,7 @@ Widget _buildBody(
 }
 
 
-Widget _buildHeader(BuildContext context, DiaryFoodList diaryFoodList, TotalMacros macroTotal,
+Widget _buildHeader(BuildContext context, TotalMacros macroTotal,
  CurrentMacroDisplay currentDisplayedMacroType) {
   final isExpanded = _controller.isExpanded;
 
@@ -159,25 +161,36 @@ Widget _buildHeader(BuildContext context, DiaryFoodList diaryFoodList, TotalMacr
           final FoodItem? food = await Navigator.pushNamed<FoodItem>(
             context,
             foodSelectionRoute,
-            arguments:  FoodSelectionArgs(
+            arguments: FoodSelectionArgs(
               widget.diaryName,
               widget.diaryDate,
-              widget.diaryId,
-            )
-  
-          );
+              widget.diaryId,));
+
           if (food != null) {
-            final diaryEntry = await repo.getOrCreateDiaryEntryForSelectedDate(widget.diaryDate, widget.diaryId);
+            final diaryEntry = await repo.getOrCreateDiaryEntryForSelectedDate(
+              widget.diaryDate,
+              widget.diaryId,
+            );
 
             await repo.addFoodToDiaryEntry(
               diaryEntry['pk_diaryentry_id'],
               food.id,
               quantity: 1,
             );
+
             macroTotal.addMacros(food);
+
+            final newFoods = await repo.getFoodsForDiaryEntry(
+              widget.diaryDate,
+              widget.diaryId,
+            );
+
+            setState(() {
+              foodss = newFoods.map((f) => FoodItem.fromMap(f)).toList();
+            });
           }
         },
-        icon: const Icon(Icons.add),
+                icon: const Icon(Icons.add),
       ),
       trailing:
           Row(
@@ -191,7 +204,7 @@ Widget _buildHeader(BuildContext context, DiaryFoodList diaryFoodList, TotalMacr
                                    : currentDisplayedMacroType.getCurrentDisplay() == MacroType.carbs ? Colors.blue : getThemeData().primaryColor,
                               borderRadius: BorderRadius.circular(7),
                             ),
-                child: getCurrentDisplayedMacroHeader(diaryFoodList, macroTotal,
+                child: getCurrentDisplayedMacroHeader(foodss, macroTotal,
                 widget.diaryName, currentDisplayedMacroType.getCurrentDisplay())
               ),
               SizedBox(width: 20,),
@@ -206,11 +219,12 @@ Widget _buildHeader(BuildContext context, DiaryFoodList diaryFoodList, TotalMacr
 
 }
 
-Widget getCurrentDisplayedMacroHeader(DiaryFoodList foods, TotalMacros widgetInfo, String diaryName, MacroType currentDisplayedMacroType) {
+Widget getCurrentDisplayedMacroHeader(List<FoodItem> foods,
+ TotalMacros widgetInfo, String diaryName, MacroType currentDisplayedMacroType) {
   switch (currentDisplayedMacroType) {
     case MacroType.energy:
       return Text(
-        "${foods.getCalorieAmount(diaryName).toStringAsFixed(1)} Kcal",
+        "${getMacroTotal(foods, MacroType.energy).toStringAsFixed(1)} Kcal",
         style: const TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 14,
@@ -218,7 +232,7 @@ Widget getCurrentDisplayedMacroHeader(DiaryFoodList foods, TotalMacros widgetInf
       );
     case MacroType.carbs:
       return Text(
-        "${foods.getCarbAmount(diaryName).toStringAsFixed(1)} g",
+        "${getMacroTotal(foods, MacroType.carbs).toStringAsFixed(1)} g",
         style: const TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 14,
@@ -226,7 +240,7 @@ Widget getCurrentDisplayedMacroHeader(DiaryFoodList foods, TotalMacros widgetInf
       );
     case MacroType.protein:
       return Text(
-        "${foods.getProteinAmount(diaryName).toStringAsFixed(1)} g",
+        "${getMacroTotal(foods, MacroType.protein).toStringAsFixed(1)} g",
         style: const TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 14,
@@ -234,7 +248,7 @@ Widget getCurrentDisplayedMacroHeader(DiaryFoodList foods, TotalMacros widgetInf
       );
     case MacroType.fat:
       return Text(
-        "${foods.getFatAmount(diaryName).toStringAsFixed(1)} g",
+        "${getMacroTotal(foods, MacroType.fat).toStringAsFixed(1)} g",
         style: const TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 14,
@@ -242,6 +256,23 @@ Widget getCurrentDisplayedMacroHeader(DiaryFoodList foods, TotalMacros widgetInf
       );
   }
 }
+
+double getMacroTotal(List<FoodItem> foods, MacroType currentDisplayedMacroType) {
+  double macroTotal = 0;
+  for (FoodItem food in foods) {
+    switch (currentDisplayedMacroType) {
+      case MacroType.energy:
+        macroTotal += food.calories;
+      case MacroType.carbs:
+        macroTotal += food.carbs;
+      case MacroType.fat:
+        macroTotal += food.fats;
+      case MacroType.protein:
+        macroTotal += food.proteins;
+      }
+    }
+  return macroTotal;
+  }
 
 Widget _buildFoodRowFromMap(
   Map<String, dynamic> foodMap,

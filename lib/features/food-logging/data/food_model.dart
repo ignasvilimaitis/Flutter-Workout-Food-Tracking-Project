@@ -51,4 +51,23 @@ class FoodItem {
     );
   }
 
+  double getProteinAmount() {
+    return (proteins);
+  }
+
+  double getCarbAmount() {
+    return (carbs);
+  }
+
+
+  double getFatAmount() {
+    return (fats);
+  }
+
+
+  double getCalorieAmount() {
+    return (calories);
+  }
+
+
 }
