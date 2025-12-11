@@ -53,6 +53,7 @@ class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
     // whenever user switches the date
     if (oldWidget.diaryDate != widget.diaryDate) {
       _loadDiaryEntry();
+      foodss = [];
     }
   }
   
@@ -80,7 +81,7 @@ class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
             child: Column(
               children: [
                 _buildHeader(context, macroTotal, currentMacroDisplay),
-                _buildBody(context,macroTotal, currentMacroDisplay),
+                _buildBody(context, currentMacroDisplay),
               ],
             ),
           ),
@@ -88,10 +89,47 @@ class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
       },
     );
   }
+Widget getCurrentDisplayedMacroNumber(List<FoodItem> foods, String diaryDate, int diaryId, MacroType currentDisplayedMacroType)  {
+
+  switch (currentDisplayedMacroType) {
+    case MacroType.energy:
+      return Text(
+        "${getMacroTotal(foods, MacroType.energy).toStringAsFixed(1)} Kcal",
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
+      );
+    case MacroType.carbs:
+      return Text(
+        "${getMacroTotal(foods, MacroType.carbs).toStringAsFixed(1)} g",
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
+      );
+    case MacroType.protein:
+      return Text(
+        "${getMacroTotal(foods, MacroType.protein).toStringAsFixed(1)} g",
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
+      );
+    case MacroType.fat:
+      return Text(
+        "${getMacroTotal(foods, MacroType.fat).toStringAsFixed(1)} g",
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
+      );
+  }
+}
+
 
 Widget _buildBody(
   BuildContext context,
-  TotalMacros macroTotal,
   CurrentMacroDisplay currentMacroDisplay,
 ) {
   final isExpanded = _controller.isExpanded;
@@ -100,12 +138,7 @@ Widget _buildBody(
   return FutureBuilder<List<Map<String, dynamic>>>(
     future: repo.getFoodsForDiaryEntry(widget.diaryDate, widget.diaryId),
     builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Center(child: CircularProgressIndicator()),
-        );
-      } else if (snapshot.hasError) {
+       if (snapshot.hasError) {
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text("Error loading foods: ${snapshot.error}"),
@@ -204,8 +237,30 @@ Widget _buildHeader(BuildContext context, TotalMacros macroTotal,
                                    : currentDisplayedMacroType.getCurrentDisplay() == MacroType.carbs ? Colors.blue : getThemeData().primaryColor,
                               borderRadius: BorderRadius.circular(7),
                             ),
-                child: getCurrentDisplayedMacroHeader(foodss, macroTotal,
-                widget.diaryName, currentDisplayedMacroType.getCurrentDisplay())
+                child: FutureBuilder(
+                  future: repo.getFoodsForDiaryEntry(widget.diaryDate, widget.diaryId),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final foods = snapshot.data!;
+                      final List<FoodItem> foodItems = foods.map((f) => FoodItem.fromMap(f)).toList();
+
+                      return getCurrentDisplayedMacroNumber(
+                        foodItems,
+                        widget.diaryDate,
+                        widget.diaryId,
+                        currentDisplayedMacroType.getCurrentDisplay(),
+                      );
+                    } else {
+                      return const SizedBox(
+                        width: 20,
+                        height: 10,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                        ),
+                      );
+                    }
+                  }
+                  )
               ),
               SizedBox(width: 20,),
               Icon(
@@ -216,63 +271,30 @@ Widget _buildHeader(BuildContext context, TotalMacros macroTotal,
     ),
   );
 }  
-
-}
-
-Widget getCurrentDisplayedMacroHeader(List<FoodItem> foods,
- TotalMacros widgetInfo, String diaryName, MacroType currentDisplayedMacroType) {
-  switch (currentDisplayedMacroType) {
-    case MacroType.energy:
-      return Text(
-        "${getMacroTotal(foods, MacroType.energy).toStringAsFixed(1)} Kcal",
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 14,
-        ),
-      );
-    case MacroType.carbs:
-      return Text(
-        "${getMacroTotal(foods, MacroType.carbs).toStringAsFixed(1)} g",
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 14,
-        ),
-      );
-    case MacroType.protein:
-      return Text(
-        "${getMacroTotal(foods, MacroType.protein).toStringAsFixed(1)} g",
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 14,
-        ),
-      );
-    case MacroType.fat:
-      return Text(
-        "${getMacroTotal(foods, MacroType.fat).toStringAsFixed(1)} g",
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 14,
-        ),
-      );
-  }
 }
 
 double getMacroTotal(List<FoodItem> foods, MacroType currentDisplayedMacroType) {
   double macroTotal = 0;
+
   for (FoodItem food in foods) {
     switch (currentDisplayedMacroType) {
       case MacroType.energy:
         macroTotal += food.calories;
+        break;
       case MacroType.carbs:
         macroTotal += food.carbs;
+        break;
       case MacroType.fat:
         macroTotal += food.fats;
+        break;
       case MacroType.protein:
         macroTotal += food.proteins;
-      }
+        
     }
-  return macroTotal;
   }
+
+  return macroTotal;
+}
 
 Widget _buildFoodRowFromMap(
   Map<String, dynamic> foodMap,
