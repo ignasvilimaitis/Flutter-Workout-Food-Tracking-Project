@@ -296,12 +296,23 @@ double getMacroTotal(List<FoodItem> foods, MacroType currentDisplayedMacroType) 
   return macroTotal;
 }
 
+
+// Widget for each food within a diary
 Widget _buildFoodRowFromMap(
   Map<String, dynamic> foodMap,
   BuildContext context,
   String diaryName,
   MacroType currentDisplayedMacroType,
 ) {
+
+  String name = foodMap["name"] ?? '';
+
+const int maxNameLength = 30;
+
+String truncatedName =
+    name.length > maxNameLength
+        ? '${name.substring(0, maxNameLength)}…'
+        : name;
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
     child: Row(
@@ -327,26 +338,29 @@ Widget _buildFoodRowFromMap(
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      foodMap['name'] ?? 'Unknown',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.0,
-                      ),
+                    Text.rich( 
+                      overflow: TextOverflow.ellipsis,
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: truncatedName,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text: bullet + (foodMap["brand"] ?? 'Generic'),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Color.fromARGB(255, 66, 66, 66),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          
+                          ),
+                        ]
+
+                            ),
                     ),
-                    if (foodMap['brand'] != null)
-                      Text(
-                        foodMap['brand'],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w100,
-                          fontSize: 12.0,
-                        ),
-                      ),
-                    if (foodMap['servingSize'] != null)
-                      Text(
-                        foodMap['servingSize'],
-                        style: TextStyle(fontSize: 12, color: Colors.grey[900]),
-                      ),
                   ],
                 ),
                 const Spacer(),
@@ -385,11 +399,11 @@ Widget getCurrentDisplayedMacroBodyFromMap(
     case MacroType.energy:
       return Text("${foodMap['calories']?.toStringAsFixed(1) ?? '0'} kcal", style: const TextStyle(fontSize: 12));
     case MacroType.carbs:
-      return Text("${foodMap['carbs']?.toStringAsFixed(1) ?? '0'} g", style: const TextStyle(fontSize: 12));
+      return Text("${foodMap['carbohydrates']?.toStringAsFixed(1) ?? '0'} g", style: const TextStyle(fontSize: 12));
     case MacroType.protein:
-      return Text("${foodMap['proteins']?.toStringAsFixed(1) ?? '0'} g", style: const TextStyle(fontSize: 12));
+      return Text("${foodMap['protein']?.toStringAsFixed(1) ?? '0'} g", style: const TextStyle(fontSize: 12));
     case MacroType.fat:
-      return Text("${foodMap['fats']?.toStringAsFixed(1) ?? '0'} g", style: const TextStyle(fontSize: 12));
+      return Text("${foodMap['fat']?.toStringAsFixed(1) ?? '0'} g", style: const TextStyle(fontSize: 12));
   }
 }
 

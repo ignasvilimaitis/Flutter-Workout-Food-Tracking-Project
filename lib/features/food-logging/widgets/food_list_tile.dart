@@ -22,7 +22,8 @@ class FoodListTileWidget extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => FoodNutritionInfopage(food: food, diaryEntry: args.diaryName ,)) ), // this should take you to the nutrition screen
-      title: Text(food.name,),
+      title: Text(
+        food.name,),
       subtitle: Text.rich( 
         overflow: TextOverflow.ellipsis,
         TextSpan(
