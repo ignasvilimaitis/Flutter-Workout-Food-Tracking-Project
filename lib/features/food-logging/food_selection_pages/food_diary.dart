@@ -47,7 +47,6 @@ Widget build(BuildContext context) {
     body: Consumer3<TotalMacros, MacroGoal, CurrentMacroDisplay>(
       builder: (context, totalMacros, macroGoals, currentDisplayedMacroType, child) {
         return SafeArea(
-          bottom: false,
           child: FutureBuilder(
             future: foodRepository.getCurrentDay(selectedDate),
             builder: (context, asyncSnapshot) {
@@ -57,19 +56,9 @@ Widget build(BuildContext context) {
                   // Header - Fixed height
                   buildHeader(),
                   // Scrollable content area
-                  SingleChildScrollView(
-                      physics: AlwaysScrollableScrollPhysics(),
-                      child: Column(
-                          children: [
-                            // Scrollable Widget Row
-                            buildScrollableWidgetRow(),
-                            SizedBox(height: 20),
-                            // Diary Section (body)
-                            buildBody(currentDisplayedMacroType),
-                          ],
-                        ),
-              
-                    ),
+                  Expanded(
+                    child: buildScrollableContent(currentDisplayedMacroType) 
+                  )
                 ],
               );
               } else {
@@ -86,6 +75,20 @@ Widget build(BuildContext context) {
   );
 }
 
+Widget buildScrollableContent(CurrentMacroDisplay currentDisplayedMacroType) {
+  return ListView(
+    padding: const EdgeInsets.only(
+      bottom: 10,
+      top: 10,
+    ),
+    physics: const AlwaysScrollableScrollPhysics(),
+    children: [
+      buildScrollableWidgetRow(),
+      const SizedBox(height: 20),
+      buildBody(currentDisplayedMacroType),
+    ],
+  );
+}
 // Helper function to get the label string + color for macro view switching
 Widget getCurrentMacro(CurrentMacroDisplay currentDisplayedMacroType) {
   switch (currentDisplayedMacroType.getCurrentDisplay()) {
