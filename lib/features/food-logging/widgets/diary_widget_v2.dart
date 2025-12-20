@@ -211,6 +211,10 @@ Widget _buildHeader(BuildContext context, TotalMacros macroTotal,
               quantity: 1,
             );
 
+            await repo.updateLastUsed(food.id);
+
+            
+
             macroTotal.addMacros(food);
 
             final newFoods = await repo.getFoodsForDiaryEntry(
@@ -307,7 +311,7 @@ Widget _buildFoodRowFromMap(
 
   String name = foodMap["name"] ?? '';
 
-const int maxNameLength = 30;
+const int maxNameLength = 2;
 
 String truncatedName =
     name.length > maxNameLength
@@ -345,13 +349,13 @@ String truncatedName =
                           TextSpan(
                             text: truncatedName,
                             style: const TextStyle(
-                              fontSize: 12,
+                              fontSize: 14,
                               fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
                             text: bullet + (foodMap["brand"] ?? 'Generic'),
                             style: const TextStyle(
-                              fontSize: 12,
+                              fontSize: 14,
                               color: Color.fromARGB(255, 66, 66, 66),
                               fontWeight: FontWeight.bold,
                             ),

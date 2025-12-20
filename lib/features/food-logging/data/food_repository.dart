@@ -26,4 +26,8 @@ class FoodRepository {
   Future<Map<String, dynamic>?> getCurrentDay(String date) async {
     return await dataSource.getCurrentDay(date);
   }
+
+  Future<void> updateLastUsed(int foodItemId) async {
+    return await dataSource.updateLastUsed(foodItemId);
+  }
 }

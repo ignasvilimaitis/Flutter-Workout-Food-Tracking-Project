@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import '../../../core/database/app_database.dart';
 
 class FoodDataSource {
+  LocalTime localTime = LocalTime();
   Future<Database> get _db async => await AppDatabase.instance.database;
 
   Future<int> addFoodToDiaryEntry(int diaryEntryId, int foodItemId, {double? quantity}) async {
@@ -17,6 +18,19 @@ class FoodDataSource {
       'fk_food_item_id': foodItemId,
       if (quantity != null) 'quantity': quantity,
     },
+  );
+}
+
+Future<void> updateLastUsed(int foodItemId) async {
+  final db = await _db;
+
+  await db.update(
+    'FoodItem',
+    {
+      'last_used': localTime.timeSinceEpoch(),
+    },
+    where: 'pk_fooditem_id = ?',
+    whereArgs: [foodItemId],
   );
 }
 

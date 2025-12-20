@@ -20,4 +20,7 @@ String getAheadDate(String currentDate) {
   return DateFormat('yyyy-MM-dd').format(previousDate);
 
 }
+double timeSinceEpoch() {
+  return date.millisecondsSinceEpoch.toDouble();
+}
 }
