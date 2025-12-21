@@ -212,9 +212,6 @@ Widget _buildHeader(BuildContext context, TotalMacros macroTotal,
             );
 
             await repo.updateLastUsed(food.id);
-
-            
-
             macroTotal.addMacros(food);
 
             final newFoods = await repo.getFoodsForDiaryEntry(

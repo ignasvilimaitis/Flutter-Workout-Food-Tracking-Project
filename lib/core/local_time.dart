@@ -20,8 +20,8 @@ String getAheadDate(String currentDate) {
   return DateFormat('yyyy-MM-dd').format(aheadDate);
 
 }
-double timeSinceEpoch() {
-  return date.millisecondsSinceEpoch.toDouble();
+int timeSinceEpoch() {
+  return date.millisecondsSinceEpoch;
 }
 
 String formatEnglishDate(String dateStr) {
