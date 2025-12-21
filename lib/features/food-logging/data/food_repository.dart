@@ -30,4 +30,8 @@ class FoodRepository {
   Future<void> updateLastUsed(int foodItemId) async {
     return await dataSource.updateLastUsed(foodItemId);
   }
+
+  Future<List<FoodItem>> getRecentFoods() async {
+    return await dataSource.getMostRecentFoods();
+  }
 }

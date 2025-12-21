@@ -1,5 +1,8 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_data_source.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_repository.dart';
 import 'package:flutter_application_1/features/food-logging/states/recent_foods.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/food_list_tile.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +16,7 @@ class FoodSelectorAll extends StatefulWidget {
 
 class _FoodSelectorAllState extends State<FoodSelectorAll> {
 
-  final RecentFoods recentFoods = RecentFoods();
+  FoodRepository foodRepository = FoodRepository(FoodDataSource());
 
 
   @override
@@ -26,23 +29,38 @@ class _FoodSelectorAllState extends State<FoodSelectorAll> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.white,
                 ),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: recentFoodList.getRecentFoods().length,
-                  itemBuilder: (context, index) {
-                    final recentFoods = recentFoodList.getRecentFoods();
-                    final food = recentFoods[index];
-                    return Column(
-                      children: [
-                        FoodListTileWidget(
-                          food: food,
-                          isSelected: false,
-                          onSelectedFood: onSelectedFood,
-                        ),
-                      ],
-                    );
-                  },
-                        ),
+                child: FutureBuilder<List<FoodItem>>(
+      future: foodRepository.getRecentFoods(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        }
+
+        final recentFoods = snapshot.data ?? [];
+
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: recentFoods.length,
+      itemBuilder: (context, index) {
+        final food = recentFoods[index];
+        return FoodListTileWidget(
+          food: food,
+          isSelected: false,
+          onSelectedFood: onSelectedFood,
+        );
+      },
+    );
+  },
+)
+
               );
       } 
     );

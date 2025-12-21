@@ -311,7 +311,7 @@ Widget _buildFoodRowFromMap(
 
   String name = foodMap["name"] ?? '';
 
-const int maxNameLength = 2;
+const int maxNameLength = 20;
 
 String truncatedName =
     name.length > maxNameLength

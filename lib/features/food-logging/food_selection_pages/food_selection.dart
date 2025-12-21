@@ -85,7 +85,6 @@ class _FoodSelectorState extends State<FoodSelector>
   }
 
   void onSelectedFood(FoodItem food) {
-    Provider.of<RecentFoods>(context, listen: false).addRecentFood(food);
     //foodDataSource.getOrCreateDiaryEntryForSelectedDate(currentDate, categoryId)
     //foods.clear();
     Navigator.pop(context, food);

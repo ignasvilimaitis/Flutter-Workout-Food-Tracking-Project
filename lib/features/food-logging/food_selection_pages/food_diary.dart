@@ -23,7 +23,7 @@ class FoodLoggingView extends StatefulWidget {
 class _FoodLoggingViewState extends State<FoodLoggingView> {
   late PageController _pageController;
   int currentPageIndex = 0;
-  String selectedDate = LocalTime().dbDate; // Initially start with today's date
+  String selectedDate = LocalTime().currentDate; // Initially start with today's date
   FoodRepository foodRepository = FoodRepository(FoodDataSource());
 
   @override
@@ -169,7 +169,7 @@ Widget buildHeader() {
                 iconSize: 50),
               Spacer(),
               Text(
-                  selectedDate,
+                  LocalTime().formatEnglishDate(selectedDate),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

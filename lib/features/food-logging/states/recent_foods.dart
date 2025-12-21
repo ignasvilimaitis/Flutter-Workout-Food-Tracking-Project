@@ -4,6 +4,10 @@ import 'package:flutter_application_1/features/food-logging/data/food_model.dart
 class RecentFoods extends ChangeNotifier {
   late List<FoodItem> recentFoods = [];
 
+  void addRecentFoods() {
+    
+  }
+
   void addRecentFood(FoodItem food) {
     if (checkLength() == 10) {
       recentFoods[0] = food;

@@ -71,6 +71,20 @@ Future<void> updateLastUsed(int foodItemId) async {
   return newEntry.first;
 }
 
+Future<List<FoodItem>> getMostRecentFoods() async {
+    final db = await _db;
+
+    final result = await db.rawQuery('''
+      SELECT *
+      FROM FoodItem
+      WHERE last_used > 0
+      ORDER BY last_used DESC
+      LIMIT 10;
+    ''');
+
+    return result.map((e) => FoodItem.fromMap(e)).toList();
+  }
+
 
   Future<List<Map<String, dynamic>>> getFoodsForDiaryEntry(String date, int categoryId) async {
     final db = await _db;
