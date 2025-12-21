@@ -1,4 +1,3 @@
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_data_source.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_model.dart';

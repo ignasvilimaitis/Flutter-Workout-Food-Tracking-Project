@@ -5,7 +5,11 @@ class FoodSchema {
         calorie_target REAL,
         protein_percentage REAL,
         carb_percentage REAL,
-        fat_percentage REAL
+        fat_percentage REAL,
+        total_calories_consumed REAL,
+        total_proteins_consumed REAL,
+        total_carbs_consumed REAL,
+        total_fats_consumed REAL
       );
     ''';
   static const createCategoryTable = '''

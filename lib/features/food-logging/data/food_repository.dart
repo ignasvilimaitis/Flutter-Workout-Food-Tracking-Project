@@ -34,4 +34,16 @@ class FoodRepository {
   Future<List<FoodItem>> getRecentFoods() async {
     return await dataSource.getMostRecentFoods();
   }
+
+  Future<void> updateDiaryMacroTotals(String date, double calories, double proteins, double carbs, double fats) async {
+    return await dataSource.updateDiaryMacroTotals(date, calories, proteins, carbs, fats);
+  }
+
+  Future<dynamic> returnMacroTotals(String date) async {
+    return await dataSource.returnMacroTotals(date);
+  }
+  
+  Future<dynamic> getMacroTargets(String date) async {
+    return await dataSource.getMacroTargets(date);
+  }
 }

@@ -21,6 +21,29 @@ class FoodDataSource {
   );
 }
 
+Future<void> updateDiaryMacroTotals(
+  String date,
+  double calories,
+  double proteins,
+  double carbs,
+  double fats,
+) async {
+  final db = await _db;
+
+  await db.rawUpdate(
+    '''
+    UPDATE Diary
+    SET
+      total_calories_consumed = COALESCE(total_calories_consumed, 0) + ?,
+      total_proteins_consumed = COALESCE(total_proteins_consumed, 0) + ?,
+      total_carbs_consumed = COALESCE(total_carbs_consumed, 0) + ?,
+      total_fats_consumed = COALESCE(total_fats_consumed, 0) + ?
+    WHERE pk_date = ?
+    ''',
+    [calories, proteins, carbs, fats, date],
+  );
+}
+
 Future<void> updateLastUsed(int foodItemId) async {
   final db = await _db;
 
@@ -103,6 +126,43 @@ Future<List<FoodItem>> getMostRecentFoods() async {
     return result;
   }
 
+  Future<Map<String, dynamic>?> getMacroTargets(String date) async {
+  final db = await _db;
+
+  final result = await db.query(
+    'Diary',
+    columns: [
+      'calorie_target',
+      'protein_percentage',
+      'carb_percentage',
+      'fat_percentage',
+    ],
+    where: 'pk_date = ?',
+    whereArgs: [date],
+    limit: 1,
+  );
+
+  if (result.isEmpty) return null;
+  return result.first;
+}
+
+
+  Future<Map<String, dynamic>?> returnMacroTotals(String date) async {
+    final db = await _db;
+
+    final result = await db.rawQuery('''
+      SELECT total_calories_consumed, total_proteins_consumed, total_carbs_consumed, total_fats_consumed
+      FROM Diary
+      WHERE pk_date = ?;
+    ''', [date]);
+
+    if (result.isNotEmpty) {
+      return result.first;
+    } else {
+      return null;
+    }
+  }
+
   // Food search by name or brand
   Future<List<FoodItem>> getSearchedFoods(String searchedFood) async {
     final db = await _db;
@@ -124,12 +184,11 @@ Future<List<FoodItem>> getMostRecentFoods() async {
     await db.rawInsert(
       '''
       INSERT OR IGNORE INTO Diary (pk_date, calorie_target, protein_percentage, carb_percentage, fat_percentage)
-      VALUES (?, NULL, NULL, NULL, NULL);
+      VALUES (?, ?, ?, ?, ?);
       ''',
-      [date],
+      [date, 2000, 20, 30, 50],
     );
   }
-
   // Returns diary targets for the current day
   Future<Map<String, dynamic>?> getCurrentDay(String date) async {
     final db = await _db;

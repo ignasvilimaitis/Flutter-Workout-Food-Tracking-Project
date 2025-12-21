@@ -13,7 +13,7 @@ class AppDatabase {
   static final AppDatabase instance = AppDatabase._init();
   static Database? _database;
 
-  static const bool forceRecreateDB = false; // Set to true to delete existing DB on startup.
+  static const bool forceRecreateDB = true; // Set to true to delete existing DB on startup.
 
   AppDatabase._init();
 

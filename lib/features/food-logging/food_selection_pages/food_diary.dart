@@ -223,21 +223,24 @@ Widget buildScrollableWidgetRow() {
                       MacroProgressBar(
                       color: const Color.fromARGB(255, 106, 206, 110),
                       macroName: 'Protein',
-                      macroType: MacroType.protein
+                      macroType: MacroType.protein,
+                      date: selectedDate,
                       ),
                   SizedBox(height: 25,),
                   // Carbs Progress Bar
                     MacroProgressBar(
                       color: Colors.blueAccent,
                       macroName: 'Carbs',
-                      macroType: MacroType.carbs
+                      macroType: MacroType.carbs,
+                      date: selectedDate,
                       ),
                       SizedBox(height: 25,),
                     // Fat Progress Bar
                     MacroProgressBar(
                       color: Colors.orange,
                       macroName: 'Fat',
-                      macroType: MacroType.fat
+                      macroType: MacroType.fat,
+                      date: selectedDate,
                       ),
                   ],
                 ),

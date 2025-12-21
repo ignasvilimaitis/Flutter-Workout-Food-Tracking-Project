@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/features/food-logging/states/states.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_data_source.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_repository.dart';
 import 'package:flutter_application_1/core/enums.dart';
 
 class MacroProgressBar extends StatefulWidget {
   final String macroName;
   final MacroType macroType;
   final Color color;
+  final String date;
 
   const MacroProgressBar(
     {super.key,
     required this.macroName,
     required this.macroType,
     required this.color,
+    required this.date
     });
 
   @override
@@ -20,27 +22,41 @@ class MacroProgressBar extends StatefulWidget {
 }
 
 class _MacroProgressBarState extends State<MacroProgressBar> {
+  FoodRepository foodRepo = FoodRepository(FoodDataSource());
+
   @override
   Widget build(BuildContext context) {
-    return Consumer2<TotalMacros, MacroGoal>(
-      builder: (context, totalMacros, macroGoals, child) {
-        double current;
-        double goal;
-        switch (widget.macroType) {
-          case MacroType.energy:
-          current = totalMacros.calorieAmount;
-          goal = macroGoals.calorieGoal;
+    return FutureBuilder(
+      future: Future.wait([foodRepo.returnMacroTotals(widget.date),
+       foodRepo.getMacroTargets(widget.date)]),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Text('Loading...');
+        } else{
+          double current = 0.0;
+          double goal = 0.0;
+          final totals = snapshot.data![0];
+          final targets = snapshot.data![1];
+
+          switch (widget.macroType) {
+            case MacroType.energy:
+          current = totals['total_calories_consumed'];
+          goal = targets['calorie_target'];
+          break;
           case MacroType.carbs:
-          current = totalMacros.carbAmount;
-          goal = macroGoals.carbGoal;
+          current = totals['total_carbs_consumed'];
+          goal = (totals['total_calories_consumed'] * targets['carb_percentage'] / 4);
           break;
           case MacroType.protein:
-          current = totalMacros.proteinAmount;
-          goal = macroGoals.proteinGoal;
+          current = totals['total_proteins_consumed'];
+          goal = (totals['total_calories_consumed'] * targets['protein_percentage'] / 4);
           break;
           case MacroType.fat:
-          current = totalMacros.fatAmount;
-          goal = macroGoals.fatGoal;
+          current = totals['total_fats_consumed'];
+          goal = (totals['total_calories_consumed'] * targets['fat_percentage'] / 9);
+          break;       
         }
       return Container(
                 width:
@@ -123,6 +139,7 @@ class _MacroProgressBarState extends State<MacroProgressBar> {
                 ),
               );
       }
+      } 
     );
 }
 }
