@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/assets.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../workout/workout.dart' show startWorkout;
+
 class QuickStart extends StatelessWidget {
+  const QuickStart({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class QuickStart extends StatelessWidget {
       children: [
         Expanded(
           child: InkWell(
-            onTap:() => print('Empty Workout'),
+            onTap: () => startWorkout(context),
             child: Container(
               height: 45,
               decoration: BoxDecoration(
