@@ -44,8 +44,8 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
 Widget build(BuildContext context) {
   return Scaffold(
     bottomNavigationBar: CustomBottomAppBar(module: 'food'),
-    body: Consumer3<TotalMacros, MacroGoal, CurrentMacroDisplay>(
-      builder: (context, totalMacros, macroGoals, currentDisplayedMacroType, child) {
+    body: Consumer2<MacroGoal, CurrentMacroDisplay>(
+      builder: (context, macroGoals, currentDisplayedMacroType, child) {
         return SafeArea(
           child: FutureBuilder(
             future: foodRepository.getCurrentDay(selectedDate),

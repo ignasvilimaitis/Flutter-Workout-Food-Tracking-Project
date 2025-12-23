@@ -47,17 +47,18 @@ class _MacroProgressBarState extends State<MacroProgressBar> {
           break;
           case MacroType.carbs:
           current = totals['total_carbs_consumed'];
-          goal = (totals['total_calories_consumed'] * targets['carb_percentage'] / 4);
+          goal = (targets['calorie_target'] * (targets['carb_percentage'] / 100) / 4);
           break;
           case MacroType.protein:
           current = totals['total_proteins_consumed'];
-          goal = (totals['total_calories_consumed'] * targets['protein_percentage'] / 4);
+          goal = (targets['calorie_target'] * (targets['protein_percentage'] / 100) / 4);
           break;
           case MacroType.fat:
           current = totals['total_fats_consumed'];
-          goal = (totals['total_calories_consumed'] * targets['fat_percentage'] / 9);
+          goal = (targets['calorie_target'] * (targets['fat_percentage'] / 100) / 9);
           break;       
         }
+
       return Container(
                 width:
                     MediaQuery.of(context).size.width *

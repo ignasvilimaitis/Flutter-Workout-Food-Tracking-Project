@@ -183,10 +183,10 @@ Future<List<FoodItem>> getMostRecentFoods() async {
     final db = await _db;
     await db.rawInsert(
       '''
-      INSERT OR IGNORE INTO Diary (pk_date, calorie_target, protein_percentage, carb_percentage, fat_percentage)
-      VALUES (?, ?, ?, ?, ?);
+      INSERT OR IGNORE INTO Diary (pk_date, calorie_target, protein_percentage, carb_percentage, fat_percentage, total_calories_consumed, total_proteins_consumed, total_carbs_consumed, total_fats_consumed)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
       ''',
-      [date, 2000, 20, 30, 50],
+      [date, 2000, 20, 30, 50, 0.0001, 0.0001, 0.0001, 0.0001],
     );
   }
   // Returns diary targets for the current day
