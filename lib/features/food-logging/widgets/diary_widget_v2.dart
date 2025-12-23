@@ -14,9 +14,8 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 class DiaryWidgetV2 extends StatefulWidget {
-  const DiaryWidgetV2({super.key, required this.diaryName, required this.diaryDate, required this.diaryId});
+  const DiaryWidgetV2({super.key, required this.diaryName, required this.diaryId});
   final String diaryName;
-  final String diaryDate;
   final int diaryId;
 
 
@@ -26,42 +25,24 @@ class DiaryWidgetV2 extends StatefulWidget {
 }
 
 class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
-  List<FoodItem> foodss = const [];
   final ExpansibleController _controller = ExpansibleController();
     FoodRepository repo = FoodRepository(FoodDataSource());
 
   @override
   void initState() {
     super.initState();
-    _loadDiaryEntry();
-  }
-
-  Future<void> _loadDiaryEntry() async {
-
-    await repo.getOrCreateDiaryEntryForSelectedDate(
-      widget.diaryDate,
-      widget.diaryId,
-    );
-
-    setState(() {}); 
   }
 
   @override
   void didUpdateWidget(covariant DiaryWidgetV2 oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    // whenever user switches the date
-    if (oldWidget.diaryDate != widget.diaryDate) {
-      _loadDiaryEntry();
-      foodss = [];
-    }
   }
   
 
   @override
   Widget build(BuildContext context) {
-    return Consumer4<MacroGoal, TotalMacros, DiaryFoodList, CurrentMacroDisplay>(
-      builder: (context, macroState, macroTotal, diaryFoodList, currentMacroDisplay, child) {
+    return Consumer<CurrentMacroDisplay>(
+      builder: (context, currentMacroDisplay, child) {
         final bool isExpanded = _controller.isExpanded;
 
         return Container(
@@ -80,7 +61,7 @@ class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
             borderRadius: BorderRadius.circular(20.0),
             child: Column(
               children: [
-                _buildHeader(context, macroTotal, currentMacroDisplay),
+                _buildHeader(context, currentMacroDisplay),
                 _buildBody(context, currentMacroDisplay),
               ],
             ),
@@ -89,43 +70,21 @@ class _DiaryWidgetV2State extends State<DiaryWidgetV2> {
       },
     );
   }
-Widget getCurrentDisplayedMacroNumber(List<FoodItem> foods, String diaryDate, int diaryId, MacroType currentDisplayedMacroType)  {
 
-  switch (currentDisplayedMacroType) {
-    case MacroType.energy:
-      return Text(
-        "${getMacroTotal(foods, MacroType.energy).toStringAsFixed(1)} Kcal",
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 14,
-        ),
-      );
-    case MacroType.carbs:
-      return Text(
-        "${getMacroTotal(foods, MacroType.carbs).toStringAsFixed(1)} g",
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 14,
-        ),
-      );
-    case MacroType.protein:
-      return Text(
-        "${getMacroTotal(foods, MacroType.protein).toStringAsFixed(1)} g",
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 14,
-        ),
-      );
-    case MacroType.fat:
-      return Text(
-        "${getMacroTotal(foods, MacroType.fat).toStringAsFixed(1)} g",
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 14,
-        ),
-      );
-  }
+Widget getCurrentDisplayedMacroNumber(
+  List<FoodItem> foods,
+  MacroType type,
+) {
+  final value = getMacroTotal(foods, type);
+
+  return Text(
+    type == MacroType.energy
+        ? '${value.toStringAsFixed(1)} kcal'
+        : '${value.toStringAsFixed(1)} g',
+    style: const TextStyle(fontSize: 14),
+  );
 }
+
 
 
 Widget _buildBody(
@@ -135,18 +94,9 @@ Widget _buildBody(
   final isExpanded = _controller.isExpanded;
   if (!isExpanded) return const SizedBox.shrink();
 
-  return FutureBuilder<List<Map<String, dynamic>>>(
-    future: repo.getFoodsForDiaryEntry(widget.diaryDate, widget.diaryId),
-    builder: (context, snapshot) {
-       if (snapshot.hasError) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text("Error loading foods: ${snapshot.error}"),
-        );
-      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-        return const SizedBox(height: 1,);
-      } else {
-        final foods = snapshot.data!;
+  return Consumer<FoodViewModel> 
+  (builder: (context, foodViewModel, child) {
+    final foods = foodViewModel.foodsForDiary(widget.diaryId);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -157,7 +107,7 @@ Widget _buildBody(
                 final foodMap = foods[i];
                 return Column(
                   children: [
-                    _buildFoodRowFromMap(
+                    _buildFoodRow(
                       foodMap,
                       context,
                       widget.diaryName,
@@ -171,114 +121,93 @@ Widget _buildBody(
             ),
           ],
         );
+
       }
+  );
+    }
+
+
+Color _macroColor(MacroType type) {
+  switch (type) {
+    case MacroType.protein:
+      return const Color.fromARGB(255, 106, 206, 110);
+    case MacroType.carbs:
+      return Colors.blue;
+    case MacroType.fat:
+      return Colors.orange;
+    case MacroType.energy:
+      return getThemeData().primaryColor;
+  }
+}
+
+Widget _buildHeader(
+  BuildContext context,
+  CurrentMacroDisplay currentDisplayedMacroType,
+) {
+  final isExpanded = _controller.isExpanded;
+
+  return Consumer<FoodViewModel>(
+    builder: (context, foodViewModel, _) {
+      final foods = foodViewModel.foodsForDiary(widget.diaryId);
+
+      return InkWell(
+        onTap: () {
+          setState(() {
+            isExpanded ? _controller.collapse() : _controller.expand();
+          });
+        },
+        child: ListTile(
+          title: Text(widget.diaryName),
+          leading: IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () async {
+              final FoodItem? food =
+                  await Navigator.pushNamed<FoodItem>(
+                context,
+                foodSelectionRoute,
+                arguments: FoodSelectionArgs(
+                  widget.diaryName,
+                  foodViewModel.selectedDate,
+                  widget.diaryId,
+                ),
+              );
+
+              if (food != null) {
+                await foodViewModel.addFood(
+                  widget.diaryId,
+                  food,
+                );
+              }
+            },
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: _macroColor(
+                    currentDisplayedMacroType.getCurrentDisplay(),
+                  ),
+                  borderRadius: BorderRadius.circular(7),
+                ),
+                child: getCurrentDisplayedMacroNumber(
+                  foods,
+                  currentDisplayedMacroType.getCurrentDisplay(),
+                ),
+              ),
+              const SizedBox(width: 20),
+              Icon(isExpanded
+                  ? Icons.expand_less
+                  : Icons.expand_more),
+            ],
+          ),
+        ),
+      );
     },
   );
 }
 
-
-Widget _buildHeader(BuildContext context, TotalMacros macroTotal,
- CurrentMacroDisplay currentDisplayedMacroType) {
-  final isExpanded = _controller.isExpanded;
-
-  return InkWell(
-    onTap: () {
-      setState(() {
-        isExpanded ? _controller.collapse() : _controller.expand();
-      });
-    },
-    child: ListTile(
-      title: Text(widget.diaryName),
-      leading: IconButton(
-        onPressed: () async {
-          final FoodItem? food = await Navigator.pushNamed<FoodItem>(
-            context,
-            foodSelectionRoute,
-            arguments: FoodSelectionArgs(
-              widget.diaryName,
-              widget.diaryDate,
-              widget.diaryId,));
-
-          if (food != null) {
-            final diaryEntry = await repo.getOrCreateDiaryEntryForSelectedDate(
-              widget.diaryDate,
-              widget.diaryId,
-            );
-
-            await repo.addFoodToDiaryEntry(
-              diaryEntry['pk_diaryentry_id'],
-              food.id,
-              quantity: 1,
-            );
-
-            await repo.updateLastUsed(food.id);
-
-            await repo.updateDiaryMacroTotals(
-              widget.diaryDate,
-              food.calories,
-              food.proteins,
-              food.carbs,
-              food.fats,
-            );
-
-            final newFoods = await repo.getFoodsForDiaryEntry(
-              widget.diaryDate,
-              widget.diaryId,
-            );
-
-            setState(() {
-              foodss = newFoods.map((f) => FoodItem.fromMap(f)).toList();
-            });
-          }
-        },
-                icon: const Icon(Icons.add),
-      ),
-      trailing:
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                              color: currentDisplayedMacroType.getCurrentDisplay() == MacroType.protein ?
-                            Color.fromARGB(255, 106, 206, 110) : currentDisplayedMacroType.getCurrentDisplay() == MacroType.fat ? Colors.orange
-                                   : currentDisplayedMacroType.getCurrentDisplay() == MacroType.carbs ? Colors.blue : getThemeData().primaryColor,
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                child: FutureBuilder(
-                  future: repo.getFoodsForDiaryEntry(widget.diaryDate, widget.diaryId),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final foods = snapshot.data!;
-                      final List<FoodItem> foodItems = foods.map((f) => FoodItem.fromMap(f)).toList();
-
-                      return getCurrentDisplayedMacroNumber(
-                        foodItems,
-                        widget.diaryDate,
-                        widget.diaryId,
-                        currentDisplayedMacroType.getCurrentDisplay(),
-                      );
-                    } else {
-                      return const SizedBox(
-                        width: 20,
-                        height: 10,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                        ),
-                      );
-                    }
-                  }
-                  )
-              ),
-              SizedBox(width: 20,),
-              Icon(
-                isExpanded ? Icons.expand_less : Icons.expand_more,
-              ),
-            ],
-          ),
-    ),
-  );
-}  
 }
 
 double getMacroTotal(List<FoodItem> foods, MacroType currentDisplayedMacroType) {
@@ -306,14 +235,14 @@ double getMacroTotal(List<FoodItem> foods, MacroType currentDisplayedMacroType) 
 
 
 // Widget for each food within a diary
-Widget _buildFoodRowFromMap(
-  Map<String, dynamic> foodMap,
+Widget _buildFoodRow(
+  FoodItem food,
   BuildContext context,
   String diaryName,
   MacroType currentDisplayedMacroType,
 ) {
 
-  String name = foodMap["name"] ?? '';
+  String name = food.name;
 
 const int maxNameLength = 20;
 
@@ -333,7 +262,7 @@ String truncatedName =
                 context,
                 MaterialPageRoute(
                   builder: (_) => FoodNutritionInfopage(
-                    food: FoodItem.fromMap(foodMap),
+                    food: food,
                     diaryEntry: diaryName,
                   ),
                 ),
@@ -357,7 +286,7 @@ String truncatedName =
                               fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
-                            text: bullet + (foodMap["brand"] ?? 'Generic'),
+                            text: bullet + (food.brand ?? 'Generic'),
                             style: const TextStyle(
                               fontSize: 14,
                               color: Color.fromARGB(255, 66, 66, 66),
@@ -387,7 +316,7 @@ String truncatedName =
                                 : getThemeData().primaryColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: getCurrentDisplayedMacroBodyFromMap(foodMap, currentDisplayedMacroType),
+                  child: getCurrentDisplayedMacroBody(food, currentDisplayedMacroType),
                 ),
               ],
             ),
@@ -399,19 +328,19 @@ String truncatedName =
 }
 
 
-Widget getCurrentDisplayedMacroBodyFromMap(
-  Map<String, dynamic> foodMap,
+Widget getCurrentDisplayedMacroBody(
+  FoodItem food,
   MacroType currentDisplayedMacroType,
 ) {
   switch (currentDisplayedMacroType) {
     case MacroType.energy:
-      return Text("${foodMap['calories']?.toStringAsFixed(1) ?? '0'} kcal", style: const TextStyle(fontSize: 12));
+      return Text("${food.calories.toStringAsFixed(1)} kcal", style: const TextStyle(fontSize: 12));
     case MacroType.carbs:
-      return Text("${foodMap['carbohydrates']?.toStringAsFixed(1) ?? '0'} g", style: const TextStyle(fontSize: 12));
+      return Text("${food.carbs.toStringAsFixed(1)} g", style: const TextStyle(fontSize: 12));
     case MacroType.protein:
-      return Text("${foodMap['protein']?.toStringAsFixed(1) ?? '0'} g", style: const TextStyle(fontSize: 12));
+      return Text("${food.proteins.toStringAsFixed(1)} g", style: const TextStyle(fontSize: 12));
     case MacroType.fat:
-      return Text("${foodMap['fat']?.toStringAsFixed(1) ?? '0'} g", style: const TextStyle(fontSize: 12));
+      return Text("${food.fats.toStringAsFixed(1)} g", style: const TextStyle(fontSize: 12));
   }
 }
 

@@ -39,7 +39,7 @@ class FoodRepository {
     return await dataSource.updateDiaryMacroTotals(date, calories, proteins, carbs, fats);
   }
 
-  Future<dynamic> returnMacroTotals(String date) async {
+  Future<dynamic> getMacroTotals(String date) async {
     return await dataSource.returnMacroTotals(date);
   }
   

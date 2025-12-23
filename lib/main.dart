@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/database/app_database.dart';
 import 'package:flutter_application_1/core/routes.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_data_source.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_repository.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_diary.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection.dart';
 import 'package:flutter_application_1/features/food-logging/states/recent_foods.dart';
@@ -22,6 +24,7 @@ void main() {
   OpenFoodAPIConfiguration.userAgent = UserAgent(name: 'Gym & Food Tracker', version: '1.0.0');
   OpenFoodAPIConfiguration.globalLanguages = [OpenFoodFactsLanguage.ENGLISH];
   OpenFoodAPIConfiguration.globalCountry = OpenFoodFactsCountry.UNITED_KINGDOM;
+  FoodRepository repo = FoodRepository(FoodDataSource());
 
   final Future<SharedPreferencesWithCache> _prefs = SharedPreferencesWithCache.create(
     cacheOptions:  const SharedPreferencesWithCacheOptions()
@@ -33,10 +36,10 @@ void main() {
     MultiProvider(
       providers: [
     ChangeNotifierProvider(create: (context) => DiaryFoodList()),
-    ChangeNotifierProvider(create: (context) => TotalMacros()),
     ChangeNotifierProvider(create: (context) => MacroGoal(),),
     ChangeNotifierProvider(create: (context) => RecentFoods(),),
     ChangeNotifierProvider(create: (context) => CurrentMacroDisplay(),),
+    ChangeNotifierProvider(create: (context) => FoodViewModel(repo),),
       ],
         child: MyApp(),
       ),

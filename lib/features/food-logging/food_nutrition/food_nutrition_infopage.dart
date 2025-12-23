@@ -28,8 +28,8 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer2<TotalMacros, MacroGoal>(
-        builder: (context, totalMacros, macroGoals, child) {
+      body: Consumer<FoodViewModel>(
+        builder: (context, foodViewModel, child) {
           return ListView(
             shrinkWrap: true,
             children: <Widget>[
@@ -303,7 +303,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
 
                               Spacer(),
                               Text(
-                                "${(totalMacros.calorieAmount + (widget.food.calories * foodAmount)).toStringAsFixed(1)}/${macroGoals.calorieGoal}",
+                                "${(foodViewModel.macroTotals['total_calories_consumed'] !+ (widget.food.calories * foodAmount)).toStringAsFixed(1)}/${foodViewModel.macroTargets['calorie_target']}",
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
@@ -322,7 +322,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                               LinearProgressIndicator(
                                 backgroundColor: Colors.transparent,
                               borderRadius: BorderRadius.circular(16.0),
-                              value: (totalMacros.calorieAmount + widget.food.calories) / macroGoals.calorieGoal,
+                              value: (foodViewModel.macroTotals['total_calories_consumed'] !+ widget.food.calories) / foodViewModel.macroTargets['calorie_target']!,
                               minHeight: 10,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 const Color.fromARGB(255, 158, 109, 109),
@@ -332,8 +332,8 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                               backgroundColor: Colors.transparent,
                               borderRadius: BorderRadius.circular(16.0),
                               value:
-                                  totalMacros.calorieAmount /
-                                  macroGoals.calorieGoal,
+                                  foodViewModel.macroTotals['total_calories_consumed']! /
+                                  foodViewModel.macroTargets['calorie_target']!,
                               minHeight: 10,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 const Color.fromARGB(255, 116, 11, 11),
