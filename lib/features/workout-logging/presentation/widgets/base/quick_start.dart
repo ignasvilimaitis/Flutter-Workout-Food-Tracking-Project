@@ -4,8 +4,14 @@ import 'package:flutter_svg/svg.dart';
 
 import '../workout/workout.dart' show startWorkout;
 
-class QuickStart extends StatelessWidget {
+class QuickStart extends StatefulWidget {
   const QuickStart({super.key});
+
+  @override
+  State<QuickStart> createState() => _QuickStartState();
+}
+
+class _QuickStartState extends State<QuickStart> {
 
   @override
   Widget build(BuildContext context) {
