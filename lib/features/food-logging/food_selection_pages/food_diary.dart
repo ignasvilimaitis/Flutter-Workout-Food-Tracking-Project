@@ -88,7 +88,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                   onPressed: () {
                     final newDate =
                         LocalTime().getPreviousDate(selectedDate);
-                    foodVM.loadForDate(newDate);
+                    foodVM.changeDate(newDate);
                   },
                 ),
                 const Spacer(),
@@ -106,7 +106,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                   onPressed: () {
                     final newDate =
                         LocalTime().getAheadDate(selectedDate);
-                    foodVM.loadForDate(newDate);
+                    foodVM.changeDate(newDate);
                   },
                 ),
               ],

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_data_source.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_repository.dart';
@@ -24,33 +26,36 @@ class MacroProgressBar extends StatelessWidget {
         final totals = vm.macroTotals;
         final targets = vm.macroTargets;
 
+        log('totals' + totals.toString());
+        log('targets' + targets.toString());
+
         double current = 0;
         double goal = 1; // prevent divide-by-zero
 
         switch (macroType) {
           case MacroType.energy:
-            current = totals['total_calories_consumed'] ?? 0;
-            goal = targets['calorie_target'] ?? 1;
+            current = totals['calories'] ?? 0;
+            goal = targets['calories'] ?? 1;
             break;
 
           case MacroType.carbs:
-            current = totals['total_carbs_consumed'] ?? 0;
-            goal = (targets['calorie_target'] ?? 0) *
-                ((targets['carb_percentage'] ?? 0) / 100) /
+            current = totals['carbs'] ?? 0;
+            goal = (targets['calories'] ?? 0) *
+                ((targets['carbs'] ?? 0) / 100) /
                 4;
             break;
 
           case MacroType.protein:
-            current = totals['total_proteins_consumed'] ?? 0;
-            goal = (targets['calorie_target'] ?? 0) *
-                ((targets['protein_percentage'] ?? 0) / 100) /
+            current = totals['proteins'] ?? 0;
+            goal = (targets['calories'] ?? 0) *
+                ((targets['proteins'] ?? 0) / 100) /
                 4;
             break;
 
           case MacroType.fat:
-            current = totals['total_fats_consumed'] ?? 0;
-            goal = (targets['calorie_target'] ?? 0) *
-                ((targets['fat_percentage'] ?? 0) / 100) /
+            current = totals['fats'] ?? 0;
+            goal = (targets['calories'] ?? 0) *
+                ((targets['fats'] ?? 0) / 100) /
                 9;
             break;
         }

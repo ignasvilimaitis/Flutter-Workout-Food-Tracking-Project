@@ -45,6 +45,7 @@ class FoodViewModel extends ChangeNotifier {
 
   Future<void> changeDate(String date) async {
     _selectedDate = date;
+    await repo.getCurrentDay(date);
     await _loadAll();
   }
 
@@ -62,6 +63,7 @@ Future<void> loadForDate(String date) async {
 
   Future<void> _loadAll() async {
     _macroTotals = await repo.getMacroTotals(_selectedDate);
+    _macroTargets = await repo.getMacroTargets(_selectedDate);
 
     for (final id in [1, 2, 3, 4]) {
       final foods = await repo.getFoodsForDiaryEntry(_selectedDate, id);
@@ -93,6 +95,8 @@ List<FoodItem> foodsForDiary(int diaryId) {
       food.carbs,
       food.fats,
     );
+
+    await repo.updateLastUsed(food.id);
 
     await _loadAll();
   }
