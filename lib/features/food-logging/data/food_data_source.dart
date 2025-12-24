@@ -126,7 +126,7 @@ Future<List<FoodItem>> getMostRecentFoods() async {
     return result;
   }
 
-  Future<Map<String, dynamic>?> getMacroTargets(String date) async {
+Future<Map<String, double>> getMacroTargets(String date) async {
   final db = await _db;
 
   final result = await db.query(
@@ -142,26 +142,72 @@ Future<List<FoodItem>> getMostRecentFoods() async {
     limit: 1,
   );
 
-  if (result.isEmpty) return null;
-  return result.first;
+  if (result.isEmpty) {
+    return {
+      'calories': 0,
+      'proteins': 0,
+      'carbs': 0,
+      'fats': 0,
+    };
+  }
+
+  final row = result.first;
+
+  double parseDouble(dynamic value) {
+    if (value == null) return 0;
+    if (value is double) return value;
+    if (value is int) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? 0;
+    return 0;
+  }
+
+  return {
+    'calories': parseDouble(row['calorie_target']),
+    'proteins': parseDouble(row['protein_percentage']),
+    'carbs': parseDouble(row['carb_percentage']),
+    'fats': parseDouble(row['fat_percentage']),
+  };
 }
 
 
-  Future<Map<String, dynamic>?> returnMacroTotals(String date) async {
-    final db = await _db;
 
-    final result = await db.rawQuery('''
-      SELECT total_calories_consumed, total_proteins_consumed, total_carbs_consumed, total_fats_consumed
-      FROM Diary
-      WHERE pk_date = ?;
-    ''', [date]);
+Future<Map<String, double>> returnMacroTotals(String date) async {
+  final db = await _db;
 
-    if (result.isNotEmpty) {
-      return result.first;
-    } else {
-      return null;
+  final result = await db.rawQuery('''
+    SELECT total_calories_consumed, total_proteins_consumed, total_carbs_consumed, total_fats_consumed
+    FROM Diary
+    WHERE pk_date = ?;
+  ''', [date]);
+
+  if (result.isNotEmpty) {
+    final row = result.first;
+
+    double parseDouble(dynamic value) {
+      if (value == null) return 0;
+      if (value is double) return value;
+      if (value is int) return value.toDouble();
+      if (value is String) return double.tryParse(value) ?? 0;
+      return 0;
     }
+
+    return {
+      'calories': parseDouble(row['total_calories_consumed']),
+      'proteins': parseDouble(row['total_proteins_consumed']),
+      'carbs': parseDouble(row['total_carbs_consumed']),
+      'fats': parseDouble(row['total_fats_consumed']),
+    };
+  } else {
+    return {
+      'calories': 0,
+      'proteins': 0,
+      'carbs': 0,
+      'fats': 0,
+    };
   }
+}
+
+
 
   // Food search by name or brand
   Future<List<FoodItem>> getSearchedFoods(String searchedFood) async {

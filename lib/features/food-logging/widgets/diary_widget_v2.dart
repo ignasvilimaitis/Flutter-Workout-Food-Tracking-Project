@@ -176,6 +176,7 @@ Widget _buildHeader(
                 await foodViewModel.addFood(
                   widget.diaryId,
                   food,
+                  
                 );
               }
             },

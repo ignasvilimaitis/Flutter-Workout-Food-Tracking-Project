@@ -19,7 +19,7 @@ class FoodRepository {
     return await dataSource.getFoodsForDiaryEntry(date, categoryId);
   }
 
-  Future<int> addFoodToDiaryEntry(int diaryEntryId, int foodItemId, {double? quantity}) async {
+  Future<int> addFoodToDiaryEntry(int diaryEntryId, int foodItemId, double? quantity) async {
     return await dataSource.addFoodToDiaryEntry(diaryEntryId, foodItemId, quantity: quantity);
   }
 
