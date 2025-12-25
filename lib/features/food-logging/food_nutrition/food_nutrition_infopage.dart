@@ -25,8 +25,17 @@ class FoodNutritionInfopage extends StatefulWidget {
 
 class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
   late int foodAmount = 1; //Food amount is 1 by default
+
+  
+
   @override
   Widget build(BuildContext context) {
+    const int maxNameLength = 25;
+
+String truncatedName =
+    widget.food.name.length > maxNameLength
+        ? '${widget.food.name.substring(0, maxNameLength)}…'
+        : widget.food.name;
     return Scaffold(
       body: Consumer<FoodViewModel>(
         builder: (context, foodViewModel, child) {
@@ -54,7 +63,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Text(widget.food.name)]),
+                          children: [Text(truncatedName, overflow: TextOverflow.ellipsis,)]),
                       ),
                       SizedBox(width: 10),
                       UIButton(
@@ -212,7 +221,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                                     borderRadius: BorderRadius.circular(12.0),
                                     
                                   ),
-                                  child: Text(widget.food.servingSize),
+                                  child: Text(widget.food.servingSize, maxLines: 1, overflow: TextOverflow.ellipsis,),
                                 ),
                               ],
                             ),
@@ -303,7 +312,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
 
                               Spacer(),
                               Text(
-                                "${(foodViewModel.macroTotals['total_calories_consumed'] !+ (widget.food.calories * foodAmount)).toStringAsFixed(1)}/${foodViewModel.macroTargets['calorie_target']}",
+                                "${(foodViewModel.macroTotals['calories'] !+ (widget.food.calories * foodAmount)).toStringAsFixed(1)}/${foodViewModel.macroTargets['calories']}",
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
@@ -322,7 +331,7 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                               LinearProgressIndicator(
                                 backgroundColor: Colors.transparent,
                               borderRadius: BorderRadius.circular(16.0),
-                              value: (foodViewModel.macroTotals['total_calories_consumed'] !+ widget.food.calories) / foodViewModel.macroTargets['calorie_target']!,
+                              value: (foodViewModel.macroTotals['calories'] !+ widget.food.calories) / foodViewModel.macroTargets['calories']!,
                               minHeight: 10,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 const Color.fromARGB(255, 158, 109, 109),
@@ -332,8 +341,8 @@ class _FoodNutritionInfopageState extends State<FoodNutritionInfopage> {
                               backgroundColor: Colors.transparent,
                               borderRadius: BorderRadius.circular(16.0),
                               value:
-                                  foodViewModel.macroTotals['total_calories_consumed']! /
-                                  foodViewModel.macroTargets['calorie_target']!,
+                                  foodViewModel.macroTotals['calories']! /
+                                  foodViewModel.macroTargets['calories']!,
                               minHeight: 10,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 const Color.fromARGB(255, 116, 11, 11),
