@@ -142,7 +142,7 @@ class SettingsScreen extends StatelessWidget {
                                 AppAssets.profile.profileMealIcon,
                                 width: 50,
                                 height: 50,
-                                                        ),
+                              ),
                             ),
                           const Text(
                             'Food Diary\n  Settings',

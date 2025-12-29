@@ -119,16 +119,18 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
 
   // ---------------- BODY ----------------
 
-  Widget _buildScrollableContent(CurrentMacroDisplay macroDisplay) {
-    return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      children: [
-        _buildProgressPager(),
-        const SizedBox(height: 20),
-        _buildDiarySection(macroDisplay),
-      ],
-    );
-  }
+Widget _buildScrollableContent(CurrentMacroDisplay macroDisplay) {
+  return Column(
+    children: [
+      _buildProgressPager(),
+      const SizedBox(height: 20),
+      Expanded(
+        child: _buildDiarySection(macroDisplay),
+      ),
+    ],
+  );
+}
+
 
   Widget _buildProgressPager() {
     return Padding(
@@ -169,10 +171,11 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
     );
   }
 
-  Widget _buildDiarySection(CurrentMacroDisplay macroDisplay) {
-    return Container(
+Widget _buildDiarySection(CurrentMacroDisplay macroDisplay) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 20), // 👈 space for bottom app bar
+    child: Container(
       margin: const EdgeInsets.symmetric(horizontal: 12),
-      padding: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(22),
         color: Colors.white,
@@ -181,43 +184,77 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
         children: [
           _buildMacroSwitcher(macroDisplay),
           const SizedBox(height: 10),
-          const DiaryWidgetV2(
-              diaryName: 'Breakfast', diaryId: 1),
-          const SizedBox(height: 20),
-          const DiaryWidgetV2(
-              diaryName: 'Lunch', diaryId: 2),
-          const SizedBox(height: 20),
-          const DiaryWidgetV2(
-              diaryName: 'Dinner', diaryId: 3),
-          const SizedBox(height: 20),
-          const DiaryWidgetV2(
-              diaryName: 'Snacks', diaryId: 4),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: const [
+                  DiaryWidgetV2(diaryName: 'Breakfast', diaryId: 1),
+                  SizedBox(height: 20),
+                  DiaryWidgetV2(diaryName: 'Lunch', diaryId: 2),
+                  SizedBox(height: 20),
+                  DiaryWidgetV2(diaryName: 'Dinner', diaryId: 3),
+                  SizedBox(height: 20),
+                  DiaryWidgetV2(diaryName: 'Snacks', diaryId: 4),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
+
+
+  Color _macroColor(MacroType type) {
+  switch (type) {
+    case MacroType.protein:
+      return const Color.fromARGB(255, 106, 206, 110);
+    case MacroType.carbs:
+      return Colors.blue;
+    case MacroType.fat:
+      return Colors.orange;
+    case MacroType.energy:
+      return Colors.grey;
+  }
+}
   Widget _buildMacroSwitcher(CurrentMacroDisplay macroDisplay) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text('Log', style: TextStyle(fontSize: 18)),
-        const Spacer(),
-        TextButton.icon(
-          onPressed: () {
-            macroDisplay.setCurrentDisplay(
-              _nextMacro(macroDisplay.getCurrentDisplay()),
-            );
-          },
-          icon: const Icon(Icons.swap_horiz),
-          label: Text(
-            macroDisplay.getCurrentDisplay().name,
+  return Stack(
+    alignment: Alignment.center,
+    children: [
+      const Text(
+        'Log',
+        style: TextStyle(fontSize: 18),
+      ),
+      Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: TextButton.icon(
+            onPressed: () {
+              macroDisplay.setCurrentDisplay(
+                _nextMacro(macroDisplay.getCurrentDisplay()),
+              );
+            },
+            icon: Icon(
+              Icons.swap_horiz,
+              color: _macroColor(macroDisplay.getCurrentDisplay()),
+            ),
+            label: Text(
+              macroDisplay.getCurrentDisplay().name,
+              style: TextStyle(
+                color: _macroColor(macroDisplay.getCurrentDisplay()),
+              ),
+            ),
           ),
         ),
-        const SizedBox(width: 10),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
+
+
 
   MacroType _nextMacro(MacroType type) {
     switch (type) {
