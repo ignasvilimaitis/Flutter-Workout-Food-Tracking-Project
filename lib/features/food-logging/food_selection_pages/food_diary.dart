@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/assets.dart';
 import 'package:flutter_application_1/core/local_time.dart';
 import 'package:flutter_application_1/core/theme.dart';
+import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/progress_bar.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/ui_button.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/core/enums.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -40,6 +43,29 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: SizedBox(
+        width: 68,
+        height: 68,
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => FoodSelector(),
+                ),
+              );
+          },
+          shape: CircleBorder(),
+          backgroundColor: Colors.black,
+          child: SvgPicture.asset(
+            AppAssets.misc.plusIcon,
+            height: 64,
+            width: 64,
+            colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: CustomCenterDockedFABLocation(-15),
       bottomNavigationBar: CustomBottomAppBar(module: 'food'),
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: SafeArea(
@@ -173,7 +199,7 @@ Widget _buildScrollableContent(CurrentMacroDisplay macroDisplay) {
 
 Widget _buildDiarySection(CurrentMacroDisplay macroDisplay) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 20), // 👈 space for bottom app bar
+    padding: const EdgeInsets.only(bottom: 10),
     child: Container(
       margin: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(

@@ -100,7 +100,8 @@ Widget _buildBody(
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Divider(height: 1, thickness: 1, color: Colors.grey),
+            if (foods.isNotEmpty)
+             Divider(height: 1, thickness: 1, color: Colors.grey),
             ...List.generate(
               foods.length,
               (i) {
