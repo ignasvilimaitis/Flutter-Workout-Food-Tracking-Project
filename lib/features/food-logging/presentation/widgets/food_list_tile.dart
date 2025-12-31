@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/arguments/food_selection_args.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
-import 'package:flutter_application_1/features/food-logging/food_nutrition/food_nutrition_infopage.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/info-page/food_nutrition_infopage.dart';
 
 class FoodListTileWidget extends StatelessWidget {
   final FoodItem food;

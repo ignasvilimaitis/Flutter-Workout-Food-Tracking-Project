@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/enums.dart';
 import 'package:flutter_application_1/core/local_time.dart';
 import 'package:flutter_application_1/core/theme.dart';
-import 'package:flutter_application_1/features/food-logging/states/states.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/nutrition_progress_bar.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/ui_button.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_view_model.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/widgets/nutrition_progress_bar.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/widgets/ui_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
 

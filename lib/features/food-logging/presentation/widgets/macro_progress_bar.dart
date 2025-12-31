@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_data_source.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_repository.dart';
 import 'package:flutter_application_1/core/enums.dart';
-import 'package:flutter_application_1/features/food-logging/states/states.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_view_model.dart';
 import 'package:provider/provider.dart';
 
 class MacroProgressBar extends StatelessWidget {

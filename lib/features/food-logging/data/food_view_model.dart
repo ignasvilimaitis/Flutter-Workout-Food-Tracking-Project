@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/enums.dart';
 import 'package:flutter_application_1/core/local_time.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/animations/date_switching.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_repository.dart';
 
@@ -36,6 +37,7 @@ class FoodViewModel extends ChangeNotifier {
   Map<int, List<FoodItem>> _foodsByDiary = {};
   Map<String, double> _macroTotals = {};
   Map<String, double> _macroTargets = {};
+  late SlideDirection slideDirection = SlideDirection.left;
 
 
   Map<String, double> get macroTotals => _macroTotals;

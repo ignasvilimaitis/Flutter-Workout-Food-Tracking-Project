@@ -3,14 +3,13 @@ import 'package:flutter_application_1/core/utils/debouncer.dart';
 import 'package:flutter_application_1/features/food-logging/arguments/food_selection_args.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_data_source.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
-import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection_all/food_selection_all.dart';
-import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection_custom/food_selection_custom.dart';
-import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection_favourites/food_selection_favourites.dart';
-import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection_header.dart';
-import 'package:flutter_application_1/features/food-logging/openfoodfacts_queries/get_query.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/food-selection-pages/all-page/food_selection_all.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/food-selection-pages/custom-page/food_selection_custom.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/food-selection-pages/favourite-page/food_selection_favourites.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/food-selection-pages/food_selection_header.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/widgets/food_list_tile.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/widgets/no_food_found.dart';
 import 'package:flutter_application_1/features/food-logging/states/recent_foods.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/food_list_tile.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/no_food_found.dart';
 import 'package:provider/provider.dart';
 
 class FoodSelector extends StatefulWidget {
@@ -107,7 +106,7 @@ class _FoodSelectorState extends State<FoodSelector>
             ],
           ),
         );
-        }
+      },
       );
 }
 
@@ -136,5 +135,3 @@ Widget searchFood() {
   }
 }
 }
-
-

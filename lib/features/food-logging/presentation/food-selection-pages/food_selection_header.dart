@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/tab_bar.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/widgets/tab_bar.dart';
 
 class FoodSelectionMainHeader extends StatelessWidget {
   FoodSelectionMainHeader({super.key, required this.onSearchChanged, required this.tabController});

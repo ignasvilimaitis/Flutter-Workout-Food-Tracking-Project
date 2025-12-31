@@ -3,13 +3,13 @@ import 'package:flutter_application_1/core/assets.dart';
 import 'package:flutter_application_1/core/local_time.dart';
 import 'package:flutter_application_1/core/routes.dart';
 import 'package:flutter_application_1/core/theme.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/animations/date_switching.dart';
 import 'package:flutter_application_1/features/food-logging/arguments/food_selection_args.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
-import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection.dart';
-import 'package:flutter_application_1/features/food-logging/states/states.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/progress_bar.dart';
-import 'package:flutter_application_1/features/food-logging/widgets/ui_button.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_view_model.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/widgets/diary_widget_v2.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/widgets/macro_targets.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/widgets/ui_button.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/core/enums.dart';
@@ -52,7 +52,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
         child: Consumer<FoodViewModel>(
           builder: (context, foodViewModel, child) {
           return FloatingActionButton(
-            onPressed: () async {
+            onPressed: () async { // TODO: move to another class
               final FoodItem? food =
                     await Navigator.pushNamed<FoodItem>(
                   context,
@@ -82,13 +82,17 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
       body: SafeArea(
         child: Consumer2<CurrentMacroDisplay, FoodViewModel>(
           builder: (context, macroDisplay, foodVM, _) {
-            return Column(
-              children: [
-                _buildHeader(context, foodVM),
-                Expanded(
-                  child: _buildScrollableContent(macroDisplay),
-                ),
-              ],
+            return SlidingPageSwitcher(
+              direction: foodVM.slideDirection,
+              pageKey: ValueKey(foodVM.selectedDate),
+              child: Column(
+                children: [
+                  _buildHeader(context, foodVM),
+                  Expanded(
+                    child: _buildScrollableContent(macroDisplay),
+                  ),
+                ],
+              ),
             );
           },
         ),
@@ -126,6 +130,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                     final newDate =
                         LocalTime().getPreviousDate(selectedDate);
                     foodVM.changeDate(newDate);
+                    foodVM.slideDirection = SlideDirection.left;
                   },
                 ),
                 const Spacer(),
@@ -144,6 +149,7 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
                     final newDate =
                         LocalTime().getAheadDate(selectedDate);
                     foodVM.changeDate(newDate);
+                    foodVM.slideDirection = SlideDirection.right;
                   },
                 ),
               ],
@@ -184,7 +190,7 @@ Widget _buildScrollableContent(CurrentMacroDisplay macroDisplay) {
             PageView(
               controller: _pageController,
               children: const [
-                _MacroPage(),
+                MacroTargetsWidget(),
                 Center(child: Text("Page 2")),
                 Center(child: Text("Page 3")),
               ],
@@ -282,6 +288,8 @@ Widget _buildDiarySection(CurrentMacroDisplay macroDisplay) {
               macroDisplay.getCurrentDisplay().name,
               style: TextStyle(
                 color: _macroColor(macroDisplay.getCurrentDisplay()),
+                fontSize: 14,
+                fontWeight: FontWeight.bold
               ),
             ),
           ),
@@ -307,38 +315,3 @@ Widget _buildDiarySection(CurrentMacroDisplay macroDisplay) {
   }
 }
 
-// ---------------- MACRO PAGE ----------------
-
-class _MacroPage extends StatelessWidget {
-  const _MacroPage();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        SizedBox(height: 10),
-        Text('Targets',
-            style:
-                TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        SizedBox(height: 20),
-        MacroProgressBar(
-          macroName: 'Protein',
-          macroType: MacroType.protein,
-          color: Colors.green,
-        ),
-        SizedBox(height: 25),
-        MacroProgressBar(
-          macroName: 'Carbs',
-          macroType: MacroType.carbs,
-          color: Colors.blue,
-        ),
-        SizedBox(height: 25),
-        MacroProgressBar(
-          macroName: 'Fat',
-          macroType: MacroType.fat,
-          color: Colors.orange,
-        ),
-      ],
-    );
-  }
-}

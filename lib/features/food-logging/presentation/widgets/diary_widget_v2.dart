@@ -7,8 +7,8 @@ import 'package:flutter_application_1/features/food-logging/arguments/food_selec
 import 'package:flutter_application_1/features/food-logging/data/food_data_source.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
 import 'package:flutter_application_1/features/food-logging/data/food_repository.dart';
-import 'package:flutter_application_1/features/food-logging/food_nutrition/food_nutrition_infopage.dart';
-import 'package:flutter_application_1/features/food-logging/states/states.dart';
+import 'package:flutter_application_1/features/food-logging/presentation/info-page/food_nutrition_infopage.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_view_model.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
