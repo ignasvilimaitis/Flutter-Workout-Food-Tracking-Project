@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/assets.dart';
 import 'package:flutter_application_1/core/local_time.dart';
+import 'package:flutter_application_1/core/routes.dart';
 import 'package:flutter_application_1/core/theme.dart';
+import 'package:flutter_application_1/features/food-logging/arguments/food_selection_args.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:flutter_application_1/features/food-logging/widgets/diary_widget_v2.dart';
@@ -46,23 +49,31 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
         floatingActionButton: SizedBox(
         width: 68,
         height: 68,
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => FoodSelector(),
-                ),
-              );
-          },
-          shape: CircleBorder(),
-          backgroundColor: Colors.black,
-          child: SvgPicture.asset(
-            AppAssets.misc.plusIcon,
-            height: 64,
-            width: 64,
-            colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-          ),
+        child: Consumer<FoodViewModel>(
+          builder: (context, foodViewModel, child) {
+          return FloatingActionButton(
+            onPressed: () async {
+              final FoodItem? food =
+                    await Navigator.pushNamed<FoodItem>(
+                  context,
+                  foodSelectionRoute,
+                  arguments: FoodSelectionArgs(
+                    'Add Food',
+                    foodViewModel.selectedDate,
+                    0, // categoryId not used here
+                  ),
+                );
+            },
+            shape: CircleBorder(),
+            backgroundColor: Colors.black,
+            child: SvgPicture.asset(
+              AppAssets.misc.plusIcon,
+              height: 64,
+              width: 64,
+              colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            ),
+          );
+          }
         ),
       ),
       floatingActionButtonLocation: CustomCenterDockedFABLocation(-15),
