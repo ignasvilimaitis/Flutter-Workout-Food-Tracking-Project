@@ -51,11 +51,11 @@
     ],
     "Muscle": [
         {
-            "name": "Clavicular Head",
+            "name": "Clavicular",
             "fk_group_id": 1
         },
         {
-            "name": "Sternocostal Head",
+            "name": "Sternocostal",
             "fk_group_id": 1
         },
         {
@@ -79,19 +79,19 @@
             "fk_group_id": 3
         },
         {
-            "name": "Erector Spinae (Lumbar)",
+            "name": "Erector Spinae",
             "fk_group_id": 4
         },
         {
-            "name": "Posterior Deltoid",
+            "name": "Posterior",
             "fk_group_id": 14
         },
         {
-            "name": "Anterior Deltoid",
+            "name": "Anterior",
             "fk_group_id": 14
         },
         {
-            "name": "Lateral Deltoid",
+            "name": "Lateral",
             "fk_group_id": 14
         },
         {
@@ -119,15 +119,15 @@
             "fk_group_id": 11
         },
         {
-            "name": "Forearm Flexors",
+            "name": "Flexors",
             "fk_group_id": 13
         },
         {
-            "name": "Forearm Extensors",
+            "name": "Extensors",
             "fk_group_id": 13
         },
         {
-            "name": "Rectus Abdominis",
+            "name": "Abdominis",
             "fk_group_id": 15
         },
         {
@@ -135,39 +135,39 @@
             "fk_group_id": 15
         },
         {
-            "name": "Gluteus Maximus",
+            "name": "Maximus",
             "fk_group_id": 16
         },
         {
-            "name": "Gluteus Medius",
+            "name": "Medius",
             "fk_group_id": 16
         },
         {
-            "name": "Gluteus Minimus",
+            "name": "Minimus",
             "fk_group_id": 16
         },
         {
-            "name": "Rectus Femoris",
+            "name": "Femoris",
             "fk_group_id": 5
         },
         {
-            "name": "Vastus Lateralis",
+            "name": "Lateralis",
             "fk_group_id": 5
         },
         {
-            "name": "Vastus Medialis",
+            "name": "Medialis",
             "fk_group_id": 5
         },
         {
-            "name": "Vastus Intermedius",
+            "name": "Intermedius",
             "fk_group_id": 5
         },
         {
-            "name": "Biceps Femoris Long Head",
+            "name": "Long Head",
             "fk_group_id": 6
         },
         {
-            "name": "Biceps Femoris Short Head",
+            "name": "Short Head",
             "fk_group_id": 6
         },
         {

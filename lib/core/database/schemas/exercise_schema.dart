@@ -13,7 +13,6 @@ class ExerciseSchema {
     fk_type_id INTEGER NOT NULL REFERENCES ExerciseTypes(pk_type_id),
     name TEXT NOT NULL,
     about TEXT,
-    notes TEXT,
     created_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
     updated_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s', 'now') AS INTEGER)),
     last_used_at INTEGER,

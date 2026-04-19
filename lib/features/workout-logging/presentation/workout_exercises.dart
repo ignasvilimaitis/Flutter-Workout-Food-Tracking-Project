@@ -21,8 +21,10 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage> {
   late final ExerciseRepository exerciseRepo;
 
   final TextEditingController searchController = TextEditingController();
+  late final Future<Map<String, dynamic>> _exerciseFuture;
   List<Exercise> exercises = [];
   List<Exercise> filteredExercises = [];
+
   Map<int, int> variationsCount = {};
   Map<int, String> primaryMuscleGroups = {};
 
@@ -30,10 +32,10 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage> {
   void initState() {
     super.initState();
     exerciseRepo = ExerciseRepository(ExerciseDataSource());
-    _loadExercises();
+    _exerciseFuture = _loadExercises();
   }
 
-  Future<void> _loadExercises() async {
+  Future<Map<String, dynamic>> _loadExercises() async {
     exercises = await exerciseRepo.fetchAllExercises();
     for (var exercise in exercises) {
       final count = await exerciseRepo.fetchExerciseVariationCount(exercise.id);
@@ -44,7 +46,11 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage> {
     }
 
     filteredExercises = List.from(exercises); // Initialize filtered list
-    setState(() {});
+    
+    return {
+      'variationsCount': variationsCount,
+      'primaryMuscleGroups': primaryMuscleGroups,
+    };
   }
 
   void _filterExercises(String query) {
@@ -60,11 +66,10 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage> {
   }
 
   void _toggleFavourite(int exerciseId) {
-    setState(() {
-      final exercise = exercises.firstWhere((ex) => ex.id == exerciseId);
-      exercise.isFavourite = !exercise.isFavourite;
-    });
+    final exercise = exercises.firstWhere((ex) => ex.id == exerciseId);
+    exercise.isFavourite = !exercise.isFavourite;
     exerciseRepo.toggleFavouriteExercise(exerciseId);
+    setState(() {});
   }
 
   @override
@@ -79,47 +84,66 @@ class _WorkoutExercisesPageState extends State<WorkoutExercisesPage> {
           searchController: searchController,
           onSearchChanged: _filterExercises, // Pass the search callback
         ),
-        body: TabBarView(
-          children: [
-            // All 
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: ExerciseList(
-                  exercises: filteredExercises, // Pass the filtered list
-                  variationsCount: variationsCount,
-                  primaryMuscleGroups: primaryMuscleGroups,
-                  onFavouriteChanged: (exerciseId) => _toggleFavourite(exerciseId),
-                ),
-              ),
-            ),
+        body: FutureBuilder<Map<String, dynamic>>(
+          future: _exerciseFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text('Error loading exercises'));
+            }
+            if (!snapshot.hasData) {
+              return Center(child: Text('No data available'));
+            }
 
-            // Favourites
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: ExerciseList(
-                  exercises: filteredExercises.where((exercise) => exercise.isFavourite).toList(), // Pass the filtered list
-                  variationsCount: variationsCount,
-                  primaryMuscleGroups: primaryMuscleGroups,
-                  onFavouriteChanged: (exerciseId) => _toggleFavourite(exerciseId),
-                ),
-              ),
-            ),
+            final data = snapshot.data!;
+            final variationsCount = data['variationsCount'] as Map<int, int>;
+            final primaryMuscleGroups = data['primaryMuscleGroups'] as Map<int, String>;
 
-            // Custom
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: ExerciseList(
-                  exercises: filteredExercises.where((exercise) => exercise.isCustom).toList(), // Pass the filtered list
-                  variationsCount: variationsCount,
-                  primaryMuscleGroups: primaryMuscleGroups,
-                  onFavouriteChanged: (exerciseId) => _toggleFavourite(exerciseId),
+            return TabBarView(
+              children: [
+                // All 
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                  child: ExerciseList(
+                    exercises: filteredExercises, // Pass the filtered list
+                    variationsCount: variationsCount,
+                    primaryMuscleGroups: primaryMuscleGroups,
+                    onFavouriteChanged: (exerciseId) => _toggleFavourite(exerciseId),
+                  ),
                 ),
               ),
-            ),
-          ],
+          
+              // Favourites
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: ExerciseList(
+                    exercises: filteredExercises.where((exercise) => exercise.isFavourite).toList(),
+                    variationsCount: variationsCount,
+                    primaryMuscleGroups: primaryMuscleGroups,
+                    onFavouriteChanged: (exerciseId) => _toggleFavourite(exerciseId),
+                  ),
+                ),
+              ),
+          
+              // Custom
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: ExerciseList(
+                    exercises: filteredExercises.where((exercise) => exercise.isCustom).toList(),
+                    variationsCount: variationsCount,
+                    primaryMuscleGroups: primaryMuscleGroups,
+                    onFavouriteChanged: (exerciseId) => _toggleFavourite(exerciseId),
+                  ),
+                ),
+              ),
+            ],
+          );
+          }
         ),
       ),
     );

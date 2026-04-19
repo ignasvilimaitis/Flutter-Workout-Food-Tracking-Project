@@ -84,6 +84,7 @@ class _BaseLayoutState extends State<BaseLayout> {
 class BaseAppBarSkeleton extends StatelessWidget implements PreferredSizeWidget {
   final Widget firstRow;
   final Widget? secondRow; // Optional for pages that don’t need it
+  final Widget? thirdRow; // Optional for pages that don’t need it
   final Color backgroundColor;
   final double containerRadius;
 
@@ -91,6 +92,7 @@ class BaseAppBarSkeleton extends StatelessWidget implements PreferredSizeWidget 
     super.key,
     required this.firstRow,
     this.secondRow,
+    this.thirdRow,
     this.backgroundColor = Colors.transparent,
     this.containerRadius = 12.0,
   });
@@ -120,6 +122,10 @@ class BaseAppBarSkeleton extends StatelessWidget implements PreferredSizeWidget 
               if (secondRow != null) SizedBox(
                 height: secondRowHeight,
                 child: secondRow,
+              ),
+              if (thirdRow != null) SizedBox(
+                height: secondRowHeight,
+                child: thirdRow,
               ),
             ],
           ),
@@ -268,6 +274,140 @@ class CustomAppBarExercises extends StatelessWidget implements PreferredSizeWidg
   }
 }
 
+class CustomAppBarExercisesDetails extends StatelessWidget implements PreferredSizeWidget {
+  final Color containerColor;
+  final double borderRadius;
+  final String exerciseName;
+  final String variationName;
+
+  const CustomAppBarExercisesDetails({
+    super.key,
+    this.containerColor = Colors.white,
+    this.borderRadius = 12.0,
+    required this.exerciseName,
+    required this.variationName,
+  });
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 100);
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseAppBarSkeleton(
+      firstRow: Row(
+        spacing: 8,
+        children: [
+          // Back button
+          _buildRectButton(
+            iconData: Icon(Icons.close_rounded, size: 28),
+            onPressed: () => Navigator.pop(context),
+            containerColor: containerColor,
+            borderRadius: borderRadius,
+          ),
+
+          // Exercise Name
+          Expanded(
+            flex: 5,
+            child: Container(
+              decoration: BoxDecoration(
+                color: containerColor,
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              child: Center(
+                child: Text(
+                  exerciseName,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ),
+
+          // Options button
+          _buildRectButton(
+            iconData: Icon(Icons.more_horiz, size: 28,),
+            onPressed: () => Navigator.pop(context),
+            containerColor: containerColor,
+            borderRadius: borderRadius,
+          ),
+        ],
+      ),
+
+      // SECOND ROW
+      secondRow: Row(
+        spacing: 8,
+        children: [
+          // "Variation" text container
+          Expanded(
+            flex: 3,
+            child: Container(
+              decoration: BoxDecoration(
+                color: containerColor,
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              child: Center(
+                child: Text(
+                  'Variation:',
+                  style: const TextStyle(fontSize: 12),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ),
+
+          // Dropdown for variations
+          Expanded(
+            flex: 7,
+            child: Container(
+              decoration: BoxDecoration(
+                color: containerColor,
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              child: Center(
+                child: Text(
+                  variationName + ' ▼',
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ),
+        ]
+      ),
+
+      // THIRD ROW
+      thirdRow: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(borderRadius),
+          color: containerColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: TabBar(
+            tabs: [
+              Tab(child: _buildTab('About', context)),
+              Tab(child: _buildTab('History', context)),
+              Tab(child: _buildTab('Charts', context)),
+              Tab(child: _buildTab('Records', context)),
+            ],
+            dividerHeight: 0,
+            labelStyle: TextStyle(
+              fontSize: 12,
+              color: Colors.black,
+            ),
+            indicator: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(borderRadius),
+            ),
+            indicatorSize: TabBarIndicatorSize.tab,
+            labelPadding: EdgeInsets.zero,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 Widget _buildTab(String label, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -289,7 +429,7 @@ Widget _buildTab(String label, BuildContext context) {
 }
 
 Widget _buildRectButton({
-  required SvgPicture iconData,
+  required dynamic iconData,
   required VoidCallback onPressed,
   required Color containerColor,
   required double borderRadius,
@@ -304,7 +444,7 @@ Widget _buildRectButton({
       child: Center(
         child: IconButton(
           onPressed: onPressed,
-          icon: iconData,
+          icon: iconData is SvgPicture ? iconData : iconData,
         ),
       ),
     ),

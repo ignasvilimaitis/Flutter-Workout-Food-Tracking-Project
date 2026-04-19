@@ -26,6 +26,10 @@ ThemeData getThemeData() {
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
     ),
+
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: Colors.black,
+    )
   );
 }
 

@@ -16,7 +16,6 @@ class ExerciseDataSource {
         e.fk_type_id, 
         e.name,
         e.about,
-        e.notes,
         e.created_at,
         e.updated_at,
         e.icon_path,
@@ -67,6 +66,34 @@ class ExerciseDataSource {
       [exerciseId],
     );
     return resp.map((e) => MuscleGroup.fromMap(e)).toList();
+  }
+
+  // Get specific muscles worked in an exercise, categorized by the role. This is different to muscle groups which are broader categories.
+  Future<Map<String, List>> getExerciseMuscles(int exerciseId) async {
+    final db = await _db;
+
+    final List<Map<String, dynamic>> resp = await db.rawQuery(
+      '''
+        SELECT 
+          m.name,
+          mg.name as "group",
+          em.role
+        FROM ExerciseMuscle em
+        JOIN Muscle m on em.fk_muscle_id = m.pk_muscle_id
+        JOIN MuscleGroups mg on mg.pk_group_id = m.fk_group_id
+        WHERE fk_exercise_id = ?
+      ''',
+      [exerciseId],
+    );
+
+    final Map<String, List> musclesByRole = {};
+    for (var row in resp) {
+      final role = row['role'];
+      final muscleName = "${row['group']} (${row['name']})";
+      musclesByRole.putIfAbsent(role, () => []).add(muscleName);
+    }
+
+    return musclesByRole;
   }
 
   Future<int> toggleExerciseFavourite(int exerciseId) async {

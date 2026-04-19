@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 // Data
 import '../../../data/workout_model.dart' show Exercise;
 
+// Exercise Details
+import 'exercise_details.dart';
+
 // ================================= All Exercises List =================================
 
 class ExerciseList extends StatefulWidget {
@@ -56,7 +59,17 @@ class _ExerciseListState extends State<ExerciseList> {
                   variations: widget.variationsCount[exercise.id] ?? 0,
                   isFavourite: exercise.isFavourite,
                   onFavouriteChanged: widget.onFavouriteChanged,
-                  onTap: () {},
+                  onTap: () {
+                    // Navigate to exercise details
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ExerciseDetails(
+                          exercise: exercise,
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
             ),
@@ -67,7 +80,7 @@ class _ExerciseListState extends State<ExerciseList> {
   }
 }
 
-class ExerciseListItem extends StatefulWidget {
+class ExerciseListItem extends StatelessWidget {
   final int exerciseId;
   final String exerciseName;
   final String muscleGroup;
@@ -79,34 +92,24 @@ class ExerciseListItem extends StatefulWidget {
   final void Function(int exerciseId)? onFavouriteChanged;
 
   const ExerciseListItem({
-  required this.exerciseId,
-  required this.exerciseName,
-  required this.muscleGroup,
-  required this.type,
-  this.imgPath,
-  required this.variations,
-  required this.isFavourite,
-  this.onTap,
-  required this.onFavouriteChanged,
-});
-
-  @override
-  State<ExerciseListItem> createState() => _ExerciseListItemState();
-}
-
-class _ExerciseListItemState extends State<ExerciseListItem> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
+    required this.exerciseId,
+    required this.exerciseName,
+    required this.muscleGroup,
+    required this.type,
+    this.imgPath,
+    required this.variations,
+    required this.isFavourite,
+    this.onTap,
+    required this.onFavouriteChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final variationText = widget.variations == 1 ? 'Variation' : 'Variations';
+    final variationText = variations == 1 ? 'Variation' : 'Variations';
 
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: onTap,
+      behavior: HitTestBehavior.translucent,
       child: Padding(
         padding: EdgeInsets.all(10),
         child: Row(
@@ -115,7 +118,7 @@ class _ExerciseListItemState extends State<ExerciseListItem> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(4),
-                child: _getIllustration(widget.exerciseName, widget.imgPath),
+                child: _getIllustration(exerciseName, imgPath),
               ),
             ),
             Expanded(
@@ -124,7 +127,7 @@ class _ExerciseListItemState extends State<ExerciseListItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.exerciseName,
+                    exerciseName,
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -133,10 +136,10 @@ class _ExerciseListItemState extends State<ExerciseListItem> {
                   Wrap(
                     spacing: 24,
                     children: [
-                      Text(widget.muscleGroup, style: TextStyle(fontSize: 12),),
-                      Text(widget.type, style: TextStyle(fontSize: 12),),
+                      Text(muscleGroup, style: TextStyle(fontSize: 12),),
+                      Text(type, style: TextStyle(fontSize: 12),),
                       Text(
-                        '${widget.variations} $variationText',
+                        '$variations $variationText',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -149,14 +152,14 @@ class _ExerciseListItemState extends State<ExerciseListItem> {
               ),
             ),
             Expanded(
-              child: widget.isFavourite
+              child: isFavourite
                   ? IconButton(
                       icon: Icon(Icons.star_rounded, color: Colors.amber),
-                      onPressed: () => widget.onFavouriteChanged?.call(widget.exerciseId),
+                      onPressed: () => onFavouriteChanged?.call(exerciseId),
                     )
                   : IconButton(
                       icon: Icon(Icons.star_border_rounded, color: Colors.grey[700]),
-                      onPressed: () => widget.onFavouriteChanged?.call(widget.exerciseId),
+                      onPressed: () => onFavouriteChanged?.call(exerciseId),
                     )
             )
           ],

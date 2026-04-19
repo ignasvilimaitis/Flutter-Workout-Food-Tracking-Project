@@ -13,10 +13,14 @@ import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
 
 import './features/workout-logging/presentation/workout_base.dart' as workout_module show BaseLayout;
+import './features/workout-logging/presentation/widgets/workout/workout_services.dart' show WorkoutService;
 
+import './core/services/preferences_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await PreferencesService().init(); // shared_preferences initialization
+
   OpenFoodAPIConfiguration.userAgent = UserAgent(name: 'Gym & Food Tracker', version: '1.0.0');
   OpenFoodAPIConfiguration.globalLanguages = [OpenFoodFactsLanguage.ENGLISH];
   OpenFoodAPIConfiguration.globalCountry = OpenFoodFactsCountry.UNITED_KINGDOM;
@@ -26,11 +30,15 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-    ChangeNotifierProvider(create: (context) => DiaryFoodList()),
-    ChangeNotifierProvider(create: (context) => TotalMacros()),
-    ChangeNotifierProvider(create: (context) => MacroGoal(),),
-    ChangeNotifierProvider(create: (context) => RecentFoods(),),
-    ChangeNotifierProvider(create: (context) => CurrentMacroDisplay(),),
+        // Food logging providers
+        ChangeNotifierProvider(create: (context) => DiaryFoodList()),
+        ChangeNotifierProvider(create: (context) => TotalMacros()),
+        ChangeNotifierProvider(create: (context) => MacroGoal(),),
+        ChangeNotifierProvider(create: (context) => RecentFoods(),),
+        ChangeNotifierProvider(create: (context) => CurrentMacroDisplay(),),
+
+        // Workout logging providers
+        ChangeNotifierProvider(create: (context) => WorkoutService())
       ],
         child: MyApp(),
       ),

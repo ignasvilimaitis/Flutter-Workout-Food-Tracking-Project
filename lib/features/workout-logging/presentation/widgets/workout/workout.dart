@@ -1,6 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-startWorkout(BuildContext context) {
+// Local time
+import 'package:flutter_application_1/core/local_time.dart';
+import 'package:intl/intl.dart';
+
+// Workout services
+import 'workout_timer.dart';
+import 'workout_services.dart';
+
+
+void startWorkout(BuildContext context) {
+  final bool? activeWorkout = context.read<WorkoutService>().workoutStateService.isWorkoutActive;
+  if (activeWorkout == true){
+    // TODO: Show dialog asking if users wants to end existing workout
+    //return;
+  } else {
+    // Update workout state
+    context.read<WorkoutService>().workoutStateService.setWorkoutActive(true);
+    context.read<WorkoutService>().workoutStateService.setStartTime(DateTime.now());
+  }
+
+  context.read<WorkoutService>().timerService.startTimer();
+  
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -18,6 +40,15 @@ startWorkout(BuildContext context) {
       );
     }
   );
+}
+
+
+void endWorkout(BuildContext context) {
+  // Update relevant state
+  // TODO: Show confirmation dialog before canceling workout
+  context.read<WorkoutService>().workoutStateService.setWorkoutActive(false);
+  context.read<WorkoutService>().workoutStateService.removeStartTime();
+  context.read<WorkoutService>().timerService.stopTimer();
 }
 
 class EmptyWorkout extends StatefulWidget {
@@ -54,13 +85,57 @@ class _EmptyWorkoutState extends State<EmptyWorkout> {
         
             // Header
             _buildHeader(context),
+
+            // Sub-header
+            _buildSubHeader(context),
         
             // Scrollable workout logger
             Expanded(
               child: ListView(
                 controller: widget.scrollController,
-                children: const [
+                children: [
                   // sets, reps, notes, etc.
+
+                  // Add exercise and cancel workout buttons at the end
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Add exercise logic
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey.shade600,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      'Add Exercise',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      endWorkout(context);
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red.shade200,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      'Cancel Workout',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -126,6 +201,64 @@ class _EmptyWorkoutState extends State<EmptyWorkout> {
             )
           )
         ],
+      ),
+    );
+  }
+  Widget _buildSubHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: SizedBox(
+        height: 30,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8)
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Flexible(
+                flex: 2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 4,
+                  children: [
+                    Icon(Icons.calendar_month, color: Colors.grey, size: 16,),
+                    Text(
+                      LocalTime().formatOrdinalLong(DateTime.parse(context.read<WorkoutService>().workoutStateService.startTime!)),
+                      style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 12),
+                    )
+                  ]
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 4,
+                  children: [
+                    Icon(Icons.access_time, color: Colors.grey, size: 16,),
+                    Text(
+                      DateFormat('hh:mm').format(DateTime.parse(context.read<WorkoutService>().workoutStateService.startTime!)),
+                      style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 12),
+                    )
+                  ]
+                ),
+              ),
+              Flexible(
+                flex: 2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 4,
+                  children: [
+                    Flexible(flex: 1, child: Icon(Icons.timer, color: Colors.grey, size: 16,)),
+                    Flexible(flex: 1,child: WorkoutTimer(color: Colors.grey,)),
+                  ]
+                ),
+              ),
+            ],
+          )
+        )
       ),
     );
   }

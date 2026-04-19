@@ -28,6 +28,10 @@ class ExerciseRepository {
     return await dataSource.getExerciseMuscleGroup(exerciseId);
   }
 
+  Future<Map<String, List>> fetchExerciseMuscles(int exerciseId) async {
+    return await dataSource.getExerciseMuscles(exerciseId);
+  }
+
   // Setters
   Future<int> toggleFavouriteExercise(int exerciseId) async {
     return await dataSource.toggleExerciseFavourite(exerciseId);
