@@ -8,8 +8,6 @@ class UIButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 45,
-      height: 45,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular((16.0)),
         color: Colors.white,

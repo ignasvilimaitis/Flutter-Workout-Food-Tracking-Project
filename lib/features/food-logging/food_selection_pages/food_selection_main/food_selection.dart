@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/utils/debouncer.dart';
-import 'package:flutter_application_1/features/food-logging/classes/food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_data_source.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection_all/food_selection_all.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection_custom/food_selection_custom.dart';
 import 'package:flutter_application_1/features/food-logging/food_selection_pages/food_selection_favourites/food_selection_favourites.dart';
@@ -21,7 +22,7 @@ class FoodSelector extends StatefulWidget {
 class _FoodSelectorState extends State<FoodSelector>
     with TickerProviderStateMixin {
   final Debouncer debouncer = Debouncer(milliseconds: 500);
-  final GetQuery query = GetQuery();
+  final FoodDataSource foodDataSource = FoodDataSource();
   List<FoodItem> searchedFoods = [];
   String _lastSearch = ''; // <-- new field
   late TabController _tabController;
@@ -51,21 +52,16 @@ class _FoodSelectorState extends State<FoodSelector>
         child: Column(
             children: [
               FoodSelectionMainHeader(
-                onSearchChanged: (value) {
+                onSearchChanged: (searchText) {
                   debouncer.run(() async {
-                    if (value.isEmpty) {
+                    if (searchText != _lastSearch) {
+                      final results = await foodDataSource.getSearchedFoods(searchText);
+                      print(results);
                       setState(() {
-                        searchedFoods = [];
-                        _lastSearch = ''; // no active search
+                        searchedFoods = results;
+                        _lastSearch = searchText;
                       });
-                      return;
                     }
-                    final results = await query.searchProducts(value);
-                    setState(() {
-                      List<FoodItem> returnedFoods = query.getSearchResults(results);
-                      searchedFoods = returnedFoods;
-                      _lastSearch = value; // mark that a search was performed
-                    });
                   });
                 },
                 tabController: _tabController,

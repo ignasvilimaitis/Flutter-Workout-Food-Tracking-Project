@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/enums.dart';
 import 'package:flutter_application_1/core/routes.dart';
 import 'package:flutter_application_1/core/theme.dart';
+import 'package:flutter_application_1/core/utils/helpers.dart';
 import 'package:flutter_application_1/features/food-logging/arguments/diary_entry.dart';
-import 'package:flutter_application_1/features/food-logging/classes/food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
 import 'package:flutter_application_1/features/food-logging/food_nutrition/food_nutrition_infopage.dart';
 import 'package:flutter_application_1/features/food-logging/states/states.dart';
 import 'package:provider/provider.dart';
@@ -202,10 +203,11 @@ Widget _buildFoodRow(FoodItem food, BuildContext context, DiaryFoodList foods, T
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                           Text.rich(
+                          overflow: TextOverflow.ellipsis,
                           TextSpan(
                             children: [
                               TextSpan(
-                                text: '${food.productName} ' + bullet,
+                                text: '${truncateText(food.name, 25)} ' + bullet,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight:

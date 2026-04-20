@@ -5,29 +5,19 @@ class FoodSelectionMainHeader extends StatelessWidget {
   FoodSelectionMainHeader({super.key, required this.onSearchChanged, required this.tabController});
   final Function(String) onSearchChanged;
   final TabController tabController;
-  final List<String> tabs = ['All', 'Favourites', 'Custom',];
+  final List<String> tabs = ['All', 'Favourites', 'Custom'];
 
   @override
   Widget build(BuildContext context) {
           return Column(
             // TODO: Change so the header is not fixed to the top (disappears when scrolling down) (sliverappbar?)
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 20.0,
-                  left: 16.0,
-                  right: 16.0,
-                ),
-              ),
               // Header
               Row(
                 // Back button
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Container(
-                      width: 45,
-                      height: 45,
+                  Container(
+                    margin: EdgeInsets.fromLTRB(12.0, 0.0, 10.0, 0.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular((16.0)),
                         color: Colors.white,
@@ -39,52 +29,46 @@ class FoodSelectionMainHeader extends StatelessWidget {
                         icon: Icon(Icons.close),
                       ),
                     ),
+                  // Search container (including search icon, textfield and filter)
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 8, right: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular((16.0)),
+                        color: Colors.white,
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.search),
+                          const SizedBox(width: 5.0),
+                          Expanded(
+                            child: TextField(
+                              style: TextStyle(
+                                color: const Color.fromARGB(255, 82, 82, 82),
+                                fontWeight: FontWeight.w100,
+                                fontSize: 12.0,
+                              ),
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical: 14.0,
+                                  horizontal: 10.0,
+                                ),
+                                hintText: 'Search all food...',
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 1.0),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              onChanged: onSearchChanged,
+                            ),
+                          ),
+                          const Icon(Icons.filter_alt, size: 28),
+                        ],
+                      ),
+                    ),
                   ),
                   Container(
-                    // Search container (including search icon, textfield and filter)
-                    width: 290, // TODO: Fix fixed size width
-                    height: 45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular((16.0)),
-                      color: Colors.white,
-                    ),
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.search),
-                        const SizedBox(width: 5.0),
-                        SizedBox(
-                          width: 210,
-                          child: TextField(
-                            style: TextStyle(
-                              color: const Color.fromARGB(255, 82, 82, 82),
-                              fontWeight: FontWeight.w100,
-                              fontSize: 12.0,
-                            ),
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 6.0,
-                                horizontal: 10.0,
-                              ),
-                              hintText: 'Search all food...',
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(width: 1.0),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            onChanged: onSearchChanged,
-                          ),
-                        ),
-                        SizedBox(width: 7.0),
-                        const Icon(Icons.filter_alt, size: 28),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Container(
-                      width: 45,
-                      height: 45,
+                    margin: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular((16.0)),
                         color: Colors.white,
@@ -96,14 +80,13 @@ class FoodSelectionMainHeader extends StatelessWidget {
                         icon: Icon(Icons.qr_code),
                       ),
                     ),
-                  ),
                 ],
               ),
               SizedBox(height: 6),
               //Tab bar (all, favourites, custom)
               Container(
-                width: 390, // TODO: Fix fixed size width
-                height: 30,
+                margin: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
+                padding: EdgeInsets.all(4.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.white,
@@ -123,7 +106,7 @@ class FoodSelectionMainHeader extends StatelessWidget {
                   }).toList(),
                 ),
               ),
-              SizedBox(height: 30.0,),
+              SizedBox(height: 25.0,),
               
             ],
           );

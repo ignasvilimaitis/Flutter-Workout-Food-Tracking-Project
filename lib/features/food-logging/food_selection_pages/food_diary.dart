@@ -34,194 +34,40 @@ class _FoodLoggingViewState extends State<FoodLoggingView> {
     // _tabController.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Consumer3<TotalMacros, MacroGoal, CurrentMacroDisplay>(
-        builder: (context, totalMacros, macroGoals, currentDisplayedMacroType, child) {
-          return ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              Column(
-                children: [
-                  // Header
-                  Row(
-                    children: [
-                      SizedBox(width: 10),
-                      UIButton(
-                        function: 'Return',
-                        iconData: Icons.keyboard_return,
-                      ),
-                      SizedBox(width: 15),
-                      Container(
-                        height: 45,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular((16.0)),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(Icons.arrow_left, size: 50),
-                            SizedBox(width: 20),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 7.0),
-                              child: Text(
-                                LocalTime().today,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 20),
-                            Icon(Icons.arrow_right, size: 50),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  // Scrollable Widget Row
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(8.0, 10.0, 16.0, 0.0),
-                    child: Container(
-                      height: 230,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular((20.0)),
-                        color: Colors.white,
-                      ),
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: <Widget>[
-                          PageView(
-                            controller: _pageController,
-                            children: <Widget>[
-                              Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: const Text(
-                                        'Targets',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    // Protein Progress Bar
-                                     MacroProgressBar(
-                                      color: const Color.fromARGB(255, 106, 206, 110),
-                                      macroName: 'Protein',
-                                      macroType: MacroType.protein
-                                      ),
-                                  SizedBox(height: 25,),
-                                  // Carbs Progress Bar
-                                    MacroProgressBar(
-                                      color: Colors.blueAccent,
-                                      macroName: 'Carbs',
-                                      macroType: MacroType.carbs
-                                      ),
-                                      SizedBox(height: 25,),
-                                    // Fat Progress Bar
-                                    MacroProgressBar(
-                                      color: Colors.orange,
-                                      macroName: 'Fat',
-                                      macroType: MacroType.fat
-                                      ),
-                                  ],
-                                ),
-                              const Text("Page 2"),
-                              const Text("Page 3"),
-                              const Text("Page 4"),
-                              const Text("Page 5"),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: SmoothPageIndicator(
-                              effect: WormEffect(
-                                dotHeight: 12,
-                                dotWidth: 12,
-                                spacing: 8,
-                                dotColor: Colors.grey,
-                                activeDotColor: Theme.of(context).colorScheme.primary,
-                              ),
-                              controller: _pageController,
-                              count: 5,
-                            ),
-                          ),
-                        ],
-                      ),
+@override
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    bottomNavigationBar: CustomBottomAppBar(module: 'food'),
+    body: Consumer3<TotalMacros, MacroGoal, CurrentMacroDisplay>(
+      builder: (context, totalMacros, macroGoals, currentDisplayedMacroType, child) {
+        return SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              // Header - Fixed height
+              buildHeader(),
+              // Scrollable content area
+              SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                      children: [
+                        // Scrollable Widget Row
+                        buildScrollableWidgetRow(),
+                        SizedBox(height: 20),
+                        // Diary Section (body)
+                        buildBody(currentDisplayedMacroType),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Column(
-                  children: [
-                     Container(
-                      margin: EdgeInsets.fromLTRB(8.0, 0.0, 16.0, 0.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular((20.0)),
-                          color: Colors.white,
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(width: 178), // TODO: Temp fix to put in the middle
-                                const Text('Log',
-                                style: TextStyle(
-                                  fontSize: 18
-                                ),
-                                ),
-                                Spacer(),
-                                TextButton.icon(
-                                  iconAlignment: IconAlignment.end,
-                                  onPressed: () {
-                                    currentDisplayedMacroType.setCurrentDisplay(
-                                      currentDisplayedMacroType.getCurrentDisplay() == MacroType.protein
-                                      ? MacroType.carbs
-                                      : currentDisplayedMacroType.getCurrentDisplay() == MacroType.carbs
-                                      ? MacroType.fat
-                                      : currentDisplayedMacroType.getCurrentDisplay() == MacroType.fat
-                                      ? MacroType.energy
-                                      : MacroType.protein
-                                    );
-                                  },
-                                    label: (getCurrentMacro(currentDisplayedMacroType)),
-                                   icon: Icon(Icons.swap_horiz_rounded,
-                                   color: currentDisplayedMacroType.getCurrentDisplay() == MacroType.protein ?
-                                   Colors.green : currentDisplayedMacroType.getCurrentDisplay() == MacroType.fat ? Colors.orange
-                                   : currentDisplayedMacroType.getCurrentDisplay() == MacroType.carbs ? Colors.blue : getThemeData().primaryColor,),
-
-                                   ),
-                                  SizedBox(width: 10,)
-                                   
-
-                              ],
-                            ),
-                            DiaryWidgetV2(diaryName: 'Breakfast'),
-                            SizedBox(height: 20,),
-                            DiaryWidgetV2(diaryName: 'Lunch'),
-                            SizedBox(height: 20,),
-                            DiaryWidgetV2(diaryName: 'Dinner'),
-                            SizedBox(height: 20,),
-                            DiaryWidgetV2(diaryName: 'Snacks'),
-                            SizedBox(height: 20,),
-
-                          ],
-                        ),
-                      ),
-                  ],
                 ),
             ],
-          );
-        },
-      ),
-      backgroundColor: Theme.of(context).colorScheme.primary,
-    );
-  }
+          ),
+        );
+      },
+    ),
+    backgroundColor: Theme.of(context).colorScheme.primary,
+  );
+}
 
 // Helper function to get the label string + color for macro view switching
 Widget getCurrentMacro(CurrentMacroDisplay currentDisplayedMacroType) {
@@ -247,5 +93,191 @@ Widget getCurrentMacro(CurrentMacroDisplay currentDisplayedMacroType) {
       ),
       );
   }
+}
+Color getMacroColor(CurrentMacroDisplay currentDisplayedMacroType) {
+  switch (currentDisplayedMacroType.getCurrentDisplay()) {
+    case MacroType.energy:
+      return getThemeData().primaryColor;
+    case MacroType.protein:
+      return Colors.green;
+    case MacroType.carbs:
+      return Colors.blue;
+    case MacroType.fat:
+      return Colors.orange;
+  }
+}
+MacroType getNextMacroType(CurrentMacroDisplay currentDisplayedMacroType) {
+  switch (currentDisplayedMacroType.getCurrentDisplay()) {
+    case MacroType.energy:
+      return MacroType.protein;
+    case MacroType.protein:
+      return MacroType.carbs;
+    case MacroType.carbs:
+      return MacroType.fat;
+    case MacroType.fat:
+      return MacroType.energy;
+  }
+}
+Widget buildHeader() {
+    return Row(
+    children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(12.0, 10.0, 12.0, 10.0),
+        child: UIButton(
+          function: 'Return',
+          iconData: Icons.keyboard_return,
+        ),
+      ),
+      Expanded(
+        child: Container(
+          margin: EdgeInsets.fromLTRB(0.0, 10.0, 12.0, 10.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular((16.0)),
+            color: Colors.white,
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.arrow_left, size: 50),
+              Spacer(),
+              Text(
+                  LocalTime().today,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              Spacer(),
+              Icon(Icons.arrow_right,
+              size: 50,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
+  );
+}
+Widget buildScrollableWidgetRow() {
+  return Padding(
+    padding: EdgeInsets.fromLTRB(12.0, 10.0, 12.0, 0.0),
+    child: Container(
+      height: 230,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular((20.0)),
+        color: Colors.white,
+      ),
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: <Widget>[
+          PageView(
+            controller: _pageController,
+            children: <Widget>[
+              Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: const Text(
+                        'Targets',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    // Protein Progress Bar
+                      MacroProgressBar(
+                      color: const Color.fromARGB(255, 106, 206, 110),
+                      macroName: 'Protein',
+                      macroType: MacroType.protein
+                      ),
+                  SizedBox(height: 25,),
+                  // Carbs Progress Bar
+                    MacroProgressBar(
+                      color: Colors.blueAccent,
+                      macroName: 'Carbs',
+                      macroType: MacroType.carbs
+                      ),
+                      SizedBox(height: 25,),
+                    // Fat Progress Bar
+                    MacroProgressBar(
+                      color: Colors.orange,
+                      macroName: 'Fat',
+                      macroType: MacroType.fat
+                      ),
+                  ],
+                ),
+              const Text("Page 2"),
+              const Text("Page 3"),
+              const Text("Page 4"),
+              const Text("Page 5"),
+            ],
+          ),
+          Container(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: SmoothPageIndicator(
+              effect: WormEffect(
+                dotHeight: 12,
+                dotWidth: 12,
+                spacing: 8,
+                dotColor: Colors.grey,
+                activeDotColor: Theme.of(context).colorScheme.primary,
+              ),
+              controller: _pageController,
+              count: 5,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+Widget buildBody(CurrentMacroDisplay currentDisplayedMacroType) {
+  return Container(
+      margin: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(22.0),
+        color: Colors.white,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(width: 178), // TODO: Temp fix to put in the middle
+              const Text('Log',
+              style: TextStyle(
+                fontSize: 18
+              ),
+              ),
+              Spacer(),
+              TextButton.icon(
+                iconAlignment: IconAlignment.end,
+                onPressed: () {
+                  currentDisplayedMacroType.setCurrentDisplay(getNextMacroType(currentDisplayedMacroType)
+                  );
+                },
+                  label: (getCurrentMacro(currentDisplayedMacroType)),
+                  icon: Icon(Icons.swap_horiz_rounded,
+                  color: getMacroColor(currentDisplayedMacroType)
+              
+                  ),
+              ),
+                SizedBox(width: 10,)
+                
+              
+            ],
+          ),
+          DiaryWidgetV2(diaryName: 'Breakfast'),
+          SizedBox(height: 20,),
+          DiaryWidgetV2(diaryName: 'Lunch'),
+          SizedBox(height: 20,),
+          DiaryWidgetV2(diaryName: 'Dinner'),
+          SizedBox(height: 20,),
+          DiaryWidgetV2(diaryName: 'Snacks'),
+          SizedBox(height: 75,) // TODO: temp fix for bottom padding
+        ],
+      ),
+    );
 }
 }

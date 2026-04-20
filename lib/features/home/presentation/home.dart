@@ -4,11 +4,13 @@ import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_application_1/core/assets.dart';
 
+import 'package:flutter_application_1/core/local_time.dart';
+
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final String greeting = 'Good ${getTimePeriod()}!';
-  final String currentDate = getCurrentDateWithSuffix();
+  final String currentDate = LocalTime().todayWithMonth;
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +70,7 @@ Card createHeader(String greeting, String currentDate, context) {
                   ),
                   onPressed: () {
                     // Navigate to workout screen
+                    Navigator.pushNamed(context, workoutHomeRoute);
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -379,30 +382,4 @@ String getTimePeriod({String? period}) {
   if (hour >= 5 && hour < 12) return 'Morning';
   if (hour >= 12 && hour < 17) return 'Afternoon';
   return 'Evening';
-}
-
-String getDaySuffix(int day) {
-  if (day >= 11 && day <= 13) {
-    return 'th';
-  }
-
-  switch (day % 10) {
-    case 1:
-      return 'st';
-    case 2:
-      return 'nd';
-    case 3:
-      return 'rd';
-    default:
-      return 'th';
-  }
-}
-
-String getCurrentDateWithSuffix() {
-  final now = DateTime.now();
-  final day = now.day;
-  final daySuffix = getDaySuffix(day);
-  final dateDay = DateFormat('EEEE').format(now);
-  final dateMonth = DateFormat('MMMM').format(now);
-  return '$dateDay $day$daySuffix $dateMonth';
 }

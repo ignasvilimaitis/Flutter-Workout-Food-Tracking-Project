@@ -1,0 +1,560 @@
+{
+  "ExerciseTypes": [
+    { "name": "Barbell", "description": "Exercises performed using a barbell." },
+    { "name": "Dumbbell", "description": "Exercises performed using dumbbells." },
+    { "name": "Bodyweight", "description": "Exercises performed using your own body weight." },
+    { "name": "Machine", "description": "Exercises performed using any gym machine." },
+    { "name": "Cable", "description": "Exercises performed using a cable stack machine." },
+    { "name": "Band", "description": "Exercises performed using resistance bands." },
+    { "name": "Other", "description": "Exercises performed using other equipment or methods." }
+  ],
+  "Exercise": [
+    {
+      "fk_type_id": 1,
+      "name": "Barbell Bench Press",
+      "about": "A compound pressing movement targeting the chest, shoulders, and triceps. Performed by lowering a barbell to the chest and pressing it until the arms are extended.",
+      "icon_path": "assets/exercises/bench-press.png"
+    },
+    {
+      "fk_type_id": 1,
+      "name": "Barbell Squat",
+      "about": "A lower-body compound lift where the barbell rests on the upper back. The lifter descends into a squat and stands back up, targeting quads, glutes, and core.",
+      "icon_path": "assets/exercises/back-squat.png"
+    },
+    {
+      "fk_type_id": 1,
+      "name": "Barbell Deadlift",
+      "about": "A hip-hinge movement starting from the floor. The barbell is lifted by extending the hips and knees, engaging posterior-chain muscles.",
+      "icon_path": "assets/exercises/deadlift.png"
+    },
+    {
+      "fk_type_id": 1,
+      "name": "Barbell Overhead Press",
+      "about": "A standing press where a barbell is pushed overhead from shoulder height, targeting shoulders and triceps."
+    },
+    {
+      "fk_type_id": 1,
+      "name": "Barbell Bent-Over Row",
+      "about": "A pulling exercise performed by hinging forward and rowing a barbell toward the torso to develop the back."
+    },
+    {
+      "fk_type_id": 2,
+      "name": "Dumbbell Shoulder Press",
+      "about": "A pressing movement performed with dumbbells from shoulder height to overhead, strengthening shoulders and triceps.",
+      "icon_path": "assets/exercises/dumbbell-shoulder-press.png"
+    },
+    {
+      "fk_type_id": 2,
+      "name": "Dumbbell Chest Press",
+      "about": "Performed on a flat bench by pressing two dumbbells upward, focusing on the chest and supporting muscles.",
+      "icon_path": "assets/exercises/dumbbell-chest-press.png"
+    },
+    {
+      "fk_type_id": 2,
+      "name": "Dumbbell Bicep Curl",
+      "about": "An isolation movement curling dumbbells upward to strengthen the biceps.",
+      "icon_path": "assets/exercises/dumbbell-bicep-curl.png"
+    },
+    {
+      "fk_type_id": 2,
+      "name": "Dumbbell Lunges",
+      "about": "A unilateral leg movement where dumbbells are held while stepping forward into a lunge position."
+    },
+    {
+      "fk_type_id": 3,
+      "name": "Pull-Up",
+      "about": "A vertical pulling exercise performed by lifting the body until the chin passes the bar, targeting the back and arms.",
+      "icon_path": "assets/exercises/pull-up.png"
+    },
+    {
+      "fk_type_id": 3,
+      "name": "Push-Up",
+      "about": "A horizontal pressing movement using bodyweight, targeting the chest, shoulders, and triceps.",
+      "icon_path": "assets/exercises/push-up.png"
+    },
+    {
+      "fk_type_id": 3,
+      "name": "Bodyweight Squat",
+      "about": "A squat performed without external load, focusing on basic lower-body strength and control.",
+      "icon_path": "assets/exercises/bodyweight-squat.png"
+    },
+    {
+      "fk_type_id": 3,
+      "name": "Plank",
+      "about": "An isometric core exercise maintaining a straight-line body position on forearms and toes.",
+      "icon_path": "assets/exercises/plank.png"
+    },
+    {
+      "fk_type_id": 4,
+      "name": "Leg Press",
+      "about": "A compound leg movement performed on a machine that allows the lifter to press a weighted platform with the legs.",
+      "icon_path": "assets/exercises/leg-press.png"
+    },
+    {
+      "fk_type_id": 4,
+      "name": "Chest Press Machine",
+      "about": "A guided pressing exercise targeting chest muscles with controlled machine motion.",
+      "icon_path": "assets/exercises/chest-press-machine.png"
+    },
+    {
+      "fk_type_id": 4,
+      "name": "Lat Pulldown",
+      "about": "A pulling exercise performed on a machine by drawing a bar down toward the chest to work back muscles."
+    },
+    {
+      "fk_type_id": 4,
+      "name": "Seated Leg Curl Machine",
+      "about": "An isolation exercise where the hamstrings bend the legs against machine resistance."
+    },
+    {
+      "fk_type_id": 5,
+      "name": "Cable Tricep Pushdown",
+      "about": "An isolation movement pushing a cable attachment downward using elbow extension."
+    },
+    {
+      "fk_type_id": 5,
+      "name": "Cable Bicep Curl",
+      "about": "A curling motion performed on a cable machine for consistent resistance throughout the movement."
+    },
+    {
+      "fk_type_id": 5,
+      "name": "Cable Fly",
+      "about": "A chest isolation movement performed standing between two cable stacks, bringing the arms together in a fly motion."
+    },
+    {
+      "fk_type_id": 5,
+      "name": "Cable Row",
+      "about": "A seated pulling exercise where the cable handle is drawn toward the torso to target the back."
+    },
+    {
+      "fk_type_id": 6,
+      "name": "Band Pull-Apart",
+      "about": "A shoulder and upper-back exercise where a resistance band is stretched apart at chest level."
+    },
+    {
+      "fk_type_id": 6,
+      "name": "Band Squat",
+      "about": "A squat performed with a resistance band adding tension to the movement, enhancing leg and glute activation."
+    },
+    {
+      "fk_type_id": 6,
+      "name": "Band Face Pull",
+      "about": "A pulling movement targeting rear delts and upper back using a resistance band anchored at eye level."
+    },
+    {
+      "fk_type_id": 7,
+      "name": "Kettlebell Swing",
+      "about": "A dynamic hip-hinge motion using a kettlebell, focusing on glutes, hamstrings, and conditioning."
+    },
+    {
+      "fk_type_id": 7,
+      "name": "Medicine Ball Slam",
+      "about": "A full-body power movement slamming a ball to the ground repeatedly."
+    },
+    {
+      "fk_type_id": 7,
+      "name": "Sled Push",
+      "about": "A lower-body strength and conditioning drill pushing a weighted sled across the floor."
+    }
+  ],
+  "ExerciseMuscle": [
+    { "fk_exercise_id": 1, "fk_muscle_id": 2, "role": "Primary" },
+    { "fk_exercise_id": 1, "fk_muscle_id": 10, "role": "Secondary" },
+    { "fk_exercise_id": 1, "fk_muscle_id": 16, "role": "Secondary" },
+    { "fk_exercise_id": 1, "fk_muscle_id": 17, "role": "Secondary" },
+    { "fk_exercise_id": 1, "fk_muscle_id": 15, "role": "Tertiary" },
+    { "fk_exercise_id": 2, "fk_muscle_id": 22, "role": "Primary" },
+    { "fk_exercise_id": 2, "fk_muscle_id": 26, "role": "Secondary" },
+    { "fk_exercise_id": 2, "fk_muscle_id": 27, "role": "Secondary" },
+    { "fk_exercise_id": 2, "fk_muscle_id": 28, "role": "Secondary" },
+    { "fk_exercise_id": 2, "fk_muscle_id": 33, "role": "Tertiary" },
+    { "fk_exercise_id": 2, "fk_muscle_id": 29, "role": "Tertiary" },
+    { "fk_exercise_id": 3, "fk_muscle_id": 22, "role": "Primary" },
+    { "fk_exercise_id": 3, "fk_muscle_id": 29, "role": "Secondary" },
+    { "fk_exercise_id": 3, "fk_muscle_id": 31, "role": "Secondary" },
+    { "fk_exercise_id": 3, "fk_muscle_id": 32, "role": "Secondary" },
+    { "fk_exercise_id": 3, "fk_muscle_id": 8, "role": "Tertiary" },
+    { "fk_exercise_id": 3, "fk_muscle_id": 36, "role": "Tertiary" },
+    { "fk_exercise_id": 4, "fk_muscle_id": 10, "role": "Primary" },
+    { "fk_exercise_id": 4, "fk_muscle_id": 11, "role": "Secondary" },
+    { "fk_exercise_id": 4, "fk_muscle_id": 16, "role": "Secondary" },
+    { "fk_exercise_id": 4, "fk_muscle_id": 17, "role": "Secondary" },
+    { "fk_exercise_id": 4, "fk_muscle_id": 15, "role": "Tertiary" },
+    { "fk_exercise_id": 5, "fk_muscle_id": 7, "role": "Primary" },
+    { "fk_exercise_id": 5, "fk_muscle_id": 5, "role": "Secondary" },
+    { "fk_exercise_id": 5, "fk_muscle_id": 6, "role": "Secondary" },
+    { "fk_exercise_id": 5, "fk_muscle_id": 9, "role": "Tertiary" },
+    { "fk_exercise_id": 5, "fk_muscle_id": 14, "role": "Tertiary" },
+    { "fk_exercise_id": 6, "fk_muscle_id": 10, "role": "Primary" },
+    { "fk_exercise_id": 6, "fk_muscle_id": 11, "role": "Secondary" },
+    { "fk_exercise_id": 6, "fk_muscle_id": 16, "role": "Secondary" },
+    { "fk_exercise_id": 6, "fk_muscle_id": 17, "role": "Tertiary" },
+    { "fk_exercise_id": 7, "fk_muscle_id": 2, "role": "Primary" },
+    { "fk_exercise_id": 7, "fk_muscle_id": 10, "role": "Secondary" },
+    { "fk_exercise_id": 7, "fk_muscle_id": 16, "role": "Secondary" },
+    { "fk_exercise_id": 7, "fk_muscle_id": 15, "role": "Tertiary" },
+    { "fk_exercise_id": 8, "fk_muscle_id": 12, "role": "Primary" },
+    { "fk_exercise_id": 8, "fk_muscle_id": 14, "role": "Secondary" },
+    { "fk_exercise_id": 8, "fk_muscle_id": 13, "role": "Tertiary" },
+    { "fk_exercise_id": 9, "fk_muscle_id": 22, "role": "Primary" },
+    { "fk_exercise_id": 9, "fk_muscle_id": 26, "role": "Secondary" },
+    { "fk_exercise_id": 9, "fk_muscle_id": 27, "role": "Secondary" },
+    { "fk_exercise_id": 9, "fk_muscle_id": 25, "role": "Secondary" },
+    { "fk_exercise_id": 9, "fk_muscle_id": 23, "role": "Tertiary" },
+    { "fk_exercise_id": 10, "fk_muscle_id": 7, "role": "Primary" },
+    { "fk_exercise_id": 10, "fk_muscle_id": 6, "role": "Secondary" },
+    { "fk_exercise_id": 10, "fk_muscle_id": 5, "role": "Secondary" },
+    { "fk_exercise_id": 10, "fk_muscle_id": 12, "role": "Tertiary" },
+    { "fk_exercise_id": 10, "fk_muscle_id": 13, "role": "Tertiary" },
+    { "fk_exercise_id": 11, "fk_muscle_id": 2, "role": "Primary" },
+    { "fk_exercise_id": 11, "fk_muscle_id": 10, "role": "Secondary" },
+    { "fk_exercise_id": 11, "fk_muscle_id": 16, "role": "Secondary" },
+    { "fk_exercise_id": 11, "fk_muscle_id": 21, "role": "Tertiary" },
+    { "fk_exercise_id": 12, "fk_muscle_id": 22, "role": "Primary" },
+    { "fk_exercise_id": 12, "fk_muscle_id": 26, "role": "Secondary" },
+    { "fk_exercise_id": 12, "fk_muscle_id": 27, "role": "Secondary" },
+    { "fk_exercise_id": 12, "fk_muscle_id": 33, "role": "Tertiary" },
+    { "fk_exercise_id": 13, "fk_muscle_id": 20, "role": "Primary" },
+    { "fk_exercise_id": 13, "fk_muscle_id": 21, "role": "Secondary" },
+    { "fk_exercise_id": 13, "fk_muscle_id": 8, "role": "Tertiary" },
+    { "fk_exercise_id": 14, "fk_muscle_id": 26, "role": "Primary" },
+    { "fk_exercise_id": 14, "fk_muscle_id": 27, "role": "Secondary" },
+    { "fk_exercise_id": 14, "fk_muscle_id": 28, "role": "Secondary" },
+    { "fk_exercise_id": 14, "fk_muscle_id": 22, "role": "Tertiary" },
+    { "fk_exercise_id": 15, "fk_muscle_id": 2, "role": "Primary" },
+    { "fk_exercise_id": 15, "fk_muscle_id": 10, "role": "Secondary" },
+    { "fk_exercise_id": 15, "fk_muscle_id": 16, "role": "Secondary" },
+    { "fk_exercise_id": 16, "fk_muscle_id": 7, "role": "Primary" },
+    { "fk_exercise_id": 16, "fk_muscle_id": 6, "role": "Secondary" },
+    { "fk_exercise_id": 16, "fk_muscle_id": 5, "role": "Secondary" },
+    { "fk_exercise_id": 16, "fk_muscle_id": 12, "role": "Tertiary" },
+    { "fk_exercise_id": 17, "fk_muscle_id": 29, "role": "Primary" },
+    { "fk_exercise_id": 17, "fk_muscle_id": 31, "role": "Secondary" },
+    { "fk_exercise_id": 17, "fk_muscle_id": 32, "role": "Secondary" },
+    { "fk_exercise_id": 18, "fk_muscle_id": 16, "role": "Primary" },
+    { "fk_exercise_id": 18, "fk_muscle_id": 17, "role": "Secondary" },
+    { "fk_exercise_id": 18, "fk_muscle_id": 15, "role": "Tertiary" },
+    { "fk_exercise_id": 19, "fk_muscle_id": 12, "role": "Primary" },
+    { "fk_exercise_id": 19, "fk_muscle_id": 14, "role": "Secondary" },
+    { "fk_exercise_id": 19, "fk_muscle_id": 13, "role": "Tertiary" },
+    { "fk_exercise_id": 20, "fk_muscle_id": 2, "role": "Primary" },
+    { "fk_exercise_id": 20, "fk_muscle_id": 10, "role": "Secondary" },
+    { "fk_exercise_id": 20, "fk_muscle_id": 11, "role": "Tertiary" },
+    { "fk_exercise_id": 21, "fk_muscle_id": 7, "role": "Primary" },
+    { "fk_exercise_id": 21, "fk_muscle_id": 5, "role": "Secondary" },
+    { "fk_exercise_id": 21, "fk_muscle_id": 6, "role": "Secondary" },
+    { "fk_exercise_id": 21, "fk_muscle_id": 9, "role": "Tertiary" },
+    { "fk_exercise_id": 22, "fk_muscle_id": 9, "role": "Primary" },
+    { "fk_exercise_id": 22, "fk_muscle_id": 3, "role": "Secondary" },
+    { "fk_exercise_id": 22, "fk_muscle_id": 11, "role": "Tertiary" },
+    { "fk_exercise_id": 23, "fk_muscle_id": 22, "role": "Primary" },
+    { "fk_exercise_id": 23, "fk_muscle_id": 26, "role": "Secondary" },
+    { "fk_exercise_id": 23, "fk_muscle_id": 27, "role": "Secondary" },
+    { "fk_exercise_id": 24, "fk_muscle_id": 9, "role": "Primary" },
+    { "fk_exercise_id": 24, "fk_muscle_id": 3, "role": "Secondary" },
+    { "fk_exercise_id": 24, "fk_muscle_id": 5, "role": "Tertiary" },
+    { "fk_exercise_id": 25, "fk_muscle_id": 22, "role": "Primary" },
+    { "fk_exercise_id": 25, "fk_muscle_id": 29, "role": "Secondary" },
+    { "fk_exercise_id": 25, "fk_muscle_id": 31, "role": "Secondary" },
+    { "fk_exercise_id": 25, "fk_muscle_id": 32, "role": "Secondary" },
+    { "fk_exercise_id": 25, "fk_muscle_id": 20, "role": "Tertiary" },
+    { "fk_exercise_id": 26, "fk_muscle_id": 20, "role": "Primary" },
+    { "fk_exercise_id": 26, "fk_muscle_id": 21, "role": "Secondary" },
+    { "fk_exercise_id": 26, "fk_muscle_id": 10, "role": "Tertiary" },
+    { "fk_exercise_id": 27, "fk_muscle_id": 26, "role": "Primary" },
+    { "fk_exercise_id": 27, "fk_muscle_id": 27, "role": "Secondary" },
+    { "fk_exercise_id": 27, "fk_muscle_id": 25, "role": "Secondary" },
+    { "fk_exercise_id": 27, "fk_muscle_id": 22, "role": "Tertiary" }
+  ],
+  "ExerciseVariants": [
+    {
+      "fk_exercise_id": 1,
+      "name": "Barbell Bench Press",
+      "is_default": 1,
+      "about": "Standard flat barbell bench press.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 2,
+      "name": "Barbell Back Squat",
+      "is_default": 1,
+      "about": "Traditional barbell squat with bar placed on upper back.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 3,
+      "name": "Conventional Deadlift",
+      "is_default": 1,
+      "about": "Standard hip-hinge lift pulling the barbell from the floor.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 3,
+      "name": "Sumo Deadlift",
+      "is_default": 0,
+      "about": "Wide-stance deadlift variation with a more upright torso.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 4,
+      "name": "Barbell Overhead Press",
+      "is_default": 1,
+      "about": "Standing press performed by raising barbell overhead.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 5,
+      "name": "Barbell Bent-Over Row",
+      "is_default": 1,
+      "about": "Rowing motion performed while leaning forward at the hip.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 6,
+      "name": "Dumbbell Shoulder Press",
+      "is_default": 1,
+      "about": "Seated or standing dumbbell press overhead.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 6,
+      "name": "Unilateral Dumbbell Shoulder Press",
+      "is_default": 0,
+      "about": "Shoulder press performed with one dumbbell at a time.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 0
+    },
+    {
+      "fk_exercise_id": 7,
+      "name": "Dumbbell Chest Press",
+      "is_default": 1,
+      "about": "Flat dumbbell press targeting chest and triceps.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 8,
+      "name": "Dumbbell Bicep Curl",
+      "is_default": 1,
+      "about": "Standard curling motion using dumbbells.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 8,
+      "name": "Unilateral Dumbbell Bicep Curl",
+      "is_default": 0,
+      "about": "Curl performed with one dumbbell at a time for isolated focus.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 0
+    },
+    {
+      "fk_exercise_id": 9,
+      "name": "Dumbbell Lunges",
+      "is_default": 1,
+      "about": "Stepping lunge holding dumbbells at the sides.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 0
+    },
+    {
+      "fk_exercise_id": 9,
+      "name": "Reverse Dumbbell Lunges",
+      "is_default": 0,
+      "about": "Lunge variation stepping backward for improved hip stability.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 0
+    },
+    {
+      "fk_exercise_id": 10,
+      "name": "Pull-Up",
+      "is_default": 1,
+      "about": "Bodyweight vertical pulling over a bar.",
+      "weight_unit": null,
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 10,
+      "name": "Weighted Pull-Up",
+      "is_default": 0,
+      "about": "Pull-up performed with added resistance via belt or vest.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 11,
+      "name": "Push-Up",
+      "is_default": 1,
+      "about": "Standard bodyweight horizontal press.",
+      "weight_unit": null,
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 12,
+      "name": "Bodyweight Squat",
+      "is_default": 1,
+      "about": "Squat performed with no external resistance.",
+      "weight_unit": null,
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 13,
+      "name": "Plank",
+      "is_default": 1,
+      "about": "Core isometric hold on elbows or hands.",
+      "weight_unit": null,
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 14,
+      "name": "Leg Press",
+      "is_default": 1,
+      "about": "Machine-based leg pushing movement.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 15,
+      "name": "Chest Press Machine",
+      "is_default": 1,
+      "about": "Machine-guided horizontal push motion.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 16,
+      "name": "Lat Pulldown",
+      "is_default": 1,
+      "about": "Cable-based vertical pulling movement.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 17,
+      "name": "Seated Leg Curl",
+      "is_default": 1,
+      "about": "Hamstring isolation using a machine.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 18,
+      "name": "Cable Tricep Pushdown",
+      "is_default": 1,
+      "about": "Elbow extension using a cable stack.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 19,
+      "name": "Cable Bicep Curl",
+      "is_default": 1,
+      "about": "Curling motion using cable resistance.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 20,
+      "name": "Cable Fly",
+      "is_default": 1,
+      "about": "Cable-based adduction targeting chest.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 21,
+      "name": "Cable Row",
+      "is_default": 1,
+      "about": "Seated horizontal pulling movement using cables.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 22,
+      "name": "Band Pull-Apart",
+      "is_default": 1,
+      "about": "Resistance band row-like movement targeting rear delts.",
+      "weight_unit": null,
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 23,
+      "name": "Band Squat",
+      "is_default": 1,
+      "about": "Squat performed with a resistance band adding tension.",
+      "weight_unit": null,
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 24,
+      "name": "Band Face Pull",
+      "is_default": 1,
+      "about": "Band-based pulling motion targeting rear delts and upper back.",
+      "weight_unit": null,
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 25,
+      "name": "Kettlebell Swing",
+      "is_default": 1,
+      "about": "Powerful hip-hinge swing with a kettlebell.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 26,
+      "name": "Medicine Ball Slam",
+      "is_default": 1,
+      "about": "Explosive slam of a medicine ball into the floor.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    },
+    {
+      "fk_exercise_id": 27,
+      "name": "Sled Push",
+      "is_default": 1,
+      "about": "Lower-body drive movement pushing a weighted sled.",
+      "weight_unit": "kg",
+      "max_weight": null,
+      "is_bilateral": 1
+    }
+
+  ]
+}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/enums.dart';
-import 'package:flutter_application_1/features/food-logging/classes/food_Item.dart';
+import 'package:flutter_application_1/features/food-logging/data/food_model.dart';
 
 // Per-diary entry that keeps its own foods and totals and notifies listeners
 class DiaryEntry extends ChangeNotifier {
@@ -15,7 +15,7 @@ class DiaryEntry extends ChangeNotifier {
   DiaryEntry({required this.id});
 
   void addFood(FoodItem food) {
-    print("Adding food ${food.productName} to diary $id");
+    print("Adding food ${food.name} to diary $id");
     foods.add(food);  // Add the food to the list
     calorieAmount += food.calories;
     carbAmount += food.carbs;

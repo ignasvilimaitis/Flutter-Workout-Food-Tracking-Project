@@ -1,0 +1,206 @@
+{
+    "MuscleGroups": [
+        {
+            "name": "Chest"
+        },
+        {
+            "name": "Upper Back"
+        },
+        {
+            "name": "Middle Back"
+        },
+        {
+            "name": "Lower Back"
+        },
+        {
+            "name": "Quadriceps"
+        },
+        {
+            "name": "Hamstrings"
+        },
+        {
+            "name": "Adductors"
+        },
+        {
+            "name": "Hip Flexors"
+        },
+        {
+            "name": "Calves"
+        },
+        {
+            "name": "Hip Abductors"
+        },
+        {
+            "name": "Triceps"
+        },
+        {
+            "name": "Biceps"
+        },
+        {
+            "name": "Forearms"
+        },
+        {
+            "name": "Shoulders"
+        },
+        {
+            "name": "Core"
+        },
+        {
+            "name": "Glutes"
+        }
+    ],
+    "Muscle": [
+        {
+            "name": "Clavicular",
+            "fk_group_id": 1
+        },
+        {
+            "name": "Sternocostal",
+            "fk_group_id": 1
+        },
+        {
+            "name": "Trapezius (Upper)",
+            "fk_group_id": 2
+        },
+        {
+            "name": "Trapezius (Lower)",
+            "fk_group_id": 2
+        },
+        {
+            "name": "Rhomboids",
+            "fk_group_id": 2
+        },
+        {
+            "name": "Teres Major",
+            "fk_group_id": 2
+        },
+        {
+            "name": "Latissimus Dorsi",
+            "fk_group_id": 3
+        },
+        {
+            "name": "Erector Spinae",
+            "fk_group_id": 4
+        },
+        {
+            "name": "Posterior",
+            "fk_group_id": 14
+        },
+        {
+            "name": "Anterior",
+            "fk_group_id": 14
+        },
+        {
+            "name": "Lateral",
+            "fk_group_id": 14
+        },
+        {
+            "name": "Short Head",
+            "fk_group_id": 12
+        },
+        {
+            "name": "Long Head",
+            "fk_group_id": 12
+        },
+        {
+            "name": "Brachialis",
+            "fk_group_id": 12
+        },
+        {
+            "name": "Long Head",
+            "fk_group_id": 11
+        },
+        {
+            "name": "Lateral Head",
+            "fk_group_id": 11
+        },
+        {
+            "name": "Medial Head",
+            "fk_group_id": 11
+        },
+        {
+            "name": "Flexors",
+            "fk_group_id": 13
+        },
+        {
+            "name": "Extensors",
+            "fk_group_id": 13
+        },
+        {
+            "name": "Abdominis",
+            "fk_group_id": 15
+        },
+        {
+            "name": "Obliques",
+            "fk_group_id": 15
+        },
+        {
+            "name": "Maximus",
+            "fk_group_id": 16
+        },
+        {
+            "name": "Medius",
+            "fk_group_id": 16
+        },
+        {
+            "name": "Minimus",
+            "fk_group_id": 16
+        },
+        {
+            "name": "Femoris",
+            "fk_group_id": 5
+        },
+        {
+            "name": "Lateralis",
+            "fk_group_id": 5
+        },
+        {
+            "name": "Medialis",
+            "fk_group_id": 5
+        },
+        {
+            "name": "Intermedius",
+            "fk_group_id": 5
+        },
+        {
+            "name": "Long Head",
+            "fk_group_id": 6
+        },
+        {
+            "name": "Short Head",
+            "fk_group_id": 6
+        },
+        {
+            "name": "Semitendinosus",
+            "fk_group_id": 6
+        },
+        {
+            "name": "Semimembranosus",
+            "fk_group_id": 6
+        },
+        {
+            "name": "Adductors",
+            "fk_group_id": 7
+        },
+        {
+            "name": "Iliopsoas",
+            "fk_group_id": 8
+        },
+        {
+            "name": "Sartorius",
+            "fk_group_id": 8
+        },
+        {
+            "name": "Gastrocnemius",
+            "fk_group_id": 9
+        },
+        {
+            "name": "Soleus",
+            "fk_group_id": 9
+        },
+        {
+            "name": "Tensor Fasciae Latae",
+            "fk_group_id": 10
+        }
+    ]
+}
