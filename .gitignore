@@ -56,3 +56,4 @@ ios/Flutter/GeneratedPluginRegistrant.m
 
 # Android
 android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
+pubspec.lock
