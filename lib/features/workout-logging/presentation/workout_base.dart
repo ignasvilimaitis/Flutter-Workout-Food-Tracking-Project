@@ -9,6 +9,9 @@ import 'package:flutter_application_1/core/assets.dart';
 import 'workout_home.dart';
 import 'workout_exercises.dart';
 
+// Data Models
+import '../data/workout_model.dart' show Variation;
+
 class BaseLayout extends StatefulWidget {
   final String initialPage;
 
@@ -278,14 +281,18 @@ class CustomAppBarExercisesDetails extends StatelessWidget implements PreferredS
   final Color containerColor;
   final double borderRadius;
   final String exerciseName;
-  final String variationName;
+  final List<Variation> variations;
+  final Variation selectedVariation;
+  final Function(Variation) onVariationChanged;
 
   const CustomAppBarExercisesDetails({
     super.key,
     this.containerColor = Colors.white,
     this.borderRadius = 12.0,
     required this.exerciseName,
-    required this.variationName,
+    required this.variations,
+    required this.selectedVariation,
+    required this.onVariationChanged,
   });
 
   @override
@@ -324,12 +331,62 @@ class CustomAppBarExercisesDetails extends StatelessWidget implements PreferredS
           ),
 
           // Options button
-          _buildRectButton(
-            iconData: Icon(Icons.more_horiz, size: 28,),
-            onPressed: () => Navigator.pop(context),
-            containerColor: containerColor,
-            borderRadius: borderRadius,
-          ),
+          Flexible(
+            flex: 1,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(borderRadius),
+                color: containerColor,
+              ),
+              child: PopupMenuButton<String?>(
+                icon: Icon(Icons.more_horiz_rounded, size: 28),
+                offset: const Offset(0, 50),
+                menuPadding: EdgeInsets.zero,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                ),
+                onSelected: (variation) {
+                  if (variation == null) {
+                    //TODO
+                  } else {
+                    // Other
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  final List<Map<String, dynamic>> optionsMap = [
+                    {'icon': Icons.file_copy_rounded, 'value': 'copy', 'label': 'Create a copy'},
+                    {'icon': Icons.dashboard_customize_rounded, 'value': 'new_variation', 'label': 'New variation'},
+                    {'icon': Icons.edit_square, 'value': 'edit', 'label': 'Edit exercise'},
+                    {'icon': Icons.delete_rounded, 'value': 'delete', 'label': 'Delete exercise'},
+                  ];
+
+                  return <PopupMenuEntry<String?>>[
+                    for (final option in optionsMap)
+                      PopupMenuItem(
+                        value: option['value'],
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: Icon(option['icon'], size: 20),
+                            ),
+                            Expanded(
+                              child: Text(
+                                option['label'],
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontSize: 12,),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ];
+                }, 
+              ),
+            ),
+          )
         ],
       ),
 
@@ -363,11 +420,82 @@ class CustomAppBarExercisesDetails extends StatelessWidget implements PreferredS
                 color: containerColor,
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
-              child: Center(
-                child: Text(
-                  variationName + ' ▼',
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                  overflow: TextOverflow.ellipsis,
+              child: PopupMenuButton<Variation?>(
+                offset: const Offset(0, 35),
+                menuPadding: EdgeInsets.zero,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                ),
+                onSelected: (variation) {
+                  if (variation == null) {
+                    //TODO
+                  } else {
+                    onVariationChanged(variation);
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  return <PopupMenuEntry<Variation?>>[
+                    for (final variation in variations)
+                      PopupMenuItem<Variation?>(
+                        value: variation,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                variation.name,
+                                style: TextStyle(
+                                  fontWeight: variation == selectedVariation
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                  fontSize: 12,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            if (variation.isDefault) ...[
+                              Badge(
+                                label: Text(
+                                  'Default',
+                                  style: TextStyle(fontSize: 8),
+                                ),
+                                backgroundColor: Colors.grey,
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                      // Add custom row at the end to create a new variation
+                      const PopupMenuDivider(indent: 10, endIndent: 10, height: 1,),
+                      const PopupMenuItem(
+                        value: null,
+                        child: Center(
+                          child: Text(
+                            'Add New +',
+                            style: TextStyle(fontSize: 12,),
+                          ),
+                        ),
+                      ),
+                  ];
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [ 
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 12),
+                        child: Text(
+                          selectedVariation.name,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    const Icon(
+                      Icons.arrow_drop_down_rounded,
+                      size: 32,
+                    )
+                  ]
                 ),
               ),
             ),

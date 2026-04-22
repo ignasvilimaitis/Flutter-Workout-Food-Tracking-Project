@@ -11,7 +11,6 @@ import '../../../data/workout_data_source.dart' show ExerciseDataSource;
 // ================================= Exercise Details =================================
 class ExerciseDetails extends StatefulWidget {
   final Exercise exercise;
-
   const ExerciseDetails({super.key, required this.exercise});
 
   @override
@@ -19,29 +18,29 @@ class ExerciseDetails extends StatefulWidget {
 }
 
 class _ExerciseDetailsState extends State<ExerciseDetails> {
-  late final ExerciseRepository exerciseRepo;
-  Variation? selectedVariation;
-
-  List<Variation> variations = [];
-  Map<String, List> muscleGroups = {};
-
-  @override
-  void initState() {
-    super.initState();
-    exerciseRepo = ExerciseRepository(ExerciseDataSource());
-    _loadData();
-  }
+  late Variation selectedVariation;
+  late final Future<Map<String, dynamic>> _exerciseFuture;
 
   Future<Map<String, dynamic>> _loadData() async {
-    variations = await exerciseRepo.fetchExerciseVariations(widget.exercise.id);
-    muscleGroups = await exerciseRepo.fetchExerciseMuscles(widget.exercise.id);
-    selectedVariation = variations.firstWhere((v) => v.isDefault); // Set selected variation to the one with isDefault = true
+    final exerciseRepo = ExerciseRepository(ExerciseDataSource());
+    final variations = await exerciseRepo.fetchExerciseVariations(widget.exercise.id);
+    final muscleGroups = await exerciseRepo.fetchExerciseMuscles(widget.exercise.id);
+    final defaultVariation = variations.firstWhere((v) => v.isDefault);
 
     return {
       'variations': variations,
       'muscleGroups': muscleGroups,
-      'selectedVariation': selectedVariation,
+      'defaultVariation': defaultVariation,
     };
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _exerciseFuture = _loadData().then((data) {
+      selectedVariation = data['defaultVariation'] as Variation;
+      return data;
+    });
   }
 
   @override
@@ -49,7 +48,7 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
     return DefaultTabController(
       length: 4,
       child: FutureBuilder<Map<String, dynamic>>( //Use futurebuilder to prevent unassigned data due to async loading
-        future: _loadData(),
+        future: _exerciseFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -62,15 +61,19 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
           }
 
           final data = snapshot.data!;
-          final selectedVariation = data['selectedVariation'] as Variation;
           final muscleGroups = data['muscleGroups'] as Map<String, List>;
+          final variations = data['variations'] as List<Variation>;
 
           return Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: Theme.of(context).primaryColor,
             appBar: CustomAppBarExercisesDetails(
               exerciseName: widget.exercise.name,
-              variationName: selectedVariation.name,
+              selectedVariation: selectedVariation,
+              variations: variations,
+              onVariationChanged: (variation) {
+                setState(() => selectedVariation = variation);
+              },
             ),
             body: TabBarView(
               children: [
