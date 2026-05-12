@@ -6,7 +6,7 @@ class ExerciseRepository {
 
   ExerciseRepository(this.dataSource);
 
-  // Getters
+  // ==================================== Getters ====================================
   Future<List<Exercise>> fetchAllExercises() async {
     return await dataSource.getAllExercises();
   }
@@ -25,20 +25,20 @@ class ExerciseRepository {
   }
 
   Future<List<MuscleGroup>> fetchExerciseMuscleGroup(int exerciseId) async {
-    return await dataSource.getExerciseMuscleGroup(exerciseId);
+    return await dataSource.getDefaultVariantMuscleGroup(exerciseId);
   }
 
-  Future<Map<String, List>> fetchExerciseMuscles(int exerciseId) async {
+  Future<Map<int, Map<String, List<VariantMuscle>>>> fetchExerciseMuscles(int exerciseId) async {
     return await dataSource.getExerciseMuscles(exerciseId);
   }
 
-  // Setters
+  // ==================================== Setters ====================================
   Future<int> toggleFavouriteExercise(int exerciseId) async {
     return await dataSource.toggleExerciseFavourite(exerciseId);
   }
 
 
-  // Misc
+  // ==================================== Misc ====================================
   Future<String> getPrimaryMuscleGroup(int exerciseId) async {
     final List<MuscleGroup> muscleGroup = (await fetchExerciseMuscleGroup(exerciseId));
     for (var mg in muscleGroup) {

@@ -12,19 +12,19 @@ class WorkoutSchema {
   ''';
 
   static const createWorkoutEntriesTable = '''
-  CREATE TABLE WorkoutEntries (
+  CREATE TABLE WorkoutEntry (
     pk_entry_id INTEGER PRIMARY KEY AUTOINCREMENT,
     fk_workout_id INTEGER NOT NULL REFERENCES Workout(pk_workout_id) ON DELETE CASCADE, -- Foreign key to Workouts table
-    fk_variant_id INTEGER NOT NULL REFERENCES ExerciseVariants(pk_variant_id), -- Foreign key to Exercise Variants table
+    fk_variant_id INTEGER NOT NULL REFERENCES ExerciseVariant(pk_variant_id), -- Foreign key to Exercise Variants table
     order_index INTEGER,
     notes TEXT
   );
   ''';
 
   static const createSetsTable = '''
-  CREATE TABLE Sets (
+  CREATE TABLE WorkoutSet (
     pk_set_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    fk_entry_id INTEGER NOT NULL REFERENCES WorkoutEntries(pk_entry_id) ON DELETE CASCADE, -- Foreign key to Workout Entries table
+    fk_entry_id INTEGER NOT NULL REFERENCES WorkoutEntry(pk_entry_id) ON DELETE CASCADE, -- Foreign key to Workout Entries table
     reps INTEGER,
     weight_value REAL,
     weight_unit TEXT,
@@ -37,4 +37,11 @@ class WorkoutSchema {
     timestamp INTEGER
   );
   ''';
+
+  // LIST FOR AWAITS - !IMPORTANT - Keep in mind order!
+  static const List<String> all = [
+    createWorkoutTable,
+    createWorkoutEntriesTable,
+    createSetsTable
+  ];
 }

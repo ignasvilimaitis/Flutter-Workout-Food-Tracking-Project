@@ -65,4 +65,14 @@ class FoodSchema {
         FOREIGN KEY (food_item_id) REFERENCES FoodItem(pk_fooditem_id)
       );
     ''';
+
+  // LIST FOR AWAITS - !IMPORTANT - Keep in mind order!
+  static const List<String> all = [
+    createFoodItemTable,
+    createCategoryTable,
+    createMealTable,
+    createDiaryEntryTable,
+    createDiaryEntryFoodItemTable,
+    createMealFoodItemTable
+  ];
 }

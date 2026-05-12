@@ -1,12 +1,33 @@
 {
-  "ExerciseTypes": [
-    { "name": "Barbell", "description": "Exercises performed using a barbell." },
-    { "name": "Dumbbell", "description": "Exercises performed using dumbbells." },
-    { "name": "Bodyweight", "description": "Exercises performed using your own body weight." },
-    { "name": "Machine", "description": "Exercises performed using any gym machine." },
-    { "name": "Cable", "description": "Exercises performed using a cable stack machine." },
-    { "name": "Band", "description": "Exercises performed using resistance bands." },
-    { "name": "Other", "description": "Exercises performed using other equipment or methods." }
+  "ExerciseType": [
+    {
+      "name": "Barbell",
+      "description": "Exercises performed using a barbell."
+    },
+    {
+      "name": "Dumbbell",
+      "description": "Exercises performed using dumbbells."
+    },
+    {
+      "name": "Bodyweight",
+      "description": "Exercises performed using your own body weight."
+    },
+    {
+      "name": "Machine",
+      "description": "Exercises performed using any gym machine."
+    },
+    {
+      "name": "Cable",
+      "description": "Exercises performed using a cable stack machine."
+    },
+    {
+      "name": "Band",
+      "description": "Exercises performed using resistance bands."
+    },
+    {
+      "name": "Other",
+      "description": "Exercises performed using other equipment or methods."
+    }
   ],
   "Exercise": [
     {
@@ -157,116 +178,24 @@
       "about": "A lower-body strength and conditioning drill pushing a weighted sled across the floor."
     }
   ],
-  "ExerciseMuscle": [
-    { "fk_exercise_id": 1, "fk_muscle_id": 2, "role": "Primary" },
-    { "fk_exercise_id": 1, "fk_muscle_id": 10, "role": "Secondary" },
-    { "fk_exercise_id": 1, "fk_muscle_id": 16, "role": "Secondary" },
-    { "fk_exercise_id": 1, "fk_muscle_id": 17, "role": "Secondary" },
-    { "fk_exercise_id": 1, "fk_muscle_id": 15, "role": "Tertiary" },
-    { "fk_exercise_id": 2, "fk_muscle_id": 22, "role": "Primary" },
-    { "fk_exercise_id": 2, "fk_muscle_id": 26, "role": "Secondary" },
-    { "fk_exercise_id": 2, "fk_muscle_id": 27, "role": "Secondary" },
-    { "fk_exercise_id": 2, "fk_muscle_id": 28, "role": "Secondary" },
-    { "fk_exercise_id": 2, "fk_muscle_id": 33, "role": "Tertiary" },
-    { "fk_exercise_id": 2, "fk_muscle_id": 29, "role": "Tertiary" },
-    { "fk_exercise_id": 3, "fk_muscle_id": 22, "role": "Primary" },
-    { "fk_exercise_id": 3, "fk_muscle_id": 29, "role": "Secondary" },
-    { "fk_exercise_id": 3, "fk_muscle_id": 31, "role": "Secondary" },
-    { "fk_exercise_id": 3, "fk_muscle_id": 32, "role": "Secondary" },
-    { "fk_exercise_id": 3, "fk_muscle_id": 8, "role": "Tertiary" },
-    { "fk_exercise_id": 3, "fk_muscle_id": 36, "role": "Tertiary" },
-    { "fk_exercise_id": 4, "fk_muscle_id": 10, "role": "Primary" },
-    { "fk_exercise_id": 4, "fk_muscle_id": 11, "role": "Secondary" },
-    { "fk_exercise_id": 4, "fk_muscle_id": 16, "role": "Secondary" },
-    { "fk_exercise_id": 4, "fk_muscle_id": 17, "role": "Secondary" },
-    { "fk_exercise_id": 4, "fk_muscle_id": 15, "role": "Tertiary" },
-    { "fk_exercise_id": 5, "fk_muscle_id": 7, "role": "Primary" },
-    { "fk_exercise_id": 5, "fk_muscle_id": 5, "role": "Secondary" },
-    { "fk_exercise_id": 5, "fk_muscle_id": 6, "role": "Secondary" },
-    { "fk_exercise_id": 5, "fk_muscle_id": 9, "role": "Tertiary" },
-    { "fk_exercise_id": 5, "fk_muscle_id": 14, "role": "Tertiary" },
-    { "fk_exercise_id": 6, "fk_muscle_id": 10, "role": "Primary" },
-    { "fk_exercise_id": 6, "fk_muscle_id": 11, "role": "Secondary" },
-    { "fk_exercise_id": 6, "fk_muscle_id": 16, "role": "Secondary" },
-    { "fk_exercise_id": 6, "fk_muscle_id": 17, "role": "Tertiary" },
-    { "fk_exercise_id": 7, "fk_muscle_id": 2, "role": "Primary" },
-    { "fk_exercise_id": 7, "fk_muscle_id": 10, "role": "Secondary" },
-    { "fk_exercise_id": 7, "fk_muscle_id": 16, "role": "Secondary" },
-    { "fk_exercise_id": 7, "fk_muscle_id": 15, "role": "Tertiary" },
-    { "fk_exercise_id": 8, "fk_muscle_id": 12, "role": "Primary" },
-    { "fk_exercise_id": 8, "fk_muscle_id": 14, "role": "Secondary" },
-    { "fk_exercise_id": 8, "fk_muscle_id": 13, "role": "Tertiary" },
-    { "fk_exercise_id": 9, "fk_muscle_id": 22, "role": "Primary" },
-    { "fk_exercise_id": 9, "fk_muscle_id": 26, "role": "Secondary" },
-    { "fk_exercise_id": 9, "fk_muscle_id": 27, "role": "Secondary" },
-    { "fk_exercise_id": 9, "fk_muscle_id": 25, "role": "Secondary" },
-    { "fk_exercise_id": 9, "fk_muscle_id": 23, "role": "Tertiary" },
-    { "fk_exercise_id": 10, "fk_muscle_id": 7, "role": "Primary" },
-    { "fk_exercise_id": 10, "fk_muscle_id": 6, "role": "Secondary" },
-    { "fk_exercise_id": 10, "fk_muscle_id": 5, "role": "Secondary" },
-    { "fk_exercise_id": 10, "fk_muscle_id": 12, "role": "Tertiary" },
-    { "fk_exercise_id": 10, "fk_muscle_id": 13, "role": "Tertiary" },
-    { "fk_exercise_id": 11, "fk_muscle_id": 2, "role": "Primary" },
-    { "fk_exercise_id": 11, "fk_muscle_id": 10, "role": "Secondary" },
-    { "fk_exercise_id": 11, "fk_muscle_id": 16, "role": "Secondary" },
-    { "fk_exercise_id": 11, "fk_muscle_id": 21, "role": "Tertiary" },
-    { "fk_exercise_id": 12, "fk_muscle_id": 22, "role": "Primary" },
-    { "fk_exercise_id": 12, "fk_muscle_id": 26, "role": "Secondary" },
-    { "fk_exercise_id": 12, "fk_muscle_id": 27, "role": "Secondary" },
-    { "fk_exercise_id": 12, "fk_muscle_id": 33, "role": "Tertiary" },
-    { "fk_exercise_id": 13, "fk_muscle_id": 20, "role": "Primary" },
-    { "fk_exercise_id": 13, "fk_muscle_id": 21, "role": "Secondary" },
-    { "fk_exercise_id": 13, "fk_muscle_id": 8, "role": "Tertiary" },
-    { "fk_exercise_id": 14, "fk_muscle_id": 26, "role": "Primary" },
-    { "fk_exercise_id": 14, "fk_muscle_id": 27, "role": "Secondary" },
-    { "fk_exercise_id": 14, "fk_muscle_id": 28, "role": "Secondary" },
-    { "fk_exercise_id": 14, "fk_muscle_id": 22, "role": "Tertiary" },
-    { "fk_exercise_id": 15, "fk_muscle_id": 2, "role": "Primary" },
-    { "fk_exercise_id": 15, "fk_muscle_id": 10, "role": "Secondary" },
-    { "fk_exercise_id": 15, "fk_muscle_id": 16, "role": "Secondary" },
-    { "fk_exercise_id": 16, "fk_muscle_id": 7, "role": "Primary" },
-    { "fk_exercise_id": 16, "fk_muscle_id": 6, "role": "Secondary" },
-    { "fk_exercise_id": 16, "fk_muscle_id": 5, "role": "Secondary" },
-    { "fk_exercise_id": 16, "fk_muscle_id": 12, "role": "Tertiary" },
-    { "fk_exercise_id": 17, "fk_muscle_id": 29, "role": "Primary" },
-    { "fk_exercise_id": 17, "fk_muscle_id": 31, "role": "Secondary" },
-    { "fk_exercise_id": 17, "fk_muscle_id": 32, "role": "Secondary" },
-    { "fk_exercise_id": 18, "fk_muscle_id": 16, "role": "Primary" },
-    { "fk_exercise_id": 18, "fk_muscle_id": 17, "role": "Secondary" },
-    { "fk_exercise_id": 18, "fk_muscle_id": 15, "role": "Tertiary" },
-    { "fk_exercise_id": 19, "fk_muscle_id": 12, "role": "Primary" },
-    { "fk_exercise_id": 19, "fk_muscle_id": 14, "role": "Secondary" },
-    { "fk_exercise_id": 19, "fk_muscle_id": 13, "role": "Tertiary" },
-    { "fk_exercise_id": 20, "fk_muscle_id": 2, "role": "Primary" },
-    { "fk_exercise_id": 20, "fk_muscle_id": 10, "role": "Secondary" },
-    { "fk_exercise_id": 20, "fk_muscle_id": 11, "role": "Tertiary" },
-    { "fk_exercise_id": 21, "fk_muscle_id": 7, "role": "Primary" },
-    { "fk_exercise_id": 21, "fk_muscle_id": 5, "role": "Secondary" },
-    { "fk_exercise_id": 21, "fk_muscle_id": 6, "role": "Secondary" },
-    { "fk_exercise_id": 21, "fk_muscle_id": 9, "role": "Tertiary" },
-    { "fk_exercise_id": 22, "fk_muscle_id": 9, "role": "Primary" },
-    { "fk_exercise_id": 22, "fk_muscle_id": 3, "role": "Secondary" },
-    { "fk_exercise_id": 22, "fk_muscle_id": 11, "role": "Tertiary" },
-    { "fk_exercise_id": 23, "fk_muscle_id": 22, "role": "Primary" },
-    { "fk_exercise_id": 23, "fk_muscle_id": 26, "role": "Secondary" },
-    { "fk_exercise_id": 23, "fk_muscle_id": 27, "role": "Secondary" },
-    { "fk_exercise_id": 24, "fk_muscle_id": 9, "role": "Primary" },
-    { "fk_exercise_id": 24, "fk_muscle_id": 3, "role": "Secondary" },
-    { "fk_exercise_id": 24, "fk_muscle_id": 5, "role": "Tertiary" },
-    { "fk_exercise_id": 25, "fk_muscle_id": 22, "role": "Primary" },
-    { "fk_exercise_id": 25, "fk_muscle_id": 29, "role": "Secondary" },
-    { "fk_exercise_id": 25, "fk_muscle_id": 31, "role": "Secondary" },
-    { "fk_exercise_id": 25, "fk_muscle_id": 32, "role": "Secondary" },
-    { "fk_exercise_id": 25, "fk_muscle_id": 20, "role": "Tertiary" },
-    { "fk_exercise_id": 26, "fk_muscle_id": 20, "role": "Primary" },
-    { "fk_exercise_id": 26, "fk_muscle_id": 21, "role": "Secondary" },
-    { "fk_exercise_id": 26, "fk_muscle_id": 10, "role": "Tertiary" },
-    { "fk_exercise_id": 27, "fk_muscle_id": 26, "role": "Primary" },
-    { "fk_exercise_id": 27, "fk_muscle_id": 27, "role": "Secondary" },
-    { "fk_exercise_id": 27, "fk_muscle_id": 25, "role": "Secondary" },
-    { "fk_exercise_id": 27, "fk_muscle_id": 22, "role": "Tertiary" }
+  "MuscleRole": [
+    {
+      "name": "Primary",
+      "sequence": 1,
+      "factor": 1.0
+    },
+    {
+      "name": "Secondary",
+      "sequence": 2,
+      "factor": 0.5
+    },
+    {
+      "name": "Tertiary",
+      "sequence": 3,
+      "factor": 0.25
+    }
   ],
-  "ExerciseVariants": [
+  "ExerciseVariant": [
     {
       "fk_exercise_id": 1,
       "name": "Barbell Bench Press",
@@ -274,7 +203,8 @@
       "about": "Standard flat barbell bench press.",
       "weight_unit": "kg",
       "max_weight": null,
-      "is_bilateral": 1
+      "is_bilateral": 1,
+      "notes": "This is a test note!"
     },
     {
       "fk_exercise_id": 2,
@@ -555,6 +485,742 @@
       "max_weight": null,
       "is_bilateral": 1
     }
-
+  ],
+  "ExerciseMuscle": [
+    {
+      "fk_variant_id": 1,
+      "fk_muscle_id": 9,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 1,
+      "fk_muscle_id": 10,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 1,
+      "fk_muscle_id": 6,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 1,
+      "fk_muscle_id": 16,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 1,
+      "fk_muscle_id": 17,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 1,
+      "fk_muscle_id": 15,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 2,
+      "fk_muscle_id": 28,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 2,
+      "fk_muscle_id": 33,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 2,
+      "fk_muscle_id": 34,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 2,
+      "fk_muscle_id": 35,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 2,
+      "fk_muscle_id": 43,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 2,
+      "fk_muscle_id": 40,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 3,
+      "fk_muscle_id": 1,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 3,
+      "fk_muscle_id": 40,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 3,
+      "fk_muscle_id": 41,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 3,
+      "fk_muscle_id": 42,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 3,
+      "fk_muscle_id": 25,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 3,
+      "fk_muscle_id": 18,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 3,
+      "fk_muscle_id": 19,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 4,
+      "fk_muscle_id": 28,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 4,
+      "fk_muscle_id": 40,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 4,
+      "fk_muscle_id": 41,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 4,
+      "fk_muscle_id": 42,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 4,
+      "fk_muscle_id": 25,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 4,
+      "fk_muscle_id": 18,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 4,
+      "fk_muscle_id": 19,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 5,
+      "fk_muscle_id": 6,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 5,
+      "fk_muscle_id": 7,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 5,
+      "fk_muscle_id": 16,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 5,
+      "fk_muscle_id": 17,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 5,
+      "fk_muscle_id": 15,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 6,
+      "fk_muscle_id": 24,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 6,
+      "fk_muscle_id": 2,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 6,
+      "fk_muscle_id": 23,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 6,
+      "fk_muscle_id": 8,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 6,
+      "fk_muscle_id": 14,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 7,
+      "fk_muscle_id": 6,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 7,
+      "fk_muscle_id": 7,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 7,
+      "fk_muscle_id": 16,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 7,
+      "fk_muscle_id": 17,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 8,
+      "fk_muscle_id": 6,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 8,
+      "fk_muscle_id": 7,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 8,
+      "fk_muscle_id": 16,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 8,
+      "fk_muscle_id": 17,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 9,
+      "fk_muscle_id": 9,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 9,
+      "fk_muscle_id": 10,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 9,
+      "fk_muscle_id": 6,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 9,
+      "fk_muscle_id": 16,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 9,
+      "fk_muscle_id": 15,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 10,
+      "fk_muscle_id": 11,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 10,
+      "fk_muscle_id": 12,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 10,
+      "fk_muscle_id": 14,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 10,
+      "fk_muscle_id": 13,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 11,
+      "fk_muscle_id": 11,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 11,
+      "fk_muscle_id": 12,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 11,
+      "fk_muscle_id": 14,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 11,
+      "fk_muscle_id": 13,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 12,
+      "fk_muscle_id": 28,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 12,
+      "fk_muscle_id": 33,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 12,
+      "fk_muscle_id": 34,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 12,
+      "fk_muscle_id": 38,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 12,
+      "fk_muscle_id": 39,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 12,
+      "fk_muscle_id": 40,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 12,
+      "fk_muscle_id": 29,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 13,
+      "fk_muscle_id": 28,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 13,
+      "fk_muscle_id": 33,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 13,
+      "fk_muscle_id": 34,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 13,
+      "fk_muscle_id": 38,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 13,
+      "fk_muscle_id": 39,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 13,
+      "fk_muscle_id": 40,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 13,
+      "fk_muscle_id": 29,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 14,
+      "fk_muscle_id": 24,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 14,
+      "fk_muscle_id": 23,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 14,
+      "fk_muscle_id": 2,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 14,
+      "fk_muscle_id": 11,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 14,
+      "fk_muscle_id": 12,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 14,
+      "fk_muscle_id": 13,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 15,
+      "fk_muscle_id": 24,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 15,
+      "fk_muscle_id": 23,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 15,
+      "fk_muscle_id": 2,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 15,
+      "fk_muscle_id": 11,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 15,
+      "fk_muscle_id": 12,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 15,
+      "fk_muscle_id": 13,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 16,
+      "fk_muscle_id": 9,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 16,
+      "fk_muscle_id": 10,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 16,
+      "fk_muscle_id": 6,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 16,
+      "fk_muscle_id": 16,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 16,
+      "fk_muscle_id": 27,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 17,
+      "fk_muscle_id": 28,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 17,
+      "fk_muscle_id": 33,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 17,
+      "fk_muscle_id": 34,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 17,
+      "fk_muscle_id": 43,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 18,
+      "fk_muscle_id": 26,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 18,
+      "fk_muscle_id": 27,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 18,
+      "fk_muscle_id": 25,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 19,
+      "fk_muscle_id": 33,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 19,
+      "fk_muscle_id": 34,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 19,
+      "fk_muscle_id": 35,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 19,
+      "fk_muscle_id": 28,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 20,
+      "fk_muscle_id": 9,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 20,
+      "fk_muscle_id": 10,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 20,
+      "fk_muscle_id": 6,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 20,
+      "fk_muscle_id": 16,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 21,
+      "fk_muscle_id": 24,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 21,
+      "fk_muscle_id": 23,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 21,
+      "fk_muscle_id": 2,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 21,
+      "fk_muscle_id": 11,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 21,
+      "fk_muscle_id": 12,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 22,
+      "fk_muscle_id": 40,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 22,
+      "fk_muscle_id": 41,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 22,
+      "fk_muscle_id": 42,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 23,
+      "fk_muscle_id": 16,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 23,
+      "fk_muscle_id": 17,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 23,
+      "fk_muscle_id": 15,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 24,
+      "fk_muscle_id": 11,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 24,
+      "fk_muscle_id": 12,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 24,
+      "fk_muscle_id": 14,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 24,
+      "fk_muscle_id": 13,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 25,
+      "fk_muscle_id": 9,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 25,
+      "fk_muscle_id": 10,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 25,
+      "fk_muscle_id": 6,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 25,
+      "fk_muscle_id": 7,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 26,
+      "fk_muscle_id": 24,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 26,
+      "fk_muscle_id": 2,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 26,
+      "fk_muscle_id": 23,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 26,
+      "fk_muscle_id": 8,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 27,
+      "fk_muscle_id": 8,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 27,
+      "fk_muscle_id": 20,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 27,
+      "fk_muscle_id": 7,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 28,
+      "fk_muscle_id": 28,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 28,
+      "fk_muscle_id": 33,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 28,
+      "fk_muscle_id": 34,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 29,
+      "fk_muscle_id": 8,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 29,
+      "fk_muscle_id": 20,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 29,
+      "fk_muscle_id": 2,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 30,
+      "fk_muscle_id": 28,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 30,
+      "fk_muscle_id": 40,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 30,
+      "fk_muscle_id": 41,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 30,
+      "fk_muscle_id": 42,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 30,
+      "fk_muscle_id": 26,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 31,
+      "fk_muscle_id": 26,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 31,
+      "fk_muscle_id": 27,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 31,
+      "fk_muscle_id": 6,
+      "fk_role_id": 3
+    },
+    {
+      "fk_variant_id": 32,
+      "fk_muscle_id": 33,
+      "fk_role_id": 1
+    },
+    {
+      "fk_variant_id": 32,
+      "fk_muscle_id": 34,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 32,
+      "fk_muscle_id": 38,
+      "fk_role_id": 2
+    },
+    {
+      "fk_variant_id": 32,
+      "fk_muscle_id": 28,
+      "fk_role_id": 3
+    }
   ]
 }

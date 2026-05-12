@@ -45,6 +45,32 @@ class Exercise {
   }
 }
 
+class ExerciseForm {
+  int? typeId;
+  String? name;
+  String? about;
+  String? notes;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? iconPath;
+  bool? isCustom;
+  bool? isFavourite;
+  String? type;
+
+  ExerciseForm({
+    this.typeId,
+    this.name,
+    this.about,
+    this.notes,
+    this.createdAt,
+    this.updatedAt,
+    this.iconPath,
+    this.isCustom,
+    this.isFavourite,
+    this.type,
+  });
+}
+
 class Variation {
   final int id;
   final int exerciseId;
@@ -83,6 +109,30 @@ class Variation {
   }
 }
 
+class VariationForm {
+  int? id;
+  int? exerciseId;
+  String? name;
+  bool? isDefault;
+  String? about;
+  String? notes;
+  String? weightUnit;
+  double? maxWeight;
+  bool? isBilateral;
+
+  VariationForm({
+    this.id,
+    this.exerciseId,
+    this.name,
+    this.isDefault,
+    this.about,
+    this.notes,
+    this.weightUnit,
+    this.maxWeight,
+    this.isBilateral
+  });
+}
+
 class MuscleGroup {
   final String role;
   final String group;
@@ -99,6 +149,58 @@ class MuscleGroup {
       role: map['role'],
       group: map['group'],
       name: map['name'],
+    );
+  }
+}
+
+class Muscle {
+  final int id;
+  final int groupId;
+  final String name;
+
+  Muscle({
+    required this.id,
+    required this.groupId,
+    required this.name,
+  });
+
+  factory Muscle.fromMap(Map<String, dynamic> map) {
+    return Muscle(
+      id: map['pk_muscle_id'],
+      groupId: map['fk_group_id'],
+      name: map['name'],
+    );
+  }
+}
+
+class VariantMuscle {
+  final int muscleId;
+  final int variantId;
+  String role;
+  String? group;
+  String? name;
+  int? roleSequence;
+  double? roleFactor;
+
+  VariantMuscle({
+    required this.muscleId,
+    required this.variantId,
+    required this.role,
+    this.group,
+    this.name,
+    this.roleSequence,
+    this.roleFactor,
+  });
+
+  factory VariantMuscle.fromMap(Map<String, dynamic> map) {
+    return VariantMuscle(
+      muscleId: map['pk_muscle_id'],
+      variantId: map['fk_variant_id'],
+      role: map['role'],
+      group: map['group'],
+      name: map['name'],
+      roleSequence: map['role_sequence'],
+      roleFactor: map['role_factor'],
     );
   }
 }

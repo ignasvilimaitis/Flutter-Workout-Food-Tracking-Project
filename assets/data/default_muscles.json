@@ -1,206 +1,367 @@
 {
-    "MuscleGroups": [
-        {
-            "name": "Chest"
-        },
-        {
-            "name": "Upper Back"
-        },
-        {
-            "name": "Middle Back"
-        },
-        {
-            "name": "Lower Back"
-        },
-        {
-            "name": "Quadriceps"
-        },
-        {
-            "name": "Hamstrings"
-        },
-        {
-            "name": "Adductors"
-        },
-        {
-            "name": "Hip Flexors"
-        },
-        {
-            "name": "Calves"
-        },
-        {
-            "name": "Hip Abductors"
-        },
-        {
-            "name": "Triceps"
-        },
-        {
-            "name": "Biceps"
-        },
-        {
-            "name": "Forearms"
-        },
-        {
-            "name": "Shoulders"
-        },
-        {
-            "name": "Core"
-        },
-        {
-            "name": "Glutes"
-        }
-    ],
     "Muscle": [
         {
-            "name": "Clavicular",
-            "fk_group_id": 1
-        },
-        {
-            "name": "Sternocostal",
-            "fk_group_id": 1
-        },
-        {
+            "svg_id": "trapezius-upper",
             "name": "Trapezius (Upper)",
-            "fk_group_id": 2
+            "description": "The superior (upper) fibers cover the posterior and lateral sides of the neck with their tendons connecting to origins along the occipital bone and insertions on the clavicle."
         },
         {
+            "svg_id": "trapezius-middle",
+            "name": "Trapezius (Middle)",
+            "description": "The middle fibers form the broad flat sheet across the upper back between the shoulder blades, with origins on the spinous processes of C7–T3 and insertions on the acromion and spine of the scapula."
+        },
+        {
+            "svg_id": "trapezius-lower",
             "name": "Trapezius (Lower)",
-            "fk_group_id": 2
+            "description": "The inferior (lower) fibers descend toward the mid-back, with origins on the spinous processes of T4–T12 and a tendon inserting on the medial end of the spine of the scapula."
         },
         {
-            "name": "Rhomboids",
-            "fk_group_id": 2
+            "svg_id": "sternocleidomastoid",
+            "name": "Sternocleidomastoid",
+            "description": "A prominent strap-like muscle of the anterolateral neck, with two heads originating from the manubrium of the sternum and the medial third of the clavicle, converging into an insertion on the mastoid process of the temporal bone."
         },
         {
-            "name": "Teres Major",
-            "fk_group_id": 2
+            "svg_id": "splenius-capitis",
+            "name": "Splenius Capitis",
+            "description": "A deep posterior neck muscle visible at the side of the upper trapezius, originating from the ligamentum nuchae and spinous processes of C7–T3/T4 and inserting on the mastoid process and lateral superior nuchal line of the occipital bone."
         },
         {
-            "name": "Latissimus Dorsi",
-            "fk_group_id": 3
+            "svg_id": "anterior-deltoid",
+            "name": "Anterior Deltoid",
+            "description": "The clavicular (front) head of the deltoid covers the anterior shoulder, originating from the lateral third of the clavicle and inserting on the deltoid tuberosity of the humerus."
         },
         {
-            "name": "Erector Spinae",
-            "fk_group_id": 4
+            "svg_id": "lateral-deltoid",
+            "name": "Lateral Deltoid",
+            "description": "The acromial (middle) head of the deltoid caps the lateral shoulder, originating from the acromion of the scapula and inserting on the deltoid tuberosity of the humerus."
         },
         {
-            "name": "Posterior",
-            "fk_group_id": 14
+            "svg_id": "posterior-deltoid",
+            "name": "Posterior Deltoid",
+            "description": "The spinal (rear) head of the deltoid covers the back of the shoulder, originating from the spine of the scapula and inserting on the deltoid tuberosity of the humerus."
         },
         {
-            "name": "Anterior",
-            "fk_group_id": 14
+            "svg_id": "pectoralis-major-clavicular",
+            "name": "Pectoralis Major (Clavicular)",
+            "description": "The upper (clavicular) head of the pectoralis major covers the upper chest, originating from the medial half of the clavicle and inserting via a flat tendon on the lateral lip of the intertubercular (bicipital) groove of the humerus."
         },
         {
-            "name": "Lateral",
-            "fk_group_id": 14
+            "svg_id": "pectoralis-major-sternocostal",
+            "name": "Pectoralis Major (Sternocostal)",
+            "description": "The lower (sternocostal) head forms the bulk of the chest, originating from the sternum, the costal cartilages of ribs 1–6, and the aponeurosis of the external oblique, and inserting on the lateral lip of the intertubercular groove of the humerus."
         },
         {
-            "name": "Short Head",
-            "fk_group_id": 12
+            "svg_id": "biceps-brachii-long-head",
+            "name": "Biceps Brachii (Long Head)",
+            "description": "The lateral, longer head of the biceps lies on the anterior arm, with its tendon originating from the supraglenoid tubercle of the scapula (passing through the shoulder joint) and joining the short head to insert on the radial tuberosity and bicipital aponeurosis."
         },
         {
-            "name": "Long Head",
-            "fk_group_id": 12
+            "svg_id": "biceps-brachii-short-head",
+            "name": "Biceps Brachii (Short Head)",
+            "description": "The medial, shorter head of the biceps runs alongside the long head on the anterior arm, originating from the coracoid process of the scapula and inserting on the radial tuberosity and bicipital aponeurosis of the forearm."
         },
         {
+            "svg_id": "brachialis",
             "name": "Brachialis",
-            "fk_group_id": 12
+            "description": "A deep flexor of the anterior arm lying beneath the biceps, originating from the distal half of the anterior surface of the humerus and inserting on the ulnar tuberosity and coronoid process of the ulna."
         },
         {
-            "name": "Long Head",
-            "fk_group_id": 11
+            "svg_id": "brachioradialis",
+            "name": "Brachioradialis",
+            "description": "A superficial muscle forming the lateral (radial) bulge of the forearm near the elbow, originating from the lateral supracondylar ridge of the humerus and inserting on the styloid process of the radius."
         },
         {
-            "name": "Lateral Head",
-            "fk_group_id": 11
+            "svg_id": "triceps-brachii-long-head",
+            "name": "Triceps Brachii (Long Head)",
+            "description": "The most medial of the three triceps heads and the only one to cross the shoulder joint, originating from the infraglenoid tubercle of the scapula and joining the lateral and medial heads to insert via the common triceps tendon on the olecranon process of the ulna."
         },
         {
-            "name": "Medial Head",
-            "fk_group_id": 11
+            "svg_id": "triceps-brachii-lateral-head",
+            "name": "Triceps Brachii (Lateral Head)",
+            "description": "The superficial outer head of the triceps lying on the upper posterolateral arm, originating from the posterior surface of the humerus above the radial (spiral) groove and inserting via the common triceps tendon on the olecranon of the ulna."
         },
         {
-            "name": "Flexors",
-            "fk_group_id": 13
+            "svg_id": "triceps-brachii-medial-head",
+            "name": "Triceps Brachii (Medial Head)",
+            "description": "The deep head of the triceps, largely covered by the long and lateral heads and visible only at the distal posterior arm on either side of the tendon, originating from the posterior surface of the humerus below the radial groove and inserting via the common triceps tendon on the olecranon of the ulna."
         },
         {
-            "name": "Extensors",
-            "fk_group_id": 13
+            "svg_id": "forearm-flexors",
+            "name": "Forearm Flexors",
+            "description": "The anterior compartment group (including flexor carpi radialis, palmaris longus, flexor carpi ulnaris, and the flexor digitorum muscles) covers the palmar side of the forearm, sharing a common origin from the medial epicondyle of the humerus and inserting on the carpals, metacarpals, and phalanges of the hand."
         },
         {
-            "name": "Abdominis",
-            "fk_group_id": 15
+            "svg_id": "forearm-extensors",
+            "name": "Forearm Extensors",
+            "description": "The posterior compartment group (including extensor carpi radialis longus/brevis, extensor digitorum, and extensor carpi ulnaris) covers the dorsal side of the forearm, sharing a common origin from the lateral epicondyle of the humerus and inserting on the metacarpals and phalanges."
         },
         {
-            "name": "Obliques",
-            "fk_group_id": 15
+            "svg_id": "infraspinatus",
+            "name": "Infraspinatus",
+            "description": "A rotator cuff muscle covering the lower portion of the posterior scapula, originating from the infraspinous fossa of the scapula and inserting on the middle facet of the greater tubercle of the humerus."
         },
         {
-            "name": "Maximus",
-            "fk_group_id": 16
+            "svg_id": "teres-minor",
+            "name": "Teres Minor",
+            "description": "A narrow rotator cuff muscle along the lateral edge of the scapula, originating from the upper two-thirds of the lateral border of the scapula and inserting on the inferior facet of the greater tubercle of the humerus."
         },
         {
-            "name": "Medius",
-            "fk_group_id": 16
+            "svg_id": "teres-major",
+            "name": "Teres Major",
+            "description": "A thick, rounded muscle just below teres minor on the posterior shoulder, originating from the posterior surface of the inferior angle of the scapula and inserting on the medial lip of the intertubercular groove of the humerus."
         },
         {
-            "name": "Minimus",
-            "fk_group_id": 16
+            "svg_id": "rhomboid-major",
+            "name": "Rhomboid Major",
+            "description": "A flat rectangular muscle of the upper back deep to the trapezius, originating from the spinous processes of T2–T5 and inserting on the medial border of the scapula below the spine."
         },
         {
-            "name": "Femoris",
-            "fk_group_id": 5
+            "svg_id": "latissimus-dorsi",
+            "name": "Latissimus Dorsi",
+            "description": "A broad, flat muscle that dominates the mid- and lower back, originating from the spinous processes of T7–L5, the thoracolumbar fascia, the posterior iliac crest, and the inferior 3–4 ribs, and converging to insert on the floor of the intertubercular groove of the humerus."
         },
         {
-            "name": "Lateralis",
-            "fk_group_id": 5
+            "svg_id": "erector-spinae",
+            "name": "Erector Spinae",
+            "description": "A vertical column of three muscle groups (iliocostalis, longissimus, and spinalis) running on either side of the vertebral column, originating from a broad tendon attached to the sacrum, iliac crest, and lumbar spinous processes, and inserting on the ribs, transverse processes, spinous processes of the vertebrae, and mastoid process of the skull."
         },
         {
-            "name": "Medialis",
-            "fk_group_id": 5
+            "svg_id": "rectus-abdominis",
+            "name": "Rectus Abdominis",
+            "description": "The paired strap-like muscle of the anterior abdominal wall (the \"six-pack\"), divided by tendinous intersections, originating from the pubic crest and pubic symphysis and inserting on the xiphoid process of the sternum and the costal cartilages of ribs 5–7."
         },
         {
-            "name": "Intermedius",
-            "fk_group_id": 5
+            "svg_id": "external-oblique",
+            "name": "External Oblique",
+            "description": "The largest and most superficial of the lateral abdominal muscles, with fibers running diagonally (hands-in-pockets direction); it originates from the external surfaces of the lower 8 ribs and inserts via a broad aponeurosis on the linea alba, pubic tubercle, and anterior half of the iliac crest."
         },
         {
-            "name": "Long Head",
-            "fk_group_id": 6
+            "svg_id": "gluteus-maximus",
+            "name": "Gluteus Maximus",
+            "description": "The largest and most superficial gluteal muscle forming the bulk of the buttock, originating from the posterior gluteal line of the ilium, the dorsal surface of the sacrum and coccyx, and the sacrotuberous ligament, and inserting on the iliotibial tract and the gluteal tuberosity of the femur."
         },
         {
-            "name": "Short Head",
-            "fk_group_id": 6
+            "svg_id": "gluteus-medius",
+            "name": "Gluteus Medius",
+            "description": "A fan-shaped hip abductor partially covered by gluteus maximus, originating from the external surface of the ilium between the anterior and posterior gluteal lines and inserting on the lateral surface of the greater trochanter of the femur."
         },
         {
+            "svg_id": "tensor-fasciae-latae",
+            "name": "Tensor Fasciae Latae",
+            "description": "A short superficial muscle on the anterolateral hip, originating from the anterior superior iliac spine (ASIS) and adjacent iliac crest and inserting into the iliotibial tract, which transmits its pull to the lateral condyle of the tibia."
+        },
+        {
+            "svg_id": "iliopsoas",
+            "name": "Iliopsoas",
+            "description": "The chief hip flexor, formed by the union of iliacus and psoas major; iliacus originates from the iliac fossa and psoas major from the bodies and transverse processes of T12–L5, with a common tendon inserting on the lesser trochanter of the femur."
+        },
+        {
+            "svg_id": "sartorius",
+            "name": "Sartorius",
+            "description": "The longest muscle in the body, a thin ribbon-like strap crossing diagonally over the anterior thigh, originating from the anterior superior iliac spine (ASIS) and inserting via the pes anserinus on the superomedial surface of the tibia."
+        },
+        {
+            "svg_id": "rectus-femoris",
+            "name": "Rectus Femoris",
+            "description": "The central, superficial quadriceps muscle on the anterior thigh, originating from the anterior inferior iliac spine (straight head) and the superior acetabular rim (reflected head) and inserting via the quadriceps tendon on the patella, and then through the patellar ligament onto the tibial tuberosity."
+        },
+        {
+            "svg_id": "vastus-lateralis",
+            "name": "Vastus Lateralis",
+            "description": "The largest quadriceps muscle, forming the lateral bulk of the anterior thigh, originating from the greater trochanter, intertrochanteric line, and lateral lip of the linea aspera of the femur and inserting via the quadriceps tendon onto the patella and ultimately the tibial tuberosity."
+        },
+        {
+            "svg_id": "vastus-medialis",
+            "name": "Vastus Medialis",
+            "description": "The teardrop-shaped quadriceps muscle on the medial anterior thigh just above the knee, originating from the intertrochanteric line and medial lip of the linea aspera of the femur and inserting via the quadriceps tendon onto the patella and tibial tuberosity."
+        },
+        {
+            "svg_id": "pectineus",
+            "name": "Pectineus",
+            "description": "A short flat quadrangular muscle in the upper medial thigh forming part of the floor of the femoral triangle, originating from the pectineal line (pecten pubis) of the superior pubic ramus and inserting on the pectineal line of the femur just below the lesser trochanter."
+        },
+        {
+            "svg_id": "adductor-longus",
+            "name": "Adductor Longus",
+            "description": "A triangular superficial muscle of the medial thigh, originating from the body of the pubis just below the pubic crest and inserting on the middle third of the linea aspera of the femur."
+        },
+        {
+            "svg_id": "adductor-magnus",
+            "name": "Adductor Magnus",
+            "description": "The largest of the adductor group, occupying the deep medial thigh, originating from the inferior pubic ramus, ischial ramus, and ischial tuberosity, and inserting along the entire linea aspera and the adductor tubercle of the femur."
+        },
+        {
+            "svg_id": "gracilis",
+            "name": "Gracilis",
+            "description": "A long, thin, strap-like muscle on the most superficial medial thigh, originating from the body and inferior ramus of the pubis and inserting via the pes anserinus on the superomedial surface of the tibia."
+        },
+        {
+            "svg_id": "biceps-femoris",
+            "name": "Biceps Femoris",
+            "description": "The lateral hamstring on the posterior thigh, with a long head originating from the ischial tuberosity and a short head from the linea aspera of the femur, both converging to insert on the head of the fibula."
+        },
+        {
+            "svg_id": "semitendinosus",
             "name": "Semitendinosus",
-            "fk_group_id": 6
+            "description": "A superficial medial hamstring with a long cord-like distal tendon, originating from the ischial tuberosity and inserting via the pes anserinus on the superomedial surface of the tibia."
         },
         {
+            "svg_id": "semimembranosus",
             "name": "Semimembranosus",
-            "fk_group_id": 6
+            "description": "A deep medial hamstring lying beneath semitendinosus, originating via a broad membranous tendon from the ischial tuberosity and inserting on the posterior aspect of the medial condyle of the tibia."
+        },
+        {
+            "svg_id": "gastrocnemius",
+            "name": "Gastrocnemius",
+            "description": "The superficial two-headed muscle forming the visible bulk of the calf, originating from the medial and lateral condyles of the femur and inserting via the Achilles (calcaneal) tendon on the posterior surface of the calcaneus."
+        },
+        {
+            "svg_id": "soleus",
+            "name": "Soleus",
+            "description": "A broad flat muscle of the posterior leg lying deep to gastrocnemius, originating from the posterior surface of the head and upper shaft of the fibula and the soleal line of the tibia, and joining gastrocnemius to insert via the Achilles tendon on the calcaneus."
+        },
+        {
+            "svg_id": "fibularis-longus",
+            "name": "Fibularis Longus",
+            "description": "The most superficial muscle of the lateral compartment of the leg, originating from the head and upper two-thirds of the lateral surface of the fibula and inserting via a long tendon that wraps under the foot onto the base of the 1st metatarsal and medial cuneiform."
+        },
+        {
+            "svg_id": "tibialis-anterior",
+            "name": "Tibialis Anterior",
+            "description": "The most prominent muscle of the anterior leg lying lateral to the tibial shin, originating from the lateral condyle and upper two-thirds of the lateral surface of the tibia and inserting on the medial cuneiform and base of the 1st metatarsal."
+        }
+    ],
+    "MuscleGroup": [
+        {
+            "name": "Neck",
+            "description": "Muscles of the cervical region responsible for flexion, extension, rotation, and lateral flexion of the head, as well as stabilization of the cervical spine."
+        },
+        {
+            "name": "Shoulders",
+            "description": "The three heads of the deltoid that cap the glenohumeral joint, collectively responsible for arm abduction and anterior/posterior arm flexion and extension."
+        },
+        {
+            "name": "Rotator Cuff",
+            "description": "A group of four small muscles — supraspinatus, infraspinatus, teres minor, and subscapularis — that stabilize the glenohumeral joint and produce fine rotational control of the shoulder."
+        },
+        {
+            "name": "Chest",
+            "description": "The pectoral muscles of the anterior chest wall, primarily responsible for horizontal adduction, flexion, and medial rotation of the humerus."
+        },
+        {
+            "name": "Back",
+            "description": "The major muscles of the posterior torso — the trapezius complex, rhomboid major, latissimus dorsi, teres major, and erector spinae — responsible for posture, scapular control, pulling movements, and spinal extension."
+        },
+        {
+            "name": "Biceps",
+            "description": "The anterior arm musculature responsible for elbow flexion and forearm supination, encompassing the two heads of the biceps brachii together with the accessory elbow flexors brachialis and brachioradialis."
+        },
+        {
+            "name": "Triceps",
+            "description": "The three heads of the triceps brachii on the posterior arm, the primary extensor of the elbow joint."
+        },
+        {
+            "name": "Forearms",
+            "description": "The muscles of the forearm responsible for wrist, hand, and finger movement, divided into a flexor (anterior) and extensor (posterior) compartment, with brachioradialis on the radial side."
+        },
+        {
+            "name": "Core",
+            "description": "The anterior and lateral abdominal wall muscles responsible for trunk flexion, rotation, lateral flexion, and intra-abdominal pressure regulation."
+        },
+        {
+            "name": "Glutes",
+            "description": "The muscles of the buttocks and lateral hip responsible for hip extension, abduction, and rotation."
+        },
+        {
+            "name": "Hip Flexors",
+            "description": "Muscles that draw the thigh toward the torso (hip flexion); a functional grouping that includes the deep iliopsoas alongside several thigh muscles that cross the hip joint."
+        },
+        {
+            "name": "Quadriceps",
+            "description": "The four-headed (quadriceps femoris) muscle group on the anterior thigh — rectus femoris, vastus lateralis, vastus medialis, and the deep vastus intermedius — collectively responsible for knee extension."
+        },
+        {
+            "name": "Hamstrings",
+            "description": "The three muscles on the posterior thigh that flex the knee and extend the hip, all originating from the ischial tuberosity."
         },
         {
             "name": "Adductors",
-            "fk_group_id": 7
+            "description": "The medial thigh muscles responsible for adducting the femur (drawing the thigh toward the midline)."
         },
         {
-            "name": "Iliopsoas",
-            "fk_group_id": 8
+            "name": "Calves",
+            "description": "The plantar-flexor muscles of the posterior and lateral lower leg that point the foot downward and propel the body forward during walking and running."
         },
         {
-            "name": "Sartorius",
-            "fk_group_id": 8
-        },
-        {
-            "name": "Gastrocnemius",
-            "fk_group_id": 9
-        },
-        {
-            "name": "Soleus",
-            "fk_group_id": 9
-        },
-        {
-            "name": "Tensor Fasciae Latae",
-            "fk_group_id": 10
+            "name": "Shins",
+            "description": "The dorsiflexor musculature of the anterior lower leg that lifts the foot upward and stabilizes the ankle during gait."
         }
+    ],
+    "MuscleGroupMembership": [
+        { "fk_group_id": 1,  "fk_muscle_id": 4 },
+        { "fk_group_id": 1,  "fk_muscle_id": 5 },
+
+        { "fk_group_id": 2,  "fk_muscle_id": 6 },
+        { "fk_group_id": 2,  "fk_muscle_id": 7 },
+        { "fk_group_id": 2,  "fk_muscle_id": 8 },
+
+        { "fk_group_id": 3,  "fk_muscle_id": 20 },
+        { "fk_group_id": 3,  "fk_muscle_id": 21 },
+
+        { "fk_group_id": 4,  "fk_muscle_id": 9 },
+        { "fk_group_id": 4,  "fk_muscle_id": 10 },
+
+        { "fk_group_id": 5,  "fk_muscle_id": 1 },
+        { "fk_group_id": 5,  "fk_muscle_id": 2 },
+        { "fk_group_id": 5,  "fk_muscle_id": 3 },
+        { "fk_group_id": 5,  "fk_muscle_id": 22 },
+        { "fk_group_id": 5,  "fk_muscle_id": 23 },
+        { "fk_group_id": 5,  "fk_muscle_id": 24 },
+        { "fk_group_id": 5,  "fk_muscle_id": 25 },
+
+        { "fk_group_id": 6,  "fk_muscle_id": 11 },
+        { "fk_group_id": 6,  "fk_muscle_id": 12 },
+        { "fk_group_id": 6,  "fk_muscle_id": 13 },
+        { "fk_group_id": 6,  "fk_muscle_id": 14 },
+
+        { "fk_group_id": 7,  "fk_muscle_id": 15 },
+        { "fk_group_id": 7,  "fk_muscle_id": 16 },
+        { "fk_group_id": 7,  "fk_muscle_id": 17 },
+
+        { "fk_group_id": 8,  "fk_muscle_id": 14 },
+        { "fk_group_id": 8,  "fk_muscle_id": 18 },
+        { "fk_group_id": 8,  "fk_muscle_id": 19 },
+
+        { "fk_group_id": 9,  "fk_muscle_id": 26 },
+        { "fk_group_id": 9,  "fk_muscle_id": 27 },
+
+        { "fk_group_id": 10, "fk_muscle_id": 28 },
+        { "fk_group_id": 10, "fk_muscle_id": 29 },
+        { "fk_group_id": 10, "fk_muscle_id": 30 },
+
+        { "fk_group_id": 11, "fk_muscle_id": 31 },
+        { "fk_group_id": 11, "fk_muscle_id": 32 },
+        { "fk_group_id": 11, "fk_muscle_id": 33 },
+        { "fk_group_id": 11, "fk_muscle_id": 36 },
+        { "fk_group_id": 11, "fk_muscle_id": 30 },
+
+        { "fk_group_id": 12, "fk_muscle_id": 33 },
+        { "fk_group_id": 12, "fk_muscle_id": 34 },
+        { "fk_group_id": 12, "fk_muscle_id": 35 },
+
+        { "fk_group_id": 13, "fk_muscle_id": 40 },
+        { "fk_group_id": 13, "fk_muscle_id": 41 },
+        { "fk_group_id": 13, "fk_muscle_id": 42 },
+
+        { "fk_group_id": 14, "fk_muscle_id": 37 },
+        { "fk_group_id": 14, "fk_muscle_id": 38 },
+        { "fk_group_id": 14, "fk_muscle_id": 39 },
+        { "fk_group_id": 14, "fk_muscle_id": 36 },
+
+        { "fk_group_id": 15, "fk_muscle_id": 43 },
+        { "fk_group_id": 15, "fk_muscle_id": 44 },
+        { "fk_group_id": 15, "fk_muscle_id": 45 },
+
+        { "fk_group_id": 16, "fk_muscle_id": 46 }
     ]
 }

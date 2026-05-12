@@ -6,6 +6,9 @@ import '../../../data/workout_model.dart' show Exercise;
 // Exercise Details
 import 'exercise_details.dart';
 
+// Exercise Dialogue
+import 'exercise_dialogue.dart';
+
 // ================================= All Exercises List =================================
 
 class ExerciseList extends StatefulWidget {

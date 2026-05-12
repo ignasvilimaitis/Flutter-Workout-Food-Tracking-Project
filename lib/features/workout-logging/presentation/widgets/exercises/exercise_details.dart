@@ -5,7 +5,7 @@ import '../../workout_base.dart' show CustomAppBarExercisesDetails;
 
 // Data
 import '../../../data/workout_repository.dart';
-import '../../../data/workout_model.dart' show Variation, Exercise;
+import '../../../data/workout_model.dart' show Variation, Exercise, VariantMuscle;
 import '../../../data/workout_data_source.dart' show ExerciseDataSource;
 
 // ================================= Exercise Details =================================
@@ -24,12 +24,12 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
   Future<Map<String, dynamic>> _loadData() async {
     final exerciseRepo = ExerciseRepository(ExerciseDataSource());
     final variations = await exerciseRepo.fetchExerciseVariations(widget.exercise.id);
-    final muscleGroups = await exerciseRepo.fetchExerciseMuscles(widget.exercise.id);
     final defaultVariation = variations.firstWhere((v) => v.isDefault);
+    final muscleMap = await exerciseRepo.fetchExerciseMuscles(widget.exercise.id);
 
     return {
       'variations': variations,
-      'muscleGroups': muscleGroups,
+      'muscleMap': muscleMap,
       'defaultVariation': defaultVariation,
     };
   }
@@ -61,7 +61,8 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
           }
 
           final data = snapshot.data!;
-          final muscleGroups = data['muscleGroups'] as Map<String, List>;
+          final muscleMap = data['muscleMap'] as Map<int, Map<String, List<VariantMuscle>>>;
+          final selectedVariantMuscleMap = muscleMap[selectedVariation.id]!;
           final variations = data['variations'] as List<Variation>;
 
           return Scaffold(
@@ -88,7 +89,7 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
                       ),
                       child: AboutTab(
                         variation: selectedVariation, 
-                        muscles: muscleGroups
+                        muscles: selectedVariantMuscleMap
                       ),
                     )
                   ),
@@ -128,138 +129,235 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
 
 class AboutTab extends StatelessWidget {
   final Variation variation;
-  final Map<String, List> muscles;
+  final Map<String, List<VariantMuscle>> muscles;
 
   const AboutTab({super.key, required this.variation, required this.muscles});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    // Filter out muscle groups so only unique groups are shown
+    final Map<String, List<String?>> uniqueMuscleGroups = muscles.map((group, muscleList) {
+      final uniqueGroups = muscleList.map((m) => m.group).toSet().toList();
+      return MapEntry(group, uniqueGroups);
+    });
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        spacing: 8,
         children: [
+          if (variation.notes != null && variation.notes!.isNotEmpty)
           // Notes section
           _buildNotesSection(variation.notes),
       
           // Muscle breakdown & about row
-          _buildAboutRow(variation.about, muscles)
+          Flexible(
+            flex: 4,
+            child: _buildAboutRow(variation.about, muscles)
+          ),
       
-          // 
+          // Muscle breakdown cards
+          Flexible(
+            flex: 1,
+            child: _buildMuscleCards(uniqueMuscleGroups)
+          ),
+      
+          Divider(color: Colors.grey, radius: BorderRadius.circular(8), height: 1,),
+      
+          // Placeholder for future sections (e.g., exercise category, equipment, unit weight, max weight, etc.)
+          Flexible(
+            flex: 1,
+            child: _buildAdditionalInfo()
+          )
         ]
       ),
     );
   }
 
   Widget _buildNotesSection(String? notes) {
-    if (notes == null || notes.isEmpty) {
-      return SizedBox.shrink();
-    }
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          color: Color.fromARGB(200, 255, 217, 112),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              'Notes',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14, 
-                fontWeight: FontWeight.bold, 
-                color: Colors.black54,
-              ),
-            ),
-            Text(
-              notes,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.black54,
-              ),
-            )
-          ]
-        )
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: Color.fromARGB(200, 255, 217, 112),
       ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            'Notes',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 14, 
+              fontWeight: FontWeight.bold, 
+              color: Colors.black54,
+            ),
+          ),
+          Text(
+            notes.toString(),
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.black54,
+            ),
+          )
+        ]
+      )
     );
   }
 
-  Widget _buildAboutRow(String? about, Map<String, List> muscles) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
-        spacing: 6,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 4,
+  Widget _buildAboutRow(String? about, Map<String, List<VariantMuscle>> muscles) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 4,
+      children: [
+        // Muscle Breakdown -- Currently placeholder
+        Expanded(
+          child: Placeholder()
+        ),
+    
+        // About section
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // Muscle Breakdown -- Currently placeholder
-              Expanded(
-                child: Placeholder()
+              Text(
+                'About',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-          
-              // About section
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'About',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      about ?? 'No description available.',
-                      style: TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
-                  ]
-                )
-              )
+              Text(
+                about ?? 'No description available.',
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+                textAlign: TextAlign.justify,
+              ),
             ]
-          ),
-          
-          // Additional muscle breakdown
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Dynamically generate based on muscle map
-              for (var entry in muscles.entries)
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text(
-                        entry.key,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      for (var muscle in entry.value)
-                        Text(
-                          muscle,
-                          style: TextStyle(
-                            fontSize: 12,
+          )
+        )
+      ]
+    );
+  }
+
+  Widget _buildMuscleCards(Map<String, List<String?>> muscles) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 4,
+          children: [
+            // Dynamically generate based on muscle map
+            for (var entry in muscles.entries)
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: BoxBorder.all(
+                      color: Colors.grey.shade300,
+                      width: 1,
+                    ),
+                    color: Colors.grey.shade100.withAlpha(100),
+                    borderRadius: BorderRadius.circular(8)
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Column( // TODO: Gesture Detector
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 2),
+                          child: Text(
+                            entry.key,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
                         ),
-                    ],
+                        ..._buildMuscleList(entry.value, constraints.maxHeight)
+                      ],
+                    ),
                   ),
                 ),
-            ]
+              ),
+          ]
+        );
+      }
+    );
+  }
+
+  /// Returns a dynamic list based on available height to prevent overflow
+  List<Widget> _buildMuscleList(List<String?> muscles, double availableHeight) {
+    const titleHeight = 22;
+    const itemHeight = 17;
+    const padding = 8;
+    const moreIndicatorHeight = 14;
+
+    final spaceForItems = availableHeight - titleHeight - padding;
+
+    int itemsToShow = (spaceForItems / itemHeight).floor();
+
+    if (muscles.length > itemsToShow) {
+      itemsToShow = ((spaceForItems - moreIndicatorHeight) / itemHeight).floor();
+    }
+
+    itemsToShow = itemsToShow.clamp(1, muscles.length);
+
+    final widgets = <Widget>[];
+
+    for (var muscle in muscles.take(itemsToShow)) {
+      widgets.add(
+        Text(
+          muscle ?? 'Unnamed Muscle',
+          style: TextStyle(
+            fontSize: 12,
           ),
-        ],
-      ),
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
+      );
+    }
+
+    if (muscles.length > itemsToShow) {
+      widgets.add(
+        Expanded(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Text(
+              '+${muscles.length - itemsToShow} more',
+              style: TextStyle(
+                fontSize: 10,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return widgets;
+  }
+
+  Widget _buildAdditionalInfo() {
+    return Row(
+      spacing: 4,
+      children: [
+        Expanded(
+          child: Placeholder()
+        ),
+        Expanded(
+          child: Placeholder()
+        ),
+        Expanded(
+          child: Placeholder()
+        ),
+      ],
     );
   }
 }

@@ -1,11 +1,11 @@
 import 'dart:developer';
 
-import 'package:flutter_application_1/core/database/schemas/food_schema.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'schemas/exercise_schema.dart';
-import 'schemas/workout_schema.dart';
+import 'package:flutter_application_1/core/database/schemas/food_schema.dart' show FoodSchema;
+import 'schemas/exercise_schema.dart' show ExerciseSchema, ExerciseTriggers;
+import 'schemas/workout_schema.dart' show WorkoutSchema;
 import '../utils/helpers.dart';
 
 class AppDatabase {
@@ -47,28 +47,15 @@ class AppDatabase {
   }
 
   Future<Database> _createDB(Database db, int version) async {
-    // Order of table creation matters due to foreign key constraints
-
     // Exercise-related tables
-    await db.execute(ExerciseSchema.createMuscleGroupsTable);
-    await db.execute(ExerciseSchema.createExerciseTypesTable);
-    await db.execute(ExerciseSchema.createMuscleTable);
-    await db.execute(ExerciseSchema.createExerciseTable);
-    await db.execute(ExerciseSchema.createExerciseVariantsTable);
-    await db.execute(ExerciseSchema.createExerciseMuscleTable);
+    for (final statement in ExerciseSchema.all) {await db.execute(statement);}
+    for (final statement in ExerciseTriggers.all) {await db.execute(statement);}
 
     // Workout-related tables
-    await db.execute(WorkoutSchema.createWorkoutTable);
-    await db.execute(WorkoutSchema.createWorkoutEntriesTable);
-    await db.execute(WorkoutSchema.createSetsTable);
+    for (final statement in WorkoutSchema.all) {await db.execute(statement);}
 
     // Food-related tables
-    await db.execute(FoodSchema.createFoodItemTable);
-    await db.execute(FoodSchema.createCategoryTable);
-    await db.execute(FoodSchema.createMealTable);
-    await db.execute(FoodSchema.createDiaryEntryTable);
-    await db.execute(FoodSchema.createDiaryEntryFoodItemTable);
-    await db.execute(FoodSchema.createMealFoodItemTable);
+    for (final statement in FoodSchema.all) {await db.execute(statement);}
 
     //Populate default values
     await importUsdaFoodsFromAsset('assets/data/usda_foundation_foods.json', db);
@@ -77,7 +64,7 @@ class AppDatabase {
     return db;
   }
 
-  static _populateDefaultValues(Database db) async {
+  static Future _populateDefaultValues(Database db) async {
     // Load default data from JSON files
     final defaultMusclesJson = await readJson('assets/data/default_muscles.json');
     final defaultExercisesJson = await readJson('assets/data/default_exercises.json');

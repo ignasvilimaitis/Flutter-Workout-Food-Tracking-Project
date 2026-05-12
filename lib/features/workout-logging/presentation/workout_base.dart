@@ -8,6 +8,7 @@ import 'package:flutter_application_1/core/assets.dart';
 // Pages
 import 'workout_home.dart';
 import 'workout_exercises.dart';
+import './widgets/exercises/exercise_dialogue.dart' show ExerciseDialogue;
 
 // Data Models
 import '../data/workout_model.dart' show Variation;
@@ -161,7 +162,7 @@ class CustomAppBarHome extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         spacing: 8,
         children: [
-          _buildRectButton(
+          buildRectButton(
             iconData: SvgPicture.asset(AppAssets.misc.returnIcon, width: 18, height: 18),
             onPressed: () => Navigator.pop(context),
             containerColor: containerColor,
@@ -216,7 +217,7 @@ class CustomAppBarExercises extends StatelessWidget implements PreferredSizeWidg
         spacing: 8,
         children: [
           // Back button
-          _buildRectButton(
+          buildRectButton(
             iconData: SvgPicture.asset(AppAssets.misc.returnIcon, width: 18, height: 18),
             onPressed: () => returnHome?.call(),
             containerColor: containerColor,
@@ -236,9 +237,16 @@ class CustomAppBarExercises extends StatelessWidget implements PreferredSizeWidg
           ),
 
           // Plus button
-          _buildRectButton(
+          buildRectButton(
             iconData: SvgPicture.asset(AppAssets.misc.plusIcon, width: 48, height: 48),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => showDialog(
+              context: context, 
+              builder: (BuildContext context) => MediaQuery.removeViewInsets(
+                removeBottom: true,
+                context: context,
+                child: ExerciseDialogue(),
+              ),
+            ),
             containerColor: containerColor,
             borderRadius: borderRadius,
           ),
@@ -305,8 +313,8 @@ class CustomAppBarExercisesDetails extends StatelessWidget implements PreferredS
         spacing: 8,
         children: [
           // Back button
-          _buildRectButton(
-            iconData: Icon(Icons.close_rounded, size: 28),
+          buildRectButton(
+            iconData: Icon(Icons.close_rounded, size: 28, fontWeight: FontWeight.w600),
             onPressed: () => Navigator.pop(context),
             containerColor: containerColor,
             borderRadius: borderRadius,
@@ -556,7 +564,7 @@ Widget _buildTab(String label, BuildContext context) {
   );
 }
 
-Widget _buildRectButton({
+Widget buildRectButton({
   required dynamic iconData,
   required VoidCallback onPressed,
   required Color containerColor,

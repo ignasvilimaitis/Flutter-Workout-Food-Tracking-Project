@@ -23,7 +23,7 @@ class ExerciseDataSource {
         e.is_favourite,
         et.name AS type
       FROM Exercise e
-      JOIN ExerciseTypes et ON e.fk_type_id = et.pk_type_id;
+      JOIN ExerciseType et ON e.fk_type_id = et.pk_type_id;
       '''
     );
     return resp.map((e) => Exercise.fromMap(e)).toList();
@@ -32,7 +32,7 @@ class ExerciseDataSource {
   Future<List<Variation>> getExerciseVariations(int exerciseId) async {
     final db = await _db;
     final List<Map<String, dynamic>> resp = await db.query(
-      'ExerciseVariants',
+      'ExerciseVariant',
       where: 'fk_exercise_id = ?',
       whereArgs: [exerciseId],
     );
@@ -43,56 +43,86 @@ class ExerciseDataSource {
     final db = await _db;
     final count = Sqflite.firstIntValue(
       await db.rawQuery(
-        'SELECT COUNT(*) FROM ExerciseVariants WHERE fk_exercise_id = ?',
+        'SELECT COUNT(*) FROM ExerciseVariant WHERE fk_exercise_id = ?',
         [exerciseId],
       ),
     );
     return count ?? 0;
   }
 
-  Future<List<MuscleGroup>> getExerciseMuscleGroup(int exerciseId) async {
+  /// Gets an exercises default variant muscle groups - used in the UI to quickly summarise what GROUPs that exercise mainly targets.
+  Future<List<MuscleGroup>> getDefaultVariantMuscleGroup(int exerciseId) async {
     final db = await _db;
     final List<Map<String, dynamic>> resp = await db.rawQuery(
       '''
+        -- Get the default variant by exerciseId
+        WITH DefaultVariant AS (
+          SELECT pk_variant_id
+          FROM ExerciseVariant
+          WHERE is_default = 1
+          AND deleted_at IS NULL 
+          AND fk_exercise_id = ?
+        )
+
         SELECT 
-          mg.name as 'group',
+          mg.name as "group",
           m.name,
-          em.role
+          mr.name as "role"
         FROM ExerciseMuscle em
         JOIN Muscle m on em.fk_muscle_id = m.pk_muscle_id
-        JOIN MuscleGroups mg on mg.pk_group_id = m.fk_group_id
-        WHERE fk_exercise_id = ?
+        JOIN MuscleGroupMembership mgm on mgm.fk_muscle_id = m.pk_muscle_id
+        JOIN MuscleGroup mg on mg.pk_group_id = mgm.fk_group_id
+        JOIN MuscleRole mr on mr.pk_role_id = em.fk_role_id
+        JOIN DefaultVariant dv on em.fk_variant_id = dv.pk_variant_id;
       ''',
       [exerciseId],
     );
     return resp.map((e) => MuscleGroup.fromMap(e)).toList();
   }
 
-  // Get specific muscles worked in an exercise, categorized by the role. This is different to muscle groups which are broader categories.
-  Future<Map<String, List>> getExerciseMuscles(int exerciseId) async {
+  /// Get specific muscles worked in an exercise categorised by the variant. This is different to muscle groups which are broader categories.
+  Future<Map<int, Map<String, List<VariantMuscle>>>> getExerciseMuscles(int exerciseId) async {
     final db = await _db;
 
     final List<Map<String, dynamic>> resp = await db.rawQuery(
       '''
-        SELECT 
+        WITH Variants AS (
+          SELECT pk_variant_id
+          FROM ExerciseVariant
+          WHERE deleted_at IS NULL 
+          AND fk_exercise_id = ?
+        )
+
+        SELECT
+          em.fk_variant_id,
+          m.pk_muscle_id,
           m.name,
           mg.name as "group",
-          em.role
+          mr.name as "role",
+          mr.sequence as "role_sequence",
+          mr.factor as "role_factor"
         FROM ExerciseMuscle em
         JOIN Muscle m on em.fk_muscle_id = m.pk_muscle_id
-        JOIN MuscleGroups mg on mg.pk_group_id = m.fk_group_id
-        WHERE fk_exercise_id = ?
+        JOIN MuscleGroupMembership mgm on mgm.fk_muscle_id = m.pk_muscle_id
+        JOIN MuscleGroup mg on mg.pk_group_id = mgm.fk_group_id
+        JOIN MuscleRole mr on mr.pk_role_id = em.fk_role_id
+        JOIN Variants v on v.pk_variant_id = em.fk_variant_id
+
+        ORDER BY mr.sequence ASC
       ''',
       [exerciseId],
     );
-
-    final Map<String, List> musclesByRole = {};
-    for (var row in resp) {
-      final role = row['role'];
-      final muscleName = "${row['group']} (${row['name']})";
-      musclesByRole.putIfAbsent(role, () => []).add(muscleName);
+    
+    final List<VariantMuscle> exerciseMuscles = resp.map((e) => VariantMuscle.fromMap(e)).toList();
+    final Map<int, Map<String, List<VariantMuscle>>> musclesByRole = {};
+    for (var muscle in exerciseMuscles) {
+      final int variantId = muscle.variantId;
+      final String role = muscle.role;
+      musclesByRole
+        .putIfAbsent(variantId, () => {})
+        .putIfAbsent(role, () => [])
+        .add(muscle);
     }
-
     return musclesByRole;
   }
 
