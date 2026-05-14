@@ -10,6 +10,8 @@ class _WorkoutAssets {
   final String workoutIcon = 'assets/svg/lucide--dumbbell.svg';
   final String trophyIcon = 'assets/svg/material-symbols--trophy-outline.svg';
   final String dumbellIcon = 'assets/svg/streamline-plump--dumbell-solid.svg';
+  final String musclesFront = 'assets/svg/muscles_front.svg';
+  final String musclesBack = 'assets/svg/muscles_back.svg';
 }
 
 class _FoodAssets {

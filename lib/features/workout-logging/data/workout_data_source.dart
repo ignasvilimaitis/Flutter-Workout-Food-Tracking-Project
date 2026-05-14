@@ -99,6 +99,8 @@ class ExerciseDataSource {
           m.name,
           mg.name as "group",
           mr.name as "role",
+          mr.color,
+          m.svg_id,
           mr.sequence as "role_sequence",
           mr.factor as "role_factor"
         FROM ExerciseMuscle em

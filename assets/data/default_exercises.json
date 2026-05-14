@@ -182,16 +182,19 @@
     {
       "name": "Primary",
       "sequence": 1,
+      "color": "#F44336",
       "factor": 1.0
     },
     {
       "name": "Secondary",
       "sequence": 2,
+      "color": "#FF9800",
       "factor": 0.5
     },
     {
       "name": "Tertiary",
       "sequence": 3,
+      "color": "#FFEB3B",
       "factor": 0.25
     }
   ],

@@ -180,7 +180,9 @@ class VariantMuscle {
   String? group;
   String? name;
   int? roleSequence;
+  String? color;
   double? roleFactor;
+  String? svgId;
 
   VariantMuscle({
     required this.muscleId,
@@ -189,7 +191,9 @@ class VariantMuscle {
     this.group,
     this.name,
     this.roleSequence,
+    this.color,
     this.roleFactor,
+    this.svgId,
   });
 
   factory VariantMuscle.fromMap(Map<String, dynamic> map) {
@@ -200,7 +204,9 @@ class VariantMuscle {
       group: map['group'],
       name: map['name'],
       roleSequence: map['role_sequence'],
+      color: map['color'],
       roleFactor: map['role_factor'],
+      svgId: map['svg_id']
     );
   }
 }

@@ -54,6 +54,7 @@ class ExerciseSchema {
     pk_role_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL, -- 'primary', 'secondary', 'tertiary', or custom role name
     sequence INTEGER NOT NULL, -- for ordering in the UI
+    color TEXT NOT NULL, -- for coloring in the UI
     factor REAL NOT NULL -- relative factor (e.g., 1.0 for primary, 0.5 for secondary)
   );
   ''';
