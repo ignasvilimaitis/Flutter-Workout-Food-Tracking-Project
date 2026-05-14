@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/core/assets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-// Helpers
-import 'package:flutter_application_1/core/utils/helpers.dart' show applyColorsToSvg, colorToHex;
 
 // Widgets
 import '../../workout_base.dart' show CustomAppBarExercisesDetails;
+import './muscle_anatomy.dart' show MuscleAnatomy;
 
 // Data
 import '../../../data/workout_repository.dart';
@@ -32,16 +30,11 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
     final variations = await exerciseRepo.fetchExerciseVariations(widget.exercise.id);
     final defaultVariation = variations.firstWhere((v) => v.isDefault);
     final muscleMap = await exerciseRepo.fetchExerciseMuscles(widget.exercise.id);
-    
-    final frontSvgString = await rootBundle.loadString(AppAssets.workout.musclesFront);
-    final backSvgString = await rootBundle.loadString(AppAssets.workout.musclesBack);
 
     return {
       'variations': variations,
       'muscleMap': muscleMap,
-      'defaultVariation': defaultVariation,
-      'frontSvgString': frontSvgString,
-      'backSvgString': backSvgString
+      'defaultVariation': defaultVariation
     };
   }
 
@@ -75,10 +68,6 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
           final muscleMap = data['muscleMap'] as Map<int, Map<String, List<VariantMuscle>>>;
           final selectedVariantMuscleMap = muscleMap[selectedVariation.id]!;
           final variations = data['variations'] as List<Variation>;
-          final Map<String, String> svg = {
-            'front': data['frontSvgString'],
-            'back': data['backSvgString']
-          };
 
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -105,7 +94,6 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
                       child: AboutTab(
                         variation: selectedVariation, 
                         muscles: selectedVariantMuscleMap,
-                        svg: svg
                       ),
                     )
                   ),
@@ -146,9 +134,8 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
 class AboutTab extends StatelessWidget {
   final Variation variation;
   final Map<String, List<VariantMuscle>> muscles;
-  final Map<String, String> svg;
 
-  const AboutTab({super.key, required this.variation, required this.muscles, required this.svg});
+  const AboutTab({super.key, required this.variation, required this.muscles});
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +158,7 @@ class AboutTab extends StatelessWidget {
           // Muscle breakdown & about row
           Flexible(
             flex: 4,
-            child: _buildAboutRow(variation.about, muscles, svg)
+            child: _buildAboutRow(variation.about, muscles)
           ),
       
           // Muscle breakdown cards
@@ -228,20 +215,8 @@ class AboutTab extends StatelessWidget {
   Widget _buildAboutRow(
     String? about, 
     Map<String, List<VariantMuscle>> muscles, 
-    Map<String, String> svg
   ) {
-    // Build the color map to apply to the svg based on the muscle roles
-    Map<String, String> idToColor = {};
-    for (final muscle in muscles.values){
-      for (final i in muscle){
-        if (i.svgId != null && i.color != null){
-          idToColor.putIfAbsent(i.svgId!, () => i.color!);
-        }
-      }
-    }
-
-    // Update base svg files to apply colour to target ids
-    String test = applyColorsToSvg(svg['front']!, idToColor);
+    List<VariantMuscle> muscleList = muscles.values.expand((list) => list).toList();
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -250,7 +225,10 @@ class AboutTab extends StatelessWidget {
         // Muscle Breakdown -- Currently placeholder
         Expanded(
           child: SizedBox.expand(
-            child: SvgPicture.string(test),
+            child: MuscleAnatomy(
+              muscles: muscleList,
+              showFlipButton: false,
+            ),
           ),
         ),
     
