@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/core/assets.dart';
 
 
 // Widgets
@@ -222,7 +221,6 @@ class AboutTab extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 4,
       children: [
-        // Muscle Breakdown -- Currently placeholder
         Expanded(
           child: SizedBox.expand(
             child: MuscleAnatomy(
