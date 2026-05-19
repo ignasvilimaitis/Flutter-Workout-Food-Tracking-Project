@@ -210,3 +210,13 @@ class VariantMuscle {
     );
   }
 }
+
+extension VariantMuscleList on Iterable<VariantMuscle> {
+  Map<String, List<VariantMuscle>> get groupedByRole {
+    final Map<String, List<VariantMuscle>> result = {};
+    for (final variant in this) {
+      result.putIfAbsent(variant.role, () => []).add(variant);
+    }
+    return result;
+  }
+}

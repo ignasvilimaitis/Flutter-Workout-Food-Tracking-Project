@@ -3,9 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../data/workout_model.dart' show VariantMuscle;
+import '../../../data/workout_model.dart' show VariantMuscle, VariantMuscleList;
 import 'package:flutter_application_1/core/assets.dart' show AppAssets;
 import 'package:flutter_application_1/core/utils/helpers.dart' show applyColorsToSvg;
+
+/// Create a controller to access [openDialogue] externally
+class MuscleAnatomyController {
+  _MuscleAnatomyState? _state;
+  void _attach(_MuscleAnatomyState state) => _state = state;
+  void _detach() => _state = null;
+
+  Future<void> openDialogue(bool showFooter, {int page = 0}) {
+    return _state?.openDialogue(showFooter, page: page) ?? Future.value();
+  }
+}
 
 class MuscleAnatomy extends StatefulWidget {
   /// A list of [VariantMuscle] model instances to attach to the widget.
@@ -28,6 +39,9 @@ class MuscleAnatomy extends StatefulWidget {
   /// This (ideally) continues to maintain the same amount of interactivity (if any) as not being fullscreen. The default value is True.
   final bool acceptFullscreen;
 
+  /// Use a controller to expose private state methods.
+  final MuscleAnatomyController? controller;
+
   /// Creates a widget that displays the muscle anatomy SVG. 
   /// 
   /// (optional) The widget comes with the ability to flip the view (back or front), as well as the ability to view the diagram full screen (managed via navigator context) 
@@ -37,7 +51,8 @@ class MuscleAnatomy extends StatefulWidget {
     this.frontView = true,
     this.showFlipButton = true,
     this.tapToFlip = true,
-    this.acceptFullscreen = true
+    this.acceptFullscreen = true,
+    this.controller
   });
 
   @override
@@ -51,6 +66,10 @@ class _MuscleAnatomyState extends State<MuscleAnatomy> {
   late String frontSvg;
   late String backSvg;
   late final Future<Map<String, String>> _svgFuture;
+  
+  /// An interesting fix for the [AnimatedSwitcher] key, using a [bool] causes there to be deadzone moments between switches as it can only be "true" or "false"
+  /// with no inbetween, so spamming the switcher would cause an exception. Using an incrementing int fixes that as spamming just increments the int.
+  int _flipCounter = 0;
 
   /// A color map based on [muscles] to be used to highlight the muscles accordingly.
   /// Example:
@@ -82,6 +101,8 @@ class _MuscleAnatomyState extends State<MuscleAnatomy> {
   @override
   void initState() {
     super.initState();
+    widget.controller?._attach(this);
+
     frontView = widget.frontView;
     _svgFuture = _loadData().then((svg) {
       originalFrontSvg = svg['front']!;
@@ -97,16 +118,47 @@ class _MuscleAnatomyState extends State<MuscleAnatomy> {
       return svg;
     });
   }
+  @override
+  void dispose() {
+    widget.controller?._detach();
+    super.dispose();
+  }
 
   @override
   void didUpdateWidget(MuscleAnatomy oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.muscles != widget.muscles) {
+      widget.controller?._attach(this);
       _buildColorMap();
 
       frontSvg = applyColorsToSvg(originalFrontSvg, idToColor);
       backSvg = applyColorsToSvg(originalBackSvg, idToColor);
       setState(() {});
+    }
+  }
+
+  /// Opens the full screen anatomy dialogue. Accepts [page] as a parameter to set the initial page view.
+  Future<void> openDialogue(bool showMuscleFooter, {int page = 0}) async {
+    final dialogueStateKey = GlobalKey<_MuscleAnatomyState>();
+    final bool? flipped = await showDialog<bool>(
+      context: context, 
+      builder: (BuildContext context) => AnatomyDialogue(
+        instance: MuscleAnatomy(
+            key: dialogueStateKey,
+            muscles: widget.muscles,
+            acceptFullscreen: false,
+            frontView: frontView,
+            showFlipButton: widget.showFlipButton,
+            tapToFlip: widget.tapToFlip,
+          ),
+        showMuscleFooter: showMuscleFooter,
+        initialPage: page,
+        stateKey: dialogueStateKey,
+      ),
+    );
+
+    if (flipped != null) {
+      setState(() => frontView = flipped);
     }
   }
 
@@ -132,11 +184,12 @@ class _MuscleAnatomyState extends State<MuscleAnatomy> {
               switchInCurve: Curves.bounceInOut,
               switchOutCurve: Curves.bounceInOut,
               child: GestureDetector(
-                key: ValueKey(frontView),
+                key: ValueKey(_flipCounter),
                 onTap: () {
                   if (widget.tapToFlip){
                     setState(() {
                       frontView = !frontView;
+                      _flipCounter++;
                     });
                   }
                 },
@@ -168,29 +221,7 @@ class _MuscleAnatomyState extends State<MuscleAnatomy> {
               Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
-                  onPressed: () async {
-                    final dialogueStateKey = GlobalKey<_MuscleAnatomyState>();
-                    final flipped = await showDialog<bool>(
-                      context: context, 
-                      builder: (BuildContext context) => AnatomyDialogue(
-                        instance: MuscleAnatomy(
-                            key: dialogueStateKey,
-                            muscles: widget.muscles,
-                            acceptFullscreen: false,
-                            frontView: frontView,
-                            showFlipButton: widget.showFlipButton,
-                            tapToFlip: widget.tapToFlip,
-                          ),
-                        showMuscleFooter: true,
-                        stateKey: dialogueStateKey,
-                      ),
-                    );
-
-                    // Update parent state with the dialogue's final returned state
-                    if (flipped != null) {
-                      setState(() => frontView = flipped);
-                    }
-                  }, 
+                  onPressed: () => openDialogue(true), 
                   icon: Icon(
                     Icons.open_in_full_rounded,
                     color: Colors.grey,
@@ -207,12 +238,15 @@ class _MuscleAnatomyState extends State<MuscleAnatomy> {
 class AnatomyDialogue extends StatefulWidget {
   final MuscleAnatomy instance;
   final bool showMuscleFooter;
+  final int initialPage;
   final GlobalKey<_MuscleAnatomyState> stateKey;
   
+  /// [initialPage] is used to point to a specific page in the full screen view. It assumes that the muscles order is ordered by the sequence (i.e., secondary is ALWAYS sequence 2)
   const AnatomyDialogue({
     super.key, 
     required this.instance,
-    this.showMuscleFooter = true, 
+    this.showMuscleFooter = true,
+    this.initialPage = 0, 
     required this.stateKey
   });
 
@@ -222,18 +256,17 @@ class AnatomyDialogue extends StatefulWidget {
 
 class _AnatomyDialogueState extends State<AnatomyDialogue> {
   late PageController _pageController;
-  late final Map<String, List<VariantMuscle>> musclesByRole = {};
-  int _currentPage = 0;
+  late Map<String, List<VariantMuscle>> musclesByRole;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    if (widget.showMuscleFooter) {
+      _pageController = PageController(initialPage: widget.initialPage);
+    }
 
     if (widget.instance.muscles != null && widget.showMuscleFooter) {
-      for (final muscle in widget.instance.muscles!)  {
-        musclesByRole.putIfAbsent(muscle.role, () => []).add(muscle);
-      }
+      musclesByRole = widget.instance.muscles?.groupedByRole as Map<String, List<VariantMuscle>>;
     }
   }
 
@@ -284,9 +317,6 @@ class _AnatomyDialogueState extends State<AnatomyDialogue> {
                         builder: (context, constraints) {
                           return PageView(
                             controller: _pageController,
-                            onPageChanged: (index) {
-                              setState(() => _currentPage = index);
-                            },
                             children: [
                               for (final role in musclesByRole.entries)
                                 _buildFooterRow(role.value, role.key, context, constraints)
@@ -325,7 +355,7 @@ class _AnatomyDialogueState extends State<AnatomyDialogue> {
 
     for (int i = 0; i < muscles.length; i += maximumBucketItems) {
       buckets.add(muscles.skip(i).take(maximumBucketItems).toList());
-    } 
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),

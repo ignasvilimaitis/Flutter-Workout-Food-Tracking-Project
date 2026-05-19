@@ -4,11 +4,11 @@ import 'package:flutter/services.dart';
 
 // Widgets
 import '../../workout_base.dart' show CustomAppBarExercisesDetails;
-import './muscle_anatomy.dart' show MuscleAnatomy;
+import './muscle_anatomy.dart' show MuscleAnatomy, MuscleAnatomyController;
 
 // Data
 import '../../../data/workout_repository.dart';
-import '../../../data/workout_model.dart' show Variation, Exercise, VariantMuscle;
+import '../../../data/workout_model.dart' show Exercise, VariantMuscle, Variation;
 import '../../../data/workout_data_source.dart' show ExerciseDataSource;
 
 // ================================= Exercise Details =================================
@@ -138,11 +138,16 @@ class AboutTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Filter out muscle groups so only unique groups are shown
-    final Map<String, List<String?>> uniqueMuscleGroups = muscles.map((group, muscleList) {
-      final uniqueGroups = muscleList.map((m) => m.group).toSet().toList();
-      return MapEntry(group, uniqueGroups);
-    });
+
+    /// Intialise the muscleAnatomy SVG element
+    final List<VariantMuscle> muscleList = muscles.values.expand((list) => list).toList();
+    final MuscleAnatomyController muscleAnatomyController = MuscleAnatomyController();
+    final MuscleAnatomy muscleAnatomy = 
+      MuscleAnatomy(
+        muscles: muscleList, 
+        showFlipButton: false,
+        controller: muscleAnatomyController,
+      );
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -157,13 +162,13 @@ class AboutTab extends StatelessWidget {
           // Muscle breakdown & about row
           Flexible(
             flex: 4,
-            child: _buildAboutRow(variation.about, muscles)
+            child: _buildAboutRow(variation.about, muscleAnatomy)
           ),
       
           // Muscle breakdown cards
           Flexible(
             flex: 1,
-            child: _buildMuscleCards(uniqueMuscleGroups)
+            child: _buildMuscleCards(muscles, muscleAnatomyController)
           ),
       
           Divider(color: Colors.grey, radius: BorderRadius.circular(8), height: 1,),
@@ -211,22 +216,14 @@ class AboutTab extends StatelessWidget {
     );
   }
 
-  Widget _buildAboutRow(
-    String? about, 
-    Map<String, List<VariantMuscle>> muscles, 
-  ) {
-    List<VariantMuscle> muscleList = muscles.values.expand((list) => list).toList();
-
+  Widget _buildAboutRow(String? about, MuscleAnatomy muscleAnatomy) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 4,
       children: [
         Expanded(
           child: SizedBox.expand(
-            child: MuscleAnatomy(
-              muscles: muscleList,
-              showFlipButton: false,
-            ),
+            child: muscleAnatomy
           ),
         ),
     
@@ -256,7 +253,7 @@ class AboutTab extends StatelessWidget {
     );
   }
 
-  Widget _buildMuscleCards(Map<String, List<String?>> muscles) {
+  Widget _buildMuscleCards(Map<String, List<VariantMuscle>> muscles, MuscleAnatomyController controller) {
     return LayoutBuilder(
       builder: (context, constraints) {
         return Row(
@@ -266,32 +263,38 @@ class AboutTab extends StatelessWidget {
             // Dynamically generate based on muscle map
             for (var entry in muscles.entries)
               Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: BoxBorder.all(
-                      color: Colors.grey.shade300,
-                      width: 1,
+                child: GestureDetector(
+                  onTap: () {
+                    final page = entry.value.first.roleSequence! - 1;
+                    controller.openDialogue(true, page: page);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: BoxBorder.all(
+                        color: Colors.grey.shade300,
+                        width: 1,
+                      ),
+                      color: Colors.grey.shade100.withAlpha(100),
+                      borderRadius: BorderRadius.circular(8)
                     ),
-                    color: Colors.grey.shade100.withAlpha(100),
-                    borderRadius: BorderRadius.circular(8)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Column( // TODO: Gesture Detector
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 2),
-                          child: Text(
-                            entry.key,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 2),
+                            child: Text(
+                              entry.key,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
-                        ),
-                        ..._buildMuscleList(entry.value, constraints.maxHeight)
-                      ],
+                          ..._buildMuscleList(entry.value, constraints.maxHeight)
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -303,7 +306,9 @@ class AboutTab extends StatelessWidget {
   }
 
   /// Returns a dynamic list based on available height to prevent overflow
-  List<Widget> _buildMuscleList(List<String?> muscles, double availableHeight) {
+  List<Widget> _buildMuscleList(List<VariantMuscle?> muscles, double availableHeight) {
+    final List<String?> cleanedMuscles = muscles.map((m) => m!.group).toSet().toList();
+
     const titleHeight = 22;
     const itemHeight = 17;
     const padding = 8;
@@ -312,16 +317,15 @@ class AboutTab extends StatelessWidget {
     final spaceForItems = availableHeight - titleHeight - padding;
 
     int itemsToShow = (spaceForItems / itemHeight).floor();
-
-    if (muscles.length > itemsToShow) {
+    if (cleanedMuscles.length > itemsToShow) {
       itemsToShow = ((spaceForItems - moreIndicatorHeight) / itemHeight).floor();
     }
 
-    itemsToShow = itemsToShow.clamp(1, muscles.length);
+    itemsToShow = itemsToShow.clamp(1, cleanedMuscles.length);
 
     final widgets = <Widget>[];
 
-    for (var muscle in muscles.take(itemsToShow)) {
+    for (var muscle in cleanedMuscles.take(itemsToShow)) {
       widgets.add(
         Text(
           muscle ?? 'Unnamed Muscle',
@@ -335,7 +339,7 @@ class AboutTab extends StatelessWidget {
       );
     }
 
-    if (muscles.length > itemsToShow) {
+    if (cleanedMuscles.length > itemsToShow) {
       widgets.add(
         Expanded(
           child: Align(
